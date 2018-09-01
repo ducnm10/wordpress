@@ -1,0 +1,12 @@
+2018-08-13T08:04:56+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2018-08-13T09:01:32+00:00 CRITICAL Call to undefined function sw_woocommerce_version_check()
+
+2018-08-13T09:48:27+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2018-08-13T10:04:44+00:00 CRITICAL Call to undefined method zr_woo_slider_countdown_widget::Get_Product_Countdown()
+
+2018-08-13T10:05:25+00:00 CRITICAL Call to undefined method zr_woo_slider_countdown_widget::Get_Product_Countdown()
+
+2018-08-13T10:06:21+00:00 CRITICAL Call to undefined method zr_woo_slider_countdown_widget::Get_Product_Countdown()
+

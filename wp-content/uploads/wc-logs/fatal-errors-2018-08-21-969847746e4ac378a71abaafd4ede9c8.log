@@ -1,0 +1,8 @@
+2018-08-21T15:20:34+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2018-08-21T16:10:24+00:00 CRITICAL Call to undefined function sw_trim_words()
+
+2018-08-21T16:11:09+00:00 CRITICAL Call to undefined function sw_trim_words()
+
+2018-08-21T16:11:20+00:00 CRITICAL Call to undefined function sw_trim_words()
+

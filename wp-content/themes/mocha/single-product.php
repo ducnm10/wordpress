@@ -1,0 +1,1 @@
+<?php mocha_product_detail_check(); ?>
