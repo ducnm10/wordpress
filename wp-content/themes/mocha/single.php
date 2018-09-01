@@ -1,0 +1,1 @@
+<?php mocha_content_detail_check() ?>
