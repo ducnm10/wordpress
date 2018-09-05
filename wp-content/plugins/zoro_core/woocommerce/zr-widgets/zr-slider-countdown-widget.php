@@ -546,27 +546,6 @@ if ( !class_exists('zr_woo_slider_countdown_widget') ) {
 			</p>
 			
 			<p>
-				<label for="<?php echo $this->get_field_id('product_select'); ?>"><?php _e('Product Select( For layout 2 )', 'zr_core')?></label>
-				<br />
-				<select class="widefat"
-					id="<?php echo $this->get_field_id('product_select'); ?>"
-					name="<?php echo $this->get_field_name('product_select'); ?>">
-					<?php
-					$option ='';
-					$product_ids = $this->Get_Product_Countdown();
-					foreach ($product_ids as $key => $value ) :
-						$option .= '<option value="' . $value . '" ';
-						if ($value == $product_select){
-							$option .= 'selected="selected"';
-						}
-						$option .=  '>'.$key.'</option>';
-					endforeach;
-					echo $option;
-					?>
-				</select>
-			</p>
-			
-			<p>
 				<label for="<?php echo $this->get_field_id('image'); ?>"><?php _e('Image Attachment ID( for layout countdown 2 )', 'zr_core')?></label>
 				<br />
 				<input class="widefat" id="<?php echo $this->get_field_id('image'); ?>" name="<?php echo $this->get_field_name('image'); ?>"

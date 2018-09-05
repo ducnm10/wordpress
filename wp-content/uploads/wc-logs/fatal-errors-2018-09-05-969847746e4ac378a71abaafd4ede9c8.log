@@ -1,0 +1,9 @@
+2018-09-05T14:04:45+00:00 CRITICAL Uncaught Error: Call to undefined method zr_woo_slider_countdown_widget::Get_Product_Countdown() in D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\woocommerce\zr-widgets\zr-slider-countdown-widget.php:556
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-widget.php(507): zr_woo_slider_countdown_widget->form(Array)
+#1 D:\xampp\htdocs\mocha\wp-admin\includes\widgets.php(243): WP_Widget->form_callback(Array)
+#2 D:\xampp\htdocs\mocha\wp-admin\includes\widgets.php(48): wp_widget_control(Array, Array)
+#3 D:\xampp\htdocs\mocha\wp-admin\widgets.php(401): wp_list_widgets()
+#4 {main}
+  thrown
+
