@@ -73,9 +73,6 @@
 					}
 				}
 			}
-			&:last-child{
-				border-bottom: none;
-			}
 		}
 		&.blog-content-grid{
 			.post{
@@ -185,9 +182,12 @@
 	display:inline-block;
 	float:none;
 	width:100%;
-	padding:20px 0;
+	padding:20px 15px;
 	margin:10px 0;
-	text-align:center;
+	text-align: left;
+	.rtl &{
+		text-align: right;
+	}
 	ul {
 		margin: 0;
 		list-style-type: none;
@@ -205,11 +205,11 @@
 			}
 			&:hover{
 				a {
-					color: #fff; background: @color;
+					color: #fff; background: @body-color;
 				}
 			}			
 			span.current {
-				background-color: @color;
+				background-color: @body-color;
 				color: #fff !important;
 			}		
 			a, span.current {
@@ -229,8 +229,8 @@
 				text-transform:uppercase;
 				color:@body-color;
 				&:hover{
-					border:1px solid @color;
-					background-color:@color;
+					border:1px solid @body-color;
+					background-color:@body-color;
 					color:#fff;
 				}
 			}
