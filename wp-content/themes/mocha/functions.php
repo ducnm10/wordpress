@@ -23,19 +23,3 @@ if( class_exists( 'WooCommerce' ) ){
 	require_once (get_template_directory().'/lib/plugins/currency-converter/currency-converter.php'); // currency converter
 	require_once (get_template_directory().'/lib/woocommerce-hook.php');	// Utility functions
 }
-
-function mocha_template_load( $template ){ 
-	if( !is_user_logged_in() && mocha_options()->getCpanelValue('maintain_enable') ){
-		$template = get_template_part( 'maintaince' );
-	}
-	if( class_exists( 'WooCommerce' ) ){
-		if ( is_tax( 'product_cat' ) || is_post_type_archive( 'product' ) ) {				
-			$template = get_template_part( 'archive', 'product' );
-		}
-		if ( is_product() ) {				
-			$template = get_template_part( 'single', 'product' );
-		}
-	}
-	return $template;
-}
-add_filter( 'template_include', 'mocha_template_load' );

@@ -1,1 +1,0 @@
-<?php mocha_product_listing_check(); ?>
