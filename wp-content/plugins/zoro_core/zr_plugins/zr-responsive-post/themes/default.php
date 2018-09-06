@@ -31,7 +31,7 @@
 									<?php 
 								if ( has_post_thumbnail( $post->ID ) ){
 									
-										echo get_the_post_thumbnail( $post->ID, 'mocha_blog-responsive1' ) ? get_the_post_thumbnail( $post->ID, 'mocha_blog-responsive1' ): '<img src="'.get_template_directory_uri().'/assets/img/placeholder/'.'large'.'.png" alt="No thumb">';		
+										echo get_the_post_thumbnail( $post->ID, 'mocha_blog-responsive' ) ? get_the_post_thumbnail( $post->ID, 'mocha_blog-responsive' ): '<img src="'.get_template_directory_uri().'/assets/img/placeholder/'.'large'.'.png" alt="No thumb">';		
 								}else{
 									echo '<img src="'.get_template_directory_uri().'/assets/img/placeholder/'.'large'.'.png" alt="No thumb">';
 								}

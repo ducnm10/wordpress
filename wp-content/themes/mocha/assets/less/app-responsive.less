@@ -77,6 +77,31 @@
 			float: right;
 		}
 	}
+	.sidebar-row{
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: flex;
+		-webkit-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		flex-wrap: wrap;
+		aside#left{
+			order: 1;
+			width: 100%;
+		}
+		aside#right{
+			order: 1;
+			width: 100%;
+		}
+		> div{
+			width: 100%;
+		}
+	}
+	.woocommerce-account #contents .entry-content .woocommerce-MyAccount-content,
+	.woocommerce-account #contents .entry-content nav.woocommerce-MyAccount-navigation{
+		width: 100%;
+		padding: 0;
+		margin-bottom: 30px;
+	}
 }
 @media (max-width: 479px) { 
 	[class*="col-xs-"]{

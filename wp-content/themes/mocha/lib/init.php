@@ -13,7 +13,9 @@ function mocha_setup() {
 	));
 	
 	add_theme_support( 'automatic-feed-links' );
-	
+
+	add_image_size( 'mocha_blog-responsive', 560, 400, true );
+
 	add_theme_support( "title-tag" );
 	
 	add_theme_support('bootstrap-gallery');     // Enable Bootstrap's thumbnails component on [gallery]
