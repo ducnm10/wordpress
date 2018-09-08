@@ -61,7 +61,7 @@ function mocha_product_listing_check(){
 	if( mocha_mobile_check() ) :
 		get_template_part('mlayouts/archive','product-mobile');
 	else: 
-		 wc_get_template( 'archive-product.php' );
+		wc_get_template( 'archive-product.php' );
 	endif;
 }
 
@@ -85,7 +85,7 @@ function mocha_product_detail_check(){
 	if( mocha_mobile_check()  ) :
 		get_template_part('mlayouts/single','product');
 	else: 
-		 wc_get_template( 'single-product.php' );
+		wc_get_template( 'single-product.php' );
 	endif;
 }
 

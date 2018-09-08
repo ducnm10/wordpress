@@ -28,7 +28,7 @@ endif;
 */
 if( !function_exists( 'zr_label_sales' ) ){
 	function zr_label_sales(){
-		global $product;
+		global $product, $post;
 		$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
 		$forginal_price 	= get_post_meta( $product_id, '_regular_price', true );	
 		$fsale_price 		= get_post_meta( $product_id, '_sale_price', true );
@@ -499,6 +499,7 @@ function mocha_product_addcart_end(){
 }
 
 function mocha_product_addcart_mid(){
+	global $post;
 	$html ='';		
 	/* compare & wishlist */
 	if( class_exists( 'YITH_WCWL' ) ){
@@ -583,7 +584,7 @@ function mocha_single_addcart_wrapper_end(){
 
 function mocha_single_addcart(){
 	/* compare & wishlist */
-	global $product;
+	global $product, $post;
 	$html = '';
 	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
 	$product_type = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_type() : $product->product_type;
@@ -602,7 +603,7 @@ function mocha_single_addcart(){
 
 function mocha_single_addcart_variable(){
 	/* compare & wishlist */
-	global $product;
+	global $product, $post;
 	$html = '';
 	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
 	
