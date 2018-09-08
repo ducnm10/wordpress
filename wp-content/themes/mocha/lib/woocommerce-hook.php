@@ -26,8 +26,8 @@ endif;
 /*
 ** Sales label
 */
-if( !function_exists( 'sw_label_sales' ) ){
-	function sw_label_sales(){
+if( !function_exists( 'zr_label_sales' ) ){
+	function zr_label_sales(){
 		global $product;
 		$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
 		$forginal_price 	= get_post_meta( $product_id, '_regular_price', true );	
@@ -46,8 +46,8 @@ if( !function_exists( 'sw_label_sales' ) ){
 /*
 ** Stock label
 */
-if( !function_exists( 'sw_label_stock' ) ){
-	function sw_label_stock(){
+if( !function_exists( 'zr_label_stock' ) ){
+	function zr_label_stock(){
 		global $product;
 		if( mocha_mobile_check() ) :
 	?>
@@ -165,7 +165,7 @@ function mocha_product_thumbnail( $size = 'shop_catalog', $placeholder_width = 0
 		$html .= '</a>';
 	}
 	$html .= mocha_quickview();
-	$html .= sw_label_sales();
+	$html .= zr_label_sales();
 	return $html;
 }
 
@@ -536,8 +536,8 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 add_action( 'woocommerce_single_product_summary', 'mocha_woocommerce_single_price', 10 );
 add_action( 'woocommerce_single_product_summary', 'mocha_woocommerce_sharing', 50 );
-add_action( 'woocommerce_before_single_product_summary', 'sw_label_sales', 10 );
-add_action( 'woocommerce_before_single_product_summary', 'sw_label_stock', 11 );
+add_action( 'woocommerce_before_single_product_summary', 'zr_label_sales', 10 );
+add_action( 'woocommerce_before_single_product_summary', 'zr_label_stock', 11 );
 
 function mocha_woocommerce_sharing(){
 	$html = mocha_get_social();
@@ -689,7 +689,7 @@ function mocha_quickviewproduct(){
 		while ( $r->have_posts() ){ $r->the_post(); setup_postdata( $r->post );
 			global $product;
 			ob_start();
-			woocommerce_get_template_part( 'content', 'quickview-product' );
+			wc_get_template_part( 'content', 'quickview-product' );
 			$outputraw = ob_get_contents();
 			ob_end_clean();
 		}

@@ -3,7 +3,7 @@
   Plugin Name: WP Reset
   Plugin URI: https://wpreset.com/
   Description: Reset the site to default installation values without modifying any files. Deletes all customizations and content.
-  Version: 1.20
+  Version: 1.30
   Author: WebFactory Ltd
   Author URI: https://www.webfactoryltd.com/
   Text Domain: wp-reset
@@ -73,6 +73,7 @@ class WP_Reset {
     add_action('admin_init', array($this, 'do_all_actions'));
     add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
     add_action('wp_ajax_wp_reset_dismiss_notice', array($this, 'ajax_dismiss_notice'));
+    add_action('wp_ajax_wp_reset_run_tool', array($this, 'ajax_run_tool'));
     
     add_filter('plugin_action_links_' . plugin_basename(__FILE__), array($this, 'plugin_action_links'));
     add_filter('plugin_row_meta', array($this, 'plugin_meta_links'), 10, 2);
@@ -144,7 +145,7 @@ class WP_Reset {
    */
   function get_dismissed_notices($notice_name = '') {
     $notices = $this->options['dismissed_notices'];
-
+    
     if (empty($notice_name)) {
       return $notices;
     } else {
@@ -229,11 +230,45 @@ class WP_Reset {
 
 
   /**
+   * Returns all WP pointers
+   * 
+   * @return array
+   */
+  function get_pointers() {
+    $pointers = array();
+
+    $pointers['welcome'] = array('target' => '#menu-tools', 'edge' => 'left', 'align' => 'right', 'content' => 'Thank you for installing the <b style="font-weight: 800;">WP Reset</b> plugin!<br>Open <a href="' . admin_url('tools.php?page=wp-reset'). '">Tools - WP Reset</a> to access resetting tools and start developing &amp; debugging faster.');
+
+    return $pointers;
+  } // get_pointers
+
+
+  /**
    * Enqueue CSS and JS files
    * 
    * @return null
    */
   function admin_enqueue_scripts($hook) {
+    // welcome pointer is shown on all pages except WPR, untill dismissed
+    $pointers = $this->get_pointers();
+    $dismissed_notices = $this->get_dismissed_notices();
+
+    foreach ($dismissed_notices as $notice_name => $tmp) {
+      if ($tmp) {
+        unset($pointers[$notice_name]);
+      }
+    } // foreach
+
+    if (!empty($pointers) && 'tools_page_wp-reset' != $hook) {
+      $pointers['_nonce_dismiss_pointer'] = wp_create_nonce('wp-reset_dismiss_notice');
+
+      wp_enqueue_style('wp-pointer');
+
+      wp_enqueue_script('wp-reset-pointers', $this->plugin_url . 'js/wp-reset-pointers.js', array('jquery'), $this->version, true);
+      wp_enqueue_script('wp-pointer');
+      wp_localize_script('wp-pointer', 'wp_reset_pointers', $pointers);
+    }
+
     // exit early if not on WP Reset page
     if ('tools_page_wp-reset' != $hook) {
       return;
@@ -255,16 +290,18 @@ class WP_Reset {
                          'confirm2' => __('Click "Cancel" to abort.', 'wp-reset'),
                          'doing_reset' => __('Resetting in progress. Please wait.', 'wp-reset'),
                          'nonce_dismiss_notice' => wp_create_nonce('wp-reset_dismiss_notice'),
+                         'nonce_run_tool' => wp_create_nonce('wp-reset_run_tool'),
                          'nonce_do_reset' => wp_create_nonce('wp-reset_do_reset'));
 
     wp_enqueue_style('wp-reset', $this->plugin_url . 'css/wp-reset.css', array(), $this->version);
     wp_enqueue_style('wp-reset-sweetalert2', $this->plugin_url . 'css/sweetalert2.min.css', array(), $this->version);
 
+    wp_enqueue_script('jquery-ui-tabs');
     wp_enqueue_script('wp-reset-sweetalert2', $this->plugin_url . 'js/sweetalert2.min.js', array('jquery'), $this->version, true);
     wp_enqueue_script('wp-reset', $this->plugin_url . 'js/wp-reset.js', array('jquery'), $this->version, true);
     wp_localize_script('wp-reset', 'wp_reset', $js_localize);
 
-    // fix for agressive plugins that include their CSS on all pages
+    // fix for aggressive plugins that include their CSS on all pages
     wp_dequeue_style('uiStyleSheet');
     wp_dequeue_style('wpcufpnAdmin' );
     wp_dequeue_style('unifStyleSheet' );
@@ -280,6 +317,11 @@ class WP_Reset {
   } // admin_enqueue_scripts
   
 
+  /**
+   * Check if WP-CLI is available and running
+   * 
+   * @return bool
+   */
   function is_cli_running() {
     if (defined('WP_CLI') && WP_CLI) {
       return true;
@@ -287,6 +329,107 @@ class WP_Reset {
       return false;
     }
   } // is_cli_running
+
+
+  /**
+   * Deletes all transients.
+   * 
+   * @return int
+	 */
+	function do_delete_transients() {
+    global $wpdb;
+    
+		$count = $wpdb->query("DELETE FROM $wpdb->options	WHERE option_name LIKE '\_transient\_%'	OR option_name LIKE '\_site\_transient\_%'");
+    
+    return $count;
+	} // do_delete_transients
+
+
+  /**
+   * Deactivate and delete all plugins
+   *
+   * @param bool Keep WP Reset active and installed 
+   * @param bool Skip individual plugin deactivation functions when deactivating
+   * @return int
+   */
+  function do_delete_plugins($keep_wp_reset = true, $silent_deactivate = false) {
+    if (!function_exists('get_plugins')) {
+      require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    $wp_reset_basename = plugin_basename(__FILE__);
+
+    $all_plugins = get_plugins();
+    $active_plugins = (array) get_option('active_plugins', array());
+    if (true == $keep_wp_reset) {
+      if (($key = array_search($wp_reset_basename, $active_plugins)) !== false) {
+        unset($active_plugins[$key]);
+      }
+      unset($all_plugins[$wp_reset_basename]);
+    }
+
+    if (!empty($active_plugins)) {
+      deactivate_plugins($active_plugins, $silent_deactivate, false);
+    }
+
+    if (!empty($all_plugins)) {
+      delete_plugins(array_keys($all_plugins));
+    }
+
+    return sizeof($all_plugins);
+  } // do_delete_plugins
+
+
+  /**
+   * Delete all themes
+   *
+   * @param bool Keep default theme
+   * @return int
+   */
+  function do_delete_themes($keep_default_theme = true) {
+    $default_theme = 'twentyseventeen';
+    $all_themes = wp_get_themes(array('errors' => null));
+
+    if (true == $keep_default_theme) {
+      unset($all_themes[$default_theme]);
+    }
+
+    foreach ($all_themes as $theme_slug => $theme_details) {
+      $res = delete_theme($theme_slug);
+    }
+    
+    if (false == $keep_default_theme) {
+      update_option('template', '');
+      update_option('stylesheet', '');
+    }
+
+    return sizeof($all_themes);
+  } // do_delete_themes
+
+
+  /**
+   * Run tool via AJAX call
+   * 
+   * @return null
+   */
+  function ajax_run_tool() {
+    check_ajax_referer('wp-reset_run_tool');
+
+    $tool = trim(@$_GET['tool']);
+    
+    if ($tool == 'delete_transients') {
+      $cnt = $this->do_delete_transients();
+      wp_send_json_success($cnt);
+    } elseif ($tool == 'delete_themes') {
+      $cnt = $this->do_delete_themes(false);
+      wp_send_json_success($cnt);
+    } elseif ($tool == 'delete_plugins') {
+      $cnt = $this->do_delete_plugins(true);
+      wp_send_json_success($cnt);
+    } else {
+      wp_send_json_error(__('Unknown tool.', 'wp-reset'));
+    }
+  } // ajax_run_tool
 
 
   /**
@@ -316,6 +459,9 @@ class WP_Reset {
     $wplang = get_option('wplang');
     $siteurl = get_option('siteurl');
     $home = get_option('home');
+    
+    $active_plugins = get_option('active_plugins');
+    $active_theme = wp_get_theme();
 
     // for WP-CLI
     if (!$current_user->ID) {
@@ -359,10 +505,21 @@ class WP_Reset {
     $meta['reset_count']++;
     $this->update_options('meta', $meta);
 
+    // reactivate theme
+    if (!empty($params['reactivate_theme'])) {
+      switch_theme($active_theme->get_stylesheet());
+    }
+
     // reactivate WP Reset
-    // todo: legacy constant - if nobody complains the constant will be replaced by options 
-    if (!defined('REACTIVATE_THE_WP_RESET') || REACTIVATE_THE_WP_RESET !== false) {
+    if (!empty($params['reactivate_wpreset'])) {
       activate_plugin(plugin_basename( __FILE__ ));
+    }
+
+    // reactivate all plugins
+    if (!empty($params['reactivate_plugins'])) {
+      foreach ($active_plugins as $plugin_file) {
+        activate_plugin($plugin_file);
+      } 
     }
 
     if (!$this->is_cli_running()) {
@@ -378,8 +535,10 @@ class WP_Reset {
   
 
   /**
-   * checks wp_reset post value and performs all actions
+   * Checks wp_reset post value and performs all actions
    * todo: handle messages for various actions
+   * 
+   * @return null
    */
   function do_all_actions() {
     // only admins can perform actions
@@ -404,9 +563,13 @@ class WP_Reset {
     }
 
     // only one action at the moment
-    // todo: check action name
     if (true === isset($_POST['wp_reset_confirm']) && 'reset' === $_POST['wp_reset_confirm']) {
-      $this->do_reinstall();
+      $defaults = array('reactivate_theme' => '0',
+                        'reactivate_plugins' => '0',
+                        'reactivate_wpreset' => '0');
+      $params = shortcode_atts($defaults, (array) @$_POST['wpr-post-reset']);
+
+      $this->do_reinstall($params);
     }
   } // do_reset
 
@@ -505,7 +668,6 @@ class WP_Reset {
    * @return null
    */
   function plugin_page() {
-    global $current_user, $wpdb;
     $notice_shown = false;
     $meta = $this->get_meta();
 
@@ -517,27 +679,72 @@ class WP_Reset {
     settings_errors();
     echo '<div class="wrap">';
     echo '<h1><img id="logo-icon" src="' . $this->plugin_url . 'img/wp-reset-logo.png" title="' . __('WP Reset', 'wp-reset') . '" alt="' . __('WP Reset', 'wp-reset') . '"></h1>';
+    echo '<form id="wp_reset_form" action="' . admin_url('tools.php?page=wp-reset') . '" method="post" autocomplete="off">';
+
+    if (false === $notice_shown && is_multisite()) {
+      echo '<div class="card notice-wrapper notice-error">';
+      echo '<h2>' . __('WP Reset has not been fully tested with multisite', 'wp-reset') . '</h2>';
+      echo '<p>' . __('Please be careful when using WP Reset with multisite enabled. It\'s not recommended to reset the main site. Sub-sites should be OK. We\'re working on making it fully compatible with WP-MU. <b>Till then please be careful.</b> Thank you for understanding.', 'wp-reset') . '</p>';
+      echo '</div>';
+      $notice_shown = true;
+    }
     
     if (!empty($meta['reset_count']) && false === $notice_shown && false == $this->get_dismissed_notices('rate')) {
       echo '<div class="card notice-wrapper">';
-      echo '<h2>' . __('Please help us keep the plugin maintained, free &amp; supported', 'wp-reset') . '</h2>';
+      echo '<h2>' . __('Please help us keep the plugin free &amp; up-to-date', 'wp-reset') . '</h2>';
       echo '<p>' . __('If you use &amp; enjoy WP Reset, <b>please rate it on WordPress.org</b>. It only takes a second and helps us keep the plugin free and maintained. Thank you!', 'wp-reset') . '</p>';
       echo '<p><a class="button-primary button" title="' . __('Rate WP Reset', 'wp-reset') . '" target="_blank" href="https://wordpress.org/support/plugin/wp-reset/reviews/#new-post">' . __('Help keep the plugin free - rate it!', 'wp-reset') . '</a>  <a href="#" class="wpr-dismiss-notice dismiss-notice-rate" data-notice="rate">' . __('I\'ve already rated it', 'wp-reset') . '</a></p>';
       echo '</div>';
       $notice_shown = true;
     }
-
-    // todo: finish up
-    if (false && false === $notice_shown && false == $this->get_dismissed_notices('tidy')) {
+    
+    if (false === $notice_shown && $meta['reset_count'] >= 2 && false == $this->get_dismissed_notices('tidy')) {
       echo '<div class="card notice-wrapper">';
-      echo '<h2>' . __('Are you a plugin author? Get your plugin reviewed on Tiny Repo', 'wp-reset') . '</h2>';
-      echo '<p>' . __('If you use &amp; enjoy WP Reset, <b>please rate it on WordPress.org</b>. It only takes a second and helps us keep the plugin free and maintained. Thank you!', 'wp-reset') . '</p>';
-      echo '<p><a class="button-primary button" title="' . __('Rate WP Reset', 'wp-reset') . '" target="_blank" href="https://tidyrepo.com/suggest-plugin/?utm-campaing=wp-reset&utm-medium=banner">' . __('Let Tidy Repo know you have a great plugin', 'wp-reset') . '</a>  <a href="#" class="wpr-dismiss-notice dismiss-notice-rate" data-notice="tidy">' . __('Thanks, I\'m not interested', 'wp-reset') . '</a></p>';
+      echo '<h2>' . __('Are you a plugin author? Get your plugin reviewed on Tidy Repo', 'wp-reset') . '</h2>';
+      echo '<p>' . __('Since 2013 Tidy Repo has been reviewing the best and most reliable WordPress plugins. <b>Submitting a plugin is free</b>, so you have nothing to lose and a lot of exposure to gain when it gets reviewed.', 'wp-reset') . '</p>';
+      echo '<p><a class="button-primary button" title="' . __('Rate WP Reset', 'wp-reset') . '" target="_blank" href="https://tidyrepo.com/?utm_source=wp-reset-free&utm_medium=plugin&utm_content=notification&utm_campaign=wp-reset-free-v' . $this->version . '">' . __('Let Tidy Repo know you have a great plugin', 'wp-reset') . '</a>  <a href="#" class="wpr-dismiss-notice dismiss-notice-rate" data-notice="tidy">' . __('Thanks, I\'m not interested', 'wp-reset') . '</a></p>';
       echo '</div>';
       $notice_shown = true;
     }
 
-    echo '<div class="card">';
+    // tabs
+    echo '<div id="wp-reset-tabs" class' . __('="', 'wp-reset') . 'ui-tabs">';
+
+    echo '<ul class="wpr-main-tab">';
+    echo '<li><a href="#tab-reset">' . __('Reset', 'wp-reset') . '</a></li>';
+    echo '<li><a href="#tab-tools">' . __('Tools', 'wp-reset') . '</a></li>';
+    echo '<li><a href="#tab-support">' . __('Support', 'wp-reset') . '</a></li>';
+    echo '</ul>';
+
+    echo '<div style="display: none;" id="tab-reset">';
+    $this->tab_reset();
+    echo '</div>';
+
+    echo '<div style="display: none;" id="tab-tools">';
+    $this->tab_tools();
+    echo '</div>';
+
+    echo '<div style="display: none;" id="tab-support">';
+    $this->tab_support();
+    echo '</div>';
+
+    echo '</div>'; // tabs
+
+    echo '</form>';
+    echo '</div>'; // wrap
+  } // plugin_page
+  
+
+  /**
+   * Echoes content for reset tab
+   * 
+   * @return null
+   */
+  private function tab_reset() {
+    global $current_user, $wpdb;
+
+    echo '<div class="card" id="card-description">';
+    echo '<a class="toggle-card" href="#" title="' . __('Collapse / expand box', 'wp-reset') . '"><span class="dashicons dashicons-arrow-up-alt2"></span></a>';
     echo '<h2>' . __('Please read carefully before proceeding. There is NO UNDO!', 'wp-reset') . '</h2>';
     echo '<b class="red">' . __('Resetting will delete:', 'wp-reset') . '</b>';
     echo '<ul class="plain-list">';
@@ -560,29 +767,82 @@ class WP_Reset {
     echo '<li>' . __('everything will be reset; see bullets above for details', 'wp-reset') . '</li>';
     echo '<li>' . __('site title, WordPress address, site address, site language, search engine visibility and current user will be restored', 'wp-reset') . '</li>';
     echo '<li>' . __('you will be logged out, automatically logged in and taken to the admin dashboard', 'wp-reset') . '</li>';
-    echo '<li>' . __('WP Reset plugin will be reactivated', 'wp-reset') . '</li>';
+    echo '<li>' . __('WP Reset plugin will be reactivated if that option is chosen in the <a href="#card-post-reset">post-reset options</a>', 'wp-reset') . '</li>';
     echo '</ul>';
 
     echo '<b>' . __('WP-CLI Support', 'wp-reset') . '</b>';
-    echo '<p>' . sprintf(__('All features available via GUI are available in WP-CLI as well. To get the list of commands run %s. Instead of the active user, the first user with admin privileges found in the database will be restored.', 'wp-reset'), '<code>wp help reset</code>');
+    echo '<p>' . sprintf(__('All features available via GUI are available in WP-CLI as well. To get the list of commands run %s. Instead of the active user, the first user with admin privileges found in the database will be restored. ', 'wp-reset'), '<code>wp help reset</code>');
     echo sprintf(__('All actions have to be confirmed. If you want to skip confirmation use the standard %s option. Please be carefull - there is NO UNDO.', 'wp-reset'), '<code>--yes</code>') . '</p>';
+    echo '</div>';
+
+    $theme =  wp_get_theme();
+
+    echo '<div class="card" id="card-post-reset">';
+    echo '<a class="toggle-card" href="#" title="' . __('Collapse / expand box', 'wp-reset') . '"><span class="dashicons dashicons-arrow-up-alt2"></span></a>';
+    echo '<h2>' . __('Post-reset actions', 'wp-reset') . '</h2>';
+    echo '<p><label for="reactivate-theme"><input name="wpr-post-reset[reactivate_theme]" type="checkbox" id="reactivate-theme" value="1"> ' . __('Reactivate current theme', 'wp-reset') . ' - ' . $theme->get('Name') . '</label></p>';
+    echo '<p><label for="reactivate-wpreset"><input name="wpr-post-reset[reactivate_wpreset]" type="checkbox" id="reactivate-wpreset" value="1" checked> ' . __('Reactivate WP Reset plugin', 'wp-reset') . '</label></p>';
+    echo '<p><label for="reactivate-plugins"><input name="wpr-post-reset[reactivate_plugins]" type="checkbox" id="reactivate-plugins" value="1"> ' . __('Reactivate all currently active plugins', 'wp-reset') . '</label></p>';
     echo '</div>';
 
     echo '<div class="card">';
     echo '<h2>' . __('Reset', 'wp-reset') . '</h2>';
-    echo '<p>' . __('Type <b>reset</b> in the confirmation field to confirm the reset and then click the "Reset WordPress" button. <b>There is NO UNDO. No backups are made by this plugin.</b>', 'wp-reset') . '</p>';
-    echo '<p>' . sprintf(__('While doing work on your site we recommend installing the free <a href="%s" target="_blank">UnderConstructionPage</a> plugin. It helps with SEO and builds trust with visitors.', 'wp-reset'), 'https://wordpress.org/plugins/under-construction-page/') . '</p>';
-    echo '<form id="wp_reset_form" action="' . admin_url('tools.php?page=wp-reset') . '" method="post" autocomplete="off">';
+    echo '<p>' . __('Type <b>reset</b> in the confirmation field to confirm the reset and then click the "Reset WordPress" button. <b>There is NO UNDO. No backups are made by WP Reset.</b>', 'wp-reset') . '</p>';
+    
     wp_nonce_field('wp-reset');
-    echo '<input id="wp_reset_confirm" type="text" name="wp_reset_confirm" placeholder="' . esc_attr__('Type in "reset"', 'wp-reset'). '" value="" autocomplete="off"> &nbsp;';
-    echo '<input id="wp_reset_submit" type="button" class="button-primary" value="' . __('Reset WordPress', 'wp-reset') . '">';
-    echo '</form>';
+    echo '<p><input id="wp_reset_confirm" type="text" name="wp_reset_confirm" placeholder="' . esc_attr__('Type in "reset"', 'wp-reset'). '" value="" autocomplete="off"> &nbsp;';
+    echo '<input id="wp_reset_submit" type="button" class="button-primary" value="' . __('Reset WordPress', 'wp-reset') . '"></p>';
+    echo '</div>';
+  } // tab_reset
+
+
+  /**
+   * Echoes content for tools tab
+   * 
+   * @return null
+   */
+  private function tab_tools() {
+    $theme =  wp_get_theme();
+
+    echo '<div class="card">';
+    echo '<h2>' . __('Transients', 'wp-reset') . '</h2>';
+    echo '<p>' . __('All transient related database entries will be deleted. Including expired and non-expired transients, and orphaned timeout entries. <b>There is NO UNDO. WP Reset will not make any backups.</b>', 'wp-reset') . '</p>';
+    echo '<p><a data-btn-confirm="Delete all transients" data-text-wait="Deleting transients. Please wait." data-text-confirm="All database entries related to transients will be deleted. There is NO UNDO. WP Reset will not make any backups." data-text-done="%n transient database entries have been deleted." class="button" href="#" id="delete-transients">Delete all transients</a></p>';
     echo '</div>';
 
-    echo '</div>'; // wrap
-  } // plugin_page
+    echo '<div class="card">';
+    echo '<h2>' . __('Themes', 'wp-reset') . '</h2>';
+    echo '<p>' . __('All themes will be deleted. Including the currently active theme - ' . $theme->get('Name') . '. <b>There is NO UNDO. WP Reset will not make any backups.</b>', 'wp-reset') . '</p>';
+    echo '<p><a data-btn-confirm="Delete all themes" data-text-wait="Deleting all themes. Please wait." data-text-confirm="All themes will be deleted. There is NO UNDO. WP Reset will not make any backups." data-text-done="%n themes have been deleted." class="button" href="#" id="delete-themes">Delete all themes</a></p>';
+    echo '</div>';
+
+    echo '<div class="card">';
+    echo '<h2>' . __('Plugins', 'wp-reset') . '</h2>';
+    echo '<p>' . __('Type <b>reset</b> in the confirmation field to confirm the reset and then click the "Reset WordPress" button. <b>There is NO UNDO. WP Reset will not make any backups.</b>', 'wp-reset') . '</p>';
+    echo '<p>WP Reset plugin will no be deleted or disabled.</p>';
+    echo '<p><a data-btn-confirm="Delete plugins" data-text-wait="Deleting plugins. Please wait." data-text-confirm="All plugins except WP Reset will be deleted. There is NO UNDO. WP Reset will not make any backups." data-text-done="%n plugins have been deleted." class="button" href="#" id="delete-plugins">Delete plugins</a></p>';
+    echo '</div>';
+  } // tab_tools
+
+
+  /**
+   * Echoes content for support tab
+   * 
+   * @return null
+   */
+  private function tab_support() {
+    echo '<div class="card">';
+    echo '<h2>' . __('Public support forum', 'wp-reset') . '</h2>';
+    echo '<p>' . __('We are very active on the <a href="https://wordpress.org/support/plugin/wp-reset" target="_blank">official WP Reset support forum</a>. If you found a bug, have a feature idea or just want to say hi - please drop by. We love to hear back from our users.', 'wp-reset') . '</p>';
+    echo '</div>';
+
+    echo '<div class="card">';
+    echo '<h2>' . __('Private contact', 'wp-reset') . '</h2>';
+    echo '<p>' . __('If there\'s a need to contact us privately send emails to <a href="mailto:wpreset@webfactoryltd.com">wpreset@webfactoryltd.com</a>. Please know that although we\'ll gladly have a look at issues you are having with any site, we can\'t promise we\'ll fix them. Thank you for understanding.', 'wp-reset') . '</p>';
+    echo '</div>';
+  } // tab_support
   
-  
+
   /**
    * Helper function for generating UTM tagged links
    * 

@@ -78,7 +78,7 @@ $mocha_sidebar_product = mocha_options() -> getCpanelValue('sidebar_product');
 											<div class="item-img products-thumb">
 												<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
 													<div class="product-thumb-hover">
-														<?php sw_label_sales(); ?>
+														<?php zr_label_sales(); ?>
 														<?php the_post_thumbnail( 'shop_catalog' ); ?>
 													</div>
 												</a>

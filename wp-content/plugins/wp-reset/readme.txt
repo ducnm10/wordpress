@@ -1,10 +1,10 @@
 === WP Reset - Fastest WordPress Reset Plugin ===
 Tags: wordpress reset, reset wordpress, reset database, reset wordpress database, reset, restart wordpress, clean wordpress, default wp, default wordpress, reset wp, wp reset, developer, wp-cli
-Contributors: WebFactory, wpreset
+Contributors: WebFactory, wpreset, googlemapswidget
 Requires at least: 4.0
 Requires PHP: 5.2
 Tested up to: 4.9
-Stable tag: 1.20
+Stable tag: 1.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,11 +39,25 @@ Access WP Reset admin page via the "Tools" menu.
 * everything will be reset; see bullets above for details
 * site title, WordPress address, site address, site language, search engine visibility settings as well as the current user will be restored
 * you will be logged out, automatically logged in and taken to the admin dashboard
-* WP Reset plugin will be reactivated
+* WP Reset plugin will be reactivated if that option is chosen in the post-reset options
 
 #### WP-CLI support
 
-WP Reset comes with full WP-CLI support. Help on our WP-CLI commands is available via _wp help reset_. By default the commands have to be confirmed but you can use the `--yes` option to skip confirmation. Instead of the active user, the first user with admin privileges found in the database will be restored after reset. Please be careful when using WP Reset with WP-CLI - as with using the GUI there is no undo. 
+WP Reset comes with full WP-CLI support. Help on our WP-CLI commands is available via _wp help reset_. By default the commands have to be confirmed but you can use the `--yes` option to skip confirmation. Instead of the active user, the first user with admin privileges found in the database will be restored after reset. Please be careful when using WP Reset with WP-CLI - as with using the GUI there is no undo.
+
+#### Multisite (WP-MU) Support
+
+WP Reset has yet to be completely tested with multisite! Please be careful when using it with multisite enabled. We don't recommend to resetting the main site. Sub-sites should be OK. We're working on making WP Reset fully compatible with WP-MU. Till then please be careful. Thank you for understanding.
+
+#### Partial Reset Tools
+
+Delete transients - deletes all transient related database entries. Including expired and non-expired transients, and orphaned timeout entries.
+
+Delete plugins - deletes all plugins except WP Reset which remains active.
+
+Delete themes - deletes all themes.
+
+
 
 == Installation ==
 
@@ -70,7 +84,24 @@ Or if needed, upload manually;
 
 == Changelog ==
 
-= 1.2 =
+= v1.30 =
+* 2018/08/27
+* more code clean-up
+* added new reset params to WP-CLI
+* big GUI changes
+* started adding various tools; delete transients, delete all plugins, delete all themes
+* we hit 50,000 installations on 2018/08/11 with 274,000 downloads
+
+= v1.25 =
+* 2018/07/30
+* code clean-up
+* post-reset options - reactivate plugin, themes & WP Reset
+* added WP-MU warning till we make WP Reset fully compatible with it
+* Tidy Repo notice
+* added option to collapse boxes
+* modified rating notice
+
+= v1.20 =
 * 2018/07/09
 * we hit 40k installations on 2018/06/26
 * WP-CLI support via "wp reset" command
@@ -80,13 +111,13 @@ Or if needed, upload manually;
 * code clean up
 * preparations for further development and new features
 
-= 1.1 =
+= v1.10 =
 * 2018/05/09
 * WebFactory took over development
 * numerous bug fixes and improvements
 * 30,000 installations; 199,000 downloads
 
-= 1.0 =
+= v1.0 =
 * 2016/05/16
 * Initial release
 
