@@ -67,11 +67,6 @@
 .rtl.woocommerce-page form table.shop_table.shop_table_responsive tbody tr td {
   text-align: right !important;
 }
-.rtl .woocommerce span.onsale,
-.rtl .onsale {
-  left: auto;
-  right: 20px;
-}
 .rtl .content-search >.post .entry-content .bl_read_more i,
 .rtl .content-search .product .entry-content .bl_read_more i {
   transform: rotate(180deg);

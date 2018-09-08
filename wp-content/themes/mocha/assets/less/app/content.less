@@ -13,11 +13,11 @@
 				}
 				.onsale{
 					position: absolute; top: 10px; left: 0; font-size: 11px; text-transform: uppercase; background: @color; color: #fff;
-					padding: 5px;
+					padding: 5px; line-height: normal; border-radius: 0; min-height: 23px;
 				}
 				a.fancybox{
 					position: absolute; top: 50%; left: 50%; margin-left: -45px; background: #fff; text-transform: uppercase;
-					.transition(all 0.3s); color: @body-color; padding: 5px 10px; font-size: 11px; .opacity(0); visibility: hidden;
+					.transition(all 0.3s); color: @body-color; padding: 7px 10px 5px 10px; font-size: 11px; .opacity(0); visibility: hidden;
 					&:hover{
 						color: #fff; background: @body-color; .transition(all 0.3s);
 					}
@@ -29,7 +29,7 @@
 					text-align: center;
 				}
 				.item-price{
-					text-align: center; padding: 0 20px;
+					text-align: center; padding: 0 20px; display: block;
 				}
 				.item-bottom{
 					height:0;
@@ -66,7 +66,8 @@
 						}
 					}
 					.yith-wcwl-add-to-wishlist {
-						position: absolute; right: 14px; bottom:13px; margin:0; .opacity(0); visibility: hidden; .transition(all 0.3s);
+						position: absolute; right: 14px; bottom:11px; margin:0; 
+						.opacity(0); visibility: hidden; .transition(all 0.3s);
 						.yith-wcwl-add-button,
 						.yith-wcwl-wishlistaddedbrowse,
 						.yith-wcwl-wishlistexistsbrowse {	
