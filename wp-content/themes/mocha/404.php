@@ -17,7 +17,7 @@
 					</div>
 					<div class="block-middle">
 						<div class="mocha_search_404">
-							<?php get_template_part( 'widgets/sw_top/search' ); ?>
+							<?php get_template_part( 'widgets/zr_top/search' ); ?>
 						</div>
 					</div>
 					<div class="block-bottom">

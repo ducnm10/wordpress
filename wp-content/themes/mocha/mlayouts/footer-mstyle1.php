@@ -21,7 +21,7 @@
 						<span class="icon-menu"></span>
 						<span class="menu-text"><?php esc_html_e( "Search", 'mocha' )?></span>
 					</a>
-					<?php get_template_part( 'widgets/sw_top/searchcate' ); ?>
+					<?php get_template_part( 'widgets/zr_top/searchcate' ); ?>
 				</div>
 			</div>
 			<div class="menu-item">
@@ -31,7 +31,7 @@
 					</a>
 				</div>
 			</div>
-			<div class="menu-item">
+			<div class="menu-item">	
 				<div class="footer-myaccount">
 					<a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" title="<?php esc_attr_e('My Account','mocha'); ?>">
 						<span class="icon-menu"></span>

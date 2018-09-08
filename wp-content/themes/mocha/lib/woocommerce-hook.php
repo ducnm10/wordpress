@@ -586,7 +586,7 @@ function mocha_single_addcart(){
 	global $product;
 	$html = '';
 	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
-	$product_type = ( sw_woocommerce_version_check( '3.0' ) ) ? $product->get_type() : $product->product_type;
+	$product_type = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_type() : $product->product_type;
 	
 	if( $product->product_type != 'variable' ) :
 		/* compare & wishlist */

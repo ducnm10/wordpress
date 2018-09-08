@@ -20,7 +20,7 @@
 			<div class="mobile-search">
 				<div class="non-margin">
 					<div class="widget-inner">
-						<?php get_template_part( 'widgets/sw_top/searchcate' ); ?>
+						<?php get_template_part( 'widgets/zr_top/searchcate' ); ?>
 					</div>
 				</div>
 			</div>
@@ -51,7 +51,7 @@
 			<div class="mobile-search">
 				<div class="non-margin">
 					<div class="widget-inner">
-						<?php get_template_part( 'widgets/sw_top/searchcate' ); ?>
+						<?php get_template_part( 'widgets/zr_top/searchcate' ); ?>
 					</div>
 				</div>
 			</div>

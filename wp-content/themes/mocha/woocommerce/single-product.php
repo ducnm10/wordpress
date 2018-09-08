@@ -17,6 +17,9 @@
 <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 	<div class="mocha_breadcrumbs">
 		<div class="container">
+			<div class="listing-title">			
+				<h1><span><?php mocha_title(); ?></span></h1>				
+			</div>
 			<?php
 				if (!is_front_page() ) {
 					if (function_exists('mocha_breadcrumb')){
