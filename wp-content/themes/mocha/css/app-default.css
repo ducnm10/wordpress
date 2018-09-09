@@ -5584,6 +5584,7 @@ blockquote p {
   line-height: normal;
   border-radius: 0;
   min-height: 23px;
+  z-index: 1;
 }
 .item .item-wrap .item-detail .item-img a.fancybox {
   position: absolute;
@@ -5892,6 +5893,48 @@ blockquote p {
 }
 .mocha_breadcrumbs .breadcrumbs .breadcrumb li > a:hover {
   color: #f61853;
+}
+#mocha-totop {
+  background-color: #f61853;
+  bottom: 30px;
+  right: 15px;
+  text-align: center;
+  position: fixed;
+  height: 50px;
+  width: 50px;
+  line-height: 43px;
+  z-index: 99;
+  border: 4px transparent solid;
+  opacity: 1;
+  filter: alpha(opacity=100);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -o-transition: all .3s;
+  -ms-transition: all .3s;
+  transition: all .3s;
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+#mocha-totop:before {
+  content: '\f0fb';
+  font-family: fontawesome;
+  color: #fff;
+  font-size: 20px;
+}
+#mocha-totop:hover {
+  background: #d3083e;
+}
+.rtl #mocha-totop {
+  right: auto;
+  left: 15px;
 }
 .responsive-post-slider {
   margin-bottom: 30px;

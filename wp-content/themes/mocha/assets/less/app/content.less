@@ -13,7 +13,7 @@
 				}
 				.onsale{
 					position: absolute; top: 10px; left: 0; font-size: 11px; text-transform: uppercase; background: @color; color: #fff;
-					padding: 5px; line-height: normal; border-radius: 0; min-height: 23px;
+					padding: 5px; line-height: normal; border-radius: 0; min-height: 23px; z-index:1;
 				}
 				a.fancybox{
 					position: absolute; top: 50%; left: 50%; margin-left: -45px; background: #fff; text-transform: uppercase;
@@ -198,5 +198,26 @@
 				}
 			}
 		}
+	}
+}
+#mocha-totop{
+	background-color: @color;
+	bottom: 30px; right: 15px;
+	text-align: center; position: fixed;
+	height: 50px; width: 50px; line-height: 43px;
+	z-index: 99; border: 4px transparent solid;
+	.opacity(1);
+	.border-radius(4px);
+	.transition(all .3s);
+	.rotate(-90deg);
+	&:before{
+		content: '\f0fb'; font-family: fontawesome; color: #fff; font-size: 20px;
+	}
+	&:hover {
+		background: darken(@color, 10%);
+	}
+	.rtl & {
+		right: auto;
+		left: 15px;
 	}
 }
