@@ -1,0 +1,22 @@
+2018-09-09T07:24:03+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2018-09-09T08:27:13+00:00 CRITICAL Call to undefined function sw_woocommerce_version_check()
+
+2018-09-09T09:52:12+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T09:54:40+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T09:55:45+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T09:59:03+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T09:59:49+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T10:00:37+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T10:00:54+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+
+2018-09-09T10:01:32+00:00 CRITICAL Call to a member function get_rating_count() on a non-object
+
+2018-09-09T10:02:31+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
+

@@ -819,38 +819,27 @@ function mocha_widget_setup_args(){
 				'after_widget' => '</div></div>',
 				'before_title' => '<div class="block-title-widget"><h2><span>',
 				'after_title' => '</span></h2></div>'
+		),	
+		array(
+				'name' => esc_html__('Header Right', 'mocha'),
+				'id'   => 'header-right',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
 		),
-		
+		array(
+				'name' => esc_html__('Header Left', 'mocha'),
+				'id'   => 'header-left',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+			
 		array(
 				'name' => esc_html__('Top Header', 'mocha'),
 				'id'   => 'top',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Top Header8', 'mocha'),
-				'id'   => 'top2',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Top Header3', 'mocha'),
-				'id'   => 'top1',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Contact Header', 'mocha'),
-				'id'   => 'contact-us',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
@@ -872,39 +861,6 @@ function mocha_widget_setup_args(){
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
-		array(
-				'name' => esc_html__('Header Right', 'mocha'),
-				'id'   => 'header-right',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Right Home4', 'mocha'),
-				'id'   => 'header-right4',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Right Home6', 'mocha'),
-				'id'   => 'header-right6',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Left', 'mocha'),
-				'id'   => 'header-left',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
 		array(
 				'name' => esc_html__('Sidebar Left Product', 'mocha'),
 				'id'   => 'left-product',

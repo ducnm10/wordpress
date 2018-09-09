@@ -9,19 +9,10 @@
 ?>
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header ); ?>">
 	<div class="header-top clearfix">		
-		<!-- Sidebar Top Menu -->
-		<?php if ( is_active_sidebar( 'top' ) ) { ?>
-			<div class="top-header pull-left">
-			
-				<?php dynamic_sidebar( 'top' ); ?>
-			</div>
-		<?php } ?>
-		
 		<!-- Logo -->
 		<div class="mocha-logo pull-left">
 			<?php mocha_logo(); ?>
-		</div>
-		
+		</div>		
 		<!-- Primary navbar -->
 		<?php if ( has_nav_menu( 'primary_menu' ) ) { ?>
 			<div id="main-menu" class="main-menu pull-left clearfix">
@@ -36,31 +27,38 @@
 				</div>
 			</div>			
 		<?php } ?>
-		<!-- /Primary navbar -->
-		
+		<!-- /Primary navbar -->		
 		<div class="header-right pull-right">
 			<div class="header-right-inner clearfix">
-			<!-- Login box -->
-			<div class="header-login pull-left">
-				<?php get_template_part( 'widgets/zr_top/login' ); ?>
-			</div>
-			
-			<!-- Box right Header -->
-			<div class="box-right">
-				<!-- Box Search -->
-				<div class="header-search">
-				
-				</div>
-				
-				<!-- Header Wishlist -->
-				<div class="header-wishlist">
-				
-				</div>
-				
-				<!-- Header Minicart -->
-				<div class="header-minicart">
-				
-				</div>
+				<!-- Login box -->
+				<div class="header-login pull-left">
+					<?php get_template_part( 'widgets/zr_top/login' ); ?>
+				</div>			
+				<!-- Sidebar right -->
+				<?php if( !mocha_options()->getCpanelValue( 'disable_search' ) ) : ?>
+					<div class="search-cate pull-left">
+						<div class="icon-search">
+							<i class="fa fa-search"></i>
+						</div>
+						<?php if( is_active_sidebar( 'search' ) && class_exists( 'sw_woo_search_widget' ) ): ?>
+							<?php dynamic_sidebar( 'search' ); ?>
+						<?php else : ?>
+							<div class="widget mocha_top non-margin">
+								<div class="widget-inner">
+									<?php get_template_part( 'widgets/zr_top/searchcate' ); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+					</div>
+				<?php endif; ?>		
+				<?php if ( is_active_sidebar( 'header-right' ) ) { ?>
+					<div class="header-wishlist pull-left">
+						<a href="<?php echo get_permalink( get_option('yith_wcwl_wishlist_page_id') ); ?>" title="<?php esc_attr_e('Wishlist','mocha'); ?>"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
+					</div>
+					<div class="right-header pull-left">		
+						<?php dynamic_sidebar( 'header-right' ); ?>
+					</div>	
+				<?php } ?>
 			</div>
 		</div>
 	</div>

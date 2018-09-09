@@ -58,8 +58,8 @@ class Mocha_Vertical_Megamenu_Widget extends Mocha_Widget{
 class Mocha_Top_Widget extends Mocha_Widget{
 
 	function __construct(){
-		$widget_ops = array('classname' => 'sw_top', 'description' => esc_html__('SW top header widget', 'mocha'));
-		parent::__construct('sw_top', esc_html__('SW Top Widget', 'mocha'), $widget_ops);
+		$widget_ops = array('classname' => 'zr_top', 'description' => esc_html__('SW top header widget', 'mocha'));
+		parent::__construct('zr_top', esc_html__('SW Top Widget', 'mocha'), $widget_ops);
 	}
 }
 

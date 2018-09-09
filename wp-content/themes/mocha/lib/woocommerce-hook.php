@@ -91,37 +91,34 @@ function mocha_cart_filter(){
 		add_filter( $filter, 'mocha_add_to_cart_fragment', 100 );
 	endif;
 }
-if( mocha_mobile_check() ) :
-	add_filter( $filter, 'mocha_add_to_cart_fragment_mobile', 100 );
-	function mocha_add_to_cart_fragment_mobile( $fragments ) {
-		ob_start();
-		get_template_part( 'woocommerce/minicart-ajax-mobile' );
-		$fragments['.mocha-minicart-mobile'] = ob_get_clean();
-		return $fragments;		
-	}
-else:	
-		function mocha_add_to_cart_fragment_style3( $fragments ) {
-			ob_start();
-			get_template_part( 'woocommerce/minicart-ajax-style3' );
-			$fragments['.mocha-minicart3'] = ob_get_clean();
-			return $fragments;		
-		}
-		
-		function mocha_add_to_cart_fragment_style2( $fragments ) {
-			ob_start();
-			get_template_part( 'woocommerce/minicart-ajax-style2' );
-			$fragments['.mocha-minicart2'] = ob_get_clean();
-			return $fragments;		
-		}
-	
-		function mocha_add_to_cart_fragment( $fragments ) {
-			ob_start();
-			get_template_part( 'woocommerce/minicart-ajax' );
-			$fragments['.mocha-minicart'] = ob_get_clean();
-			return $fragments;		
-		}
-	
-endif;
+
+function mocha_add_to_cart_fragment_style3( $fragments ) {
+	ob_start();
+	get_template_part( 'woocommerce/minicart-ajax-style3' );
+	$fragments['.mocha-minicart3'] = ob_get_clean();
+	return $fragments;		
+}
+
+function mocha_add_to_cart_fragment_style2( $fragments ) {
+	ob_start();
+	get_template_part( 'woocommerce/minicart-ajax-style2' );
+	$fragments['.mocha-minicart2'] = ob_get_clean();
+	return $fragments;		
+}
+
+function mocha_add_to_cart_fragment( $fragments ) {
+	ob_start();
+	get_template_part( 'woocommerce/minicart-ajax' );
+	$fragments['.mocha-minicart'] = ob_get_clean();
+	return $fragments;		
+}
+
+function mocha_add_to_cart_fragment_mobile( $fragments ) {
+	ob_start();
+	get_template_part( 'woocommerce/minicart-ajax-mobile' );
+	$fragments['.mocha-minicart-mobile'] = ob_get_clean();
+	return $fragments;		
+}
 
 /*
 ** Remove WooCommerce breadcrumb

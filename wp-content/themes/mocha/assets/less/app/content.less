@@ -9,7 +9,7 @@
 				}
 				h4{
 					background:#f3f3f3; text-align:center; text-transform: capitalize; font-weight: normal; font-size: 14px;
-					margin-bottom:0; padding:14px 45px 0 45px;
+					margin-bottom:0; padding:14px 15px 0 15px;
 				}
 				.onsale{
 					position: absolute; top: 10px; left: 0; font-size: 11px; text-transform: uppercase; background: @color; color: #fff;
@@ -39,9 +39,8 @@
 					.added_to_cart{
 						font-size: 0;
 					}					
-					.button.add_to_cart_button,
-					.product_type_external,
-					.product_type_grouped {
+					.button.add_to_cart_button,	.product_type_external,
+					.product_type_grouped, .product_type_variable {
 						color: @body-color; position: absolute; left: 14px; bottom:14px; font-size: 0; .transition(all .3s); 
 						.opacity(0); visibility: hidden; .transition(all 0.3s);
 						&:hover{
@@ -139,7 +138,7 @@
 				.item-content{
 					.item-bottom{
 						.button.add_to_cart_button,
-						.product_type_external,
+						.product_type_external, .product_type_variable,
 						.product_type_grouped, .yith-wcwl-add-to-wishlist{
 							.opacity(1); visibility: visible; .transition(all 0.3s);
 						}

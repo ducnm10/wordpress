@@ -1,6 +1,6 @@
 <?php 	
-	$mocha_page_footer   	 = ( get_post_meta( get_the_ID(), 'page_footer_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_footer_style', true ) : mocha_options()->getCpanelValue( 'footer_style' );
-	$mocha_copyright_text 	 = mocha_options()->getCpanelValue( 'footer_copyright' ); 
+$mocha_page_footer   	 = ( get_post_meta( get_the_ID(), 'page_footer_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_footer_style', true ) : mocha_options()->getCpanelValue( 'footer_style' );
+$mocha_copyright_text 	 = mocha_options()->getCpanelValue( 'footer_copyright' ); 
 ?>
 
 <footer id="footer" class="footer default theme-clearfix">
@@ -8,10 +8,10 @@
 		<!-- Content footer -->
 		<div class="container">
 			<?php 
-				if( $mocha_page_footer != '' ) :
-					echo get_the_content_by_id( $mocha_page_footer ); 
+			if( $mocha_page_footer != '' ) :
+				echo get_the_content_by_id( $mocha_page_footer ); 
 					//var_dump(get_permalink( get_page_by_path( 'Home Page 3' ) ) );
-				endif;
+			endif;
 			?>
 		</div>
 	</div>

@@ -27,14 +27,9 @@
 	/*
 	** Search on click
 	*/
-	$('.header-style6 .search-cate .search-home6').on('click', function(){
-			$('.top-form.top-search').toggleClass("open");
-	});
-	
-	$('.header-style7 .vertical_megamenu .mega-left-title').on('click', function(){
-			$('.header-style7 .vertical_megamenu').toggleClass("open");
-	});
-	
+	$(".search-cate .icon-search").click(function(){
+		$(".search-cate .top-form").fadeToggle();
+	});	
 	
 	$('.header-right .menu-confirmation .text-confirmation').on('click', function(){
 			$('.header-right .menu-confirmation').toggleClass("open");
