@@ -20,3 +20,7 @@
 
 2018-09-09T10:02:31+00:00 CRITICAL Call to a member function is_on_sale() on a non-object
 
+2018-09-09T14:15:52+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+
+2018-09-09T14:16:29+00:00 CRITICAL Maximum execution time of 30 seconds exceeded
+

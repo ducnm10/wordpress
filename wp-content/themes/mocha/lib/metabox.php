@@ -128,7 +128,7 @@ function mocha_metabox_init(){
 				'description' => esc_html__( ' Chose to select header page content for this page. ', 'mocha' ),
 				'std'	 => '',
 				'values' => array( '' => esc_html__( 'Header Style', 'mocha' ), 'style1' => esc_html__( 'Header Style1', 'mocha' ), 'style2' => esc_html__( 'Header Style2', 'mocha' ), 'style3' => esc_html__( 'Header Style3', 'mocha' ),
-					'style4' => esc_html__( 'Header Style4', 'mocha' ), 'style5' => esc_html__( 'Header Style5', 'mocha' )
+					'style4' => esc_html__( 'Header Style4', 'mocha' ),
 				)
 			)		
 		)
