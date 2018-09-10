@@ -1,8 +1,8 @@
 <?php
-	$paged 				= (get_query_var('paged')) ? get_query_var('paged') : 1;
+	$paged 			= (get_query_var('paged')) ? get_query_var('paged') : 1;
 	$product_cat 	= isset( $_GET['category'] ) ? $_GET['category'] : '';
 	$product_sku 	= isset( $_GET['search_sku'] ) ? $_GET['search_sku'] : 0;
-	$s 						= isset( $_GET['s'] ) ? $_GET['s'] : '';	
+	$s 				= isset( $_GET['s'] ) ? $_GET['s'] : '';	
 	
 	$args_product = array();
 	$check 				= false;
