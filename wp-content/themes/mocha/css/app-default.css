@@ -9031,7 +9031,6 @@ h1.page-title {
   float: none;
 }
 .products-wrapper .products-loop.grid >li .item-wrap .item-detail .item-content h4 a {
-  color: #222;
   font-size: 14px;
   font-weight: 600;
   text-transform: capitalize;
@@ -9420,6 +9419,9 @@ h1.page-title {
   -o-transition: all .3s;
   -ms-transition: all .3s;
   transition: all .3s;
+}
+.product_detail .slider_img_productd .product-images .product-images-container .slick-slider.product-responsive-thumbnail .slick-list .slick-track .item-thumbnail-product .thumbnail-wrapper img {
+  width: 100%;
 }
 .product_detail .slider_img_productd .product-images .product-images-container .slick-slider.product-responsive-thumbnail .slick-list .slick-track .item-thumbnail-product:hover .thumbnail-wrapper {
   border-color: #f61853;

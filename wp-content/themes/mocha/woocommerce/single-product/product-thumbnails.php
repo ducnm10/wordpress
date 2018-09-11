@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 global $post, $product, $woocommerce;
 
-$attachment_ids = $product->get_gallery_attachment_ids();
+$attachment_ids = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_gallery_image_ids() : $product->get_gallery_attachment_ids();
 if ( $attachment_ids ) {
 	if( has_post_thumbnail() ) :
 		$image_id = get_post_thumbnail_id();

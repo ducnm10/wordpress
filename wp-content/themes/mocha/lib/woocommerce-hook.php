@@ -566,7 +566,7 @@ add_action( 'woocommerce_single_variation', 'mocha_single_addcart_variable', 25 
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
 function mocha_single_addcart_wrapper_start(){
-	echo '<div class="addcart-wrapper clearfix">';
+	echo '<div class="addcart-wrapper">';
 }
 
 function mocha_single_addcart_wrapper_end(){

@@ -27,7 +27,7 @@ function mocha_Options_Setup(){
 	$options = array();
 	$options[] = array(
 			'title' => esc_html__('General', 'mocha'),
-			'desc' => wp_kses( __('<p class="description">The theme allows to build your own styles right out of the backend without any coding knowledge. Start your own color scheme by selecting one of 5 predefined schemes. Upload new logo and favicon or get their URL.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			'desc' => wp_kses( __('<p class="description">The theme allows to build your own styles right out of the backend without any coding knowledge. Start your own color scheme by selecting one of 1 predefined schemes. Upload new logo and favicon or get their URL.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
 			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_019_cogwheel.png',
@@ -37,7 +37,7 @@ function mocha_Options_Setup(){
 						'id' => 'scheme',
 						'type' => 'radio_img',
 						'title' => esc_html__('Color Scheme', 'mocha'),
-						'sub_desc' => esc_html__( 'Select one of 7 predefined schemes', 'mocha' ),
+						'sub_desc' => esc_html__( 'Select one of 1 predefined schemes', 'mocha' ),
 						'desc' => '',
 						'options' => array(
 										'default' => array('title' => 'Default', 'img' => get_template_directory_uri().'/assets/img/default.png'),

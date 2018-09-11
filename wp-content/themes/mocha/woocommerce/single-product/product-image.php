@@ -25,10 +25,13 @@ $attachments 		= array();
 <div id="product_img_<?php echo esc_attr( $post->ID ); ?>" class="product-images loading" data-rtl="<?php echo ( is_rtl() || $mocha_direction == 'rtl' )? 'true' : 'false';?>">
 	<div class="product-images-container clearfix thumbnail-bottom">
 		<?php 
+			$attachments = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_gallery_image_ids() : $product->get_gallery_attachment_ids();
 			if( has_post_thumbnail() ){ 
-				$attachments = $product->get_gallery_attachment_ids();
 				$image_id 	 = get_post_thumbnail_id();
 				array_unshift( $attachments, $image_id );
+				$attachments = array_unique( $attachments );
+			}
+			if( sizeof( $attachments ) ){
 		?>
 		<!-- Image Slider -->
 		<div class="slider product-responsive">
