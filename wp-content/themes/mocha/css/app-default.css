@@ -3549,6 +3549,22 @@ select:-webkit-autofill {
 .subcribe .mc4wp-form .mc4wp-success {
   color: #222;
 }
+.home-style5 .mocha_breadcrumbs {
+  display: none;
+}
+.home-style5 .body-wrapper-inner {
+  max-width: 1730px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+.home-style6 .mocha_breadcrumbs {
+  display: none;
+}
+.home-style6 .body-wrapper-inner {
+  max-width: 1730px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
 #cpanel-form {
   position: fixed;
   right: -300px;
