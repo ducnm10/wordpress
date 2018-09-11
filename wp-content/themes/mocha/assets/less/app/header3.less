@@ -3,6 +3,67 @@
 		padding: 0 15px;
 		.header-top{
 			border-bottom: 1px @border-color solid;
+			.header-left{
+				position: relative;
+				.top-icon{
+					margin-top: 26px; display: block; font-size: 20px;
+				}
+				.header-bar{
+					position: absolute; top:65px; left: 0; background: #fff; box-shadow: 0 0 3px 2px #ebebeb; padding: 15px; 
+					min-width: 200px; text-align: left; .opacity(0); visibility: hidden; .transition(all 0.3s);
+					.widget_currency_converter{
+						border-bottom: 1px @border-color solid; padding-bottom: 20px;
+						h3{
+							text-transform: uppercase; font-size: 16px;
+						}
+						.currency_w{
+							margin: 0;
+							>li{
+								>a{
+									display: none;
+								}
+								.currency_switcher{
+									position: static; visibility: visible; opacity: 1; width: auto; border: none;
+									box-shadow: none; padding: 0; text-align: left;
+									.rtl &{
+										text-align: right;
+									}
+									li {
+										display: inline-block; vertical-align: top; width: auto; margin-right: 10px;
+										.rtl &{
+											margin-right: 0; margin-left: 10px;
+										}
+										a{
+											padding: 0 10px; margin-top: 0;
+											&.active, &:hover{
+												background: #f5f5f5; color: @body-color;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					.widget_nav_menu{
+						ul{
+							li{
+								a{
+									padding: 20px 0 0 10px; display: block; position: relative;
+									&:before{
+										content: '\f105'; font-family: FontAwesome;	font-size: 13px; position: absolute;
+										top: 20px;left: 0;
+									}
+								}
+							}
+						}
+					}
+				}
+				&:hover{
+					.header-bar{
+						.opacity(1); visibility: visible; .transition(all 0.3s); top: 50px;
+					}
+				}
+			}
 		}
 		.mocha-logo{
 			padding: 22px 0;

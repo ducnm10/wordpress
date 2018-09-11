@@ -86,7 +86,7 @@
 					}
 					.btn-submit-login{
 						background-color: @color;
-						padding: 0 25px 0px 48px;
+						padding: 0 25px;
 						height: 42px;
 						font-size: 11px;
 						font-weight: bold;
@@ -101,22 +101,7 @@
 						&:hover{
 							background-color: darken(@color, 10);   
 						}
-					}
-					&:before{
-						background: url(../assets/img/bg_general.png) no-repeat -20px -1593px;
-						content:'';
-						display:block;
-						width:15px;
-						height:18px;
-						position:absolute;
-						top:10px;
-						left:20px;
-						z-index:5;
-						.rtl &{
-							right:20px;
-							left:auto;
-						}
-					}					
+					}				
 				}
 			}
 			&.login-customer{
@@ -180,54 +165,14 @@
 			}
 		}
 	}
-	.email-input {
-		position: relative;
-		&:before {
-			background: url(../assets/img/bg_general.png) no-repeat -20px -160px #ababab;
-			content: "";
-			display: inline-block;
-			width: 43px;
-			height: 40px;
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			right:auto;
-			.rtl &{
-				right:0;
-				left:auto;
-			}
-		}
-	}
-	.pass-input{
-		position: relative;
-		&:before {
-			background: url(../assets/img/bg_general.png) no-repeat -20px -100px #ababab;
-			content: "";
-			display: inline-block;
-			width: 43px;
-			height: 40px;
-			position: absolute;
-			top: 0px;
-			left: 0px;
-			right:auto;
-			.rtl &{
-				right:0;
-				left:auto;
-			}
-		}
-	}
 	.input-text {
 		border: none;
 		margin-bottom: 14px;
 		width: 100%;
-		padding: 0 5px 0px 52px;
 		height: 40px !important;
 		font-size: 108.33%;
 		border: 1px solid #d1d1d1;
 		.border-radius(0);
-		.rtl &{
-			padding: 0 52px 0px 5px;
-		}
 	}	
 	.ft-link-p{
 		a {

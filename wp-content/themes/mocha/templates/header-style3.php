@@ -9,8 +9,13 @@
 ?>
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header ); ?>">
 	<div class="header-top clearfix">	
-		<div class="menu-bar col-lg-4 col-md-4">
-			dau xanh
+		<div class="header-left col-lg-4 col-md-4">
+			<a class="top-icon" href="javascript:void(0)"><i class="fa fa-bars" aria-hidden="true"></i></a>
+			<?php if ( is_active_sidebar( 'top2' ) ) { ?>	
+				<div class="header-bar">
+				<?php dynamic_sidebar( 'top2' ); ?>
+				</div>
+			<?php } ?>
 		</div>	
 		<!-- Logo -->
 		<div class="mocha-logo col-lg-4 col-md-4">

@@ -827,8 +827,15 @@ function mocha_widget_setup_args(){
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
+		),		
+		array(
+				'name' => esc_html__('Top Header3', 'mocha'),
+				'id'   => 'top2',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
 		),
-			
 		array(
 				'name' => esc_html__('Top Header4', 'mocha'),
 				'id'   => 'top',
