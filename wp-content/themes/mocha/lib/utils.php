@@ -732,19 +732,6 @@ if( !is_admin() ){
 	}
 }
 
-/*
- ** Search Filter
-*/
-if( !is_admin() ){
-	function mocha_SearchFilter( $query ) {
-		if ( $query->is_search ) {
-			$query->set( 'post_type', array( 'post', 'product' ) );
-		}
-		return $query;
-	}
-	add_filter('pre_get_posts','mocha_SearchFilter');
-}
-
 /**
  * This class handles the Breadcrumbs generation and display
  */

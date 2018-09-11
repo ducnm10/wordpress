@@ -28,8 +28,8 @@
 							<select name="search_category" class="s1_option">
 								<option value=""><?php esc_html_e( 'All Categories', 'mocha' ) ?></option>
 								<?php foreach( $product_categories as $cat ) {
-									$selected = ( isset($_GET['search_category'] ) && ($_GET['search_category'] == $cat->term_id )) ? 'selected=selected' : '';
-								echo '<option value="'. esc_attr( $cat-> term_id ) .'" '.$selected.'>' . esc_html( $cat->name ). '</option>';
+									$selected = ( isset($_GET['search_category'] ) && ($_GET['search_category'] == $cat->slug )) ? 'selected=selected' : '';
+								echo '<option value="'. esc_attr( $cat-> slug ) .'" '.$selected.'>' . esc_html( $cat->name ). '</option>';
 								}
 								?>
 							</select>

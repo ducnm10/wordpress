@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	 */
 	 do_action( 'woocommerce_before_single_product' );
 	global $product;
-	mocha_setPostViews( $product->id );
+	mocha_setPostViews( $product->get_id() );
 ?>
 <div itemscope itemtype="http://schema.org/Product" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<div class="product_detail row">

@@ -29,7 +29,7 @@ endif;
 if( !function_exists( 'zr_label_sales' ) ){
 	function zr_label_sales(){
 		global $product, $post;
-		$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
+		$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->get_id();
 		$forginal_price 	= get_post_meta( $product_id, '_regular_price', true );	
 		$fsale_price 		= get_post_meta( $product_id, '_sale_price', true );
 		if( $fsale_price > 0 && $product->is_on_sale() ){ 
@@ -64,7 +64,7 @@ if( !function_exists( 'zr_label_stock' ) ){
 function mocha_quickview(){
 	global $product;
 	$html='';
-	$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
+	$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->get_id();
 	if( function_exists( 'mocha_options' ) ){
 		$quickview = mocha_options()->getCpanelValue( 'product_quickview' );
 	}
@@ -134,7 +134,7 @@ add_action( 'woocommerce_before_shop_loop_item_title', 'mocha_woocommerce_templa
 function mocha_product_thumbnail( $size = 'shop_catalog', $placeholder_width = 0, $placeholder_height = 0  ) {
 	global $product;
 	$html = '';
-	$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
+	$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->get_id();
 	$gallery = get_post_meta( $product_id , '_product_image_gallery', true );
 	$attachment_image = '';
 	if( !empty( $gallery ) ) {
@@ -145,17 +145,11 @@ function mocha_product_thumbnail( $size = 'shop_catalog', $placeholder_width = 0
 	
 	$image = wp_get_attachment_image_src( get_post_thumbnail_id( $product_id ), '' );
 	if ( has_post_thumbnail( $product_id ) ){
-		if( $attachment_image ){
 			$html .= '<a href="'.get_permalink( $product_id ).'">';
 			$html .= '<div class="product-thumb-hover">';
 			$html .= (get_the_post_thumbnail( $product_id, $size )) ? get_the_post_thumbnail( $product_id, $size ): '<img src="'.get_template_directory_uri().'/assets/img/placeholder/'.$size.'.png" alt="">';
 			$html .= '</div>';
 			$html .= '</a>';				
-		}else{
-			$html .= '<a href="'.get_permalink( $product_id ).'">' ;
-			$html .= (get_the_post_thumbnail( $product_id, $size )) ? get_the_post_thumbnail( $product_id, $size ): '<img src="'.get_template_directory_uri().'/assets/img/placeholder/'.$size.'.png" alt="">';
-			$html .= '</a>';
-		}			
 	}else{
 		$html .= '<a href="'.get_permalink( $product_id ).'">' ;
 		$html .= '<img src="'.get_template_directory_uri().'/assets/img/placeholder/'.$size.'.png" alt="No thumb">';		
@@ -583,10 +577,8 @@ function mocha_single_addcart(){
 	/* compare & wishlist */
 	global $product, $post;
 	$html = '';
-	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
-	$product_type = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_type() : $product->product_type;
 	
-	if( $product->product_type != 'variable' ) :
+	if( $product->get_type() != 'variable' ) :
 		/* compare & wishlist */
 		if( class_exists( 'YITH_WCWL' ) ){
 			$html .= '<div class="item-bottom">';	
@@ -602,7 +594,7 @@ function mocha_single_addcart_variable(){
 	/* compare & wishlist */
 	global $product, $post;
 	$html = '';
-	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
+	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->get_id();
 	
 	if( class_exists( 'YITH_WCWL' ) ){
 		$html .= '<div class="item-bottom">';
@@ -619,7 +611,7 @@ function mocha_single_addcart_variable(){
 add_filter( 'woocommerce_product_tabs', 'mocha_tab_tag' );
 function mocha_tab_tag($tabs){
 	global $post, $product;
-	$tag_count = sizeof( get_the_terms( $product->id, 'product_tag' ) );
+	$tag_count = sizeof( get_the_terms( $product->get_id(), 'product_tag' ) );
 	if ( count( $tag_count ) > 1 ) {
 		$tabs['product_tag'] = array(
 			'title'    => esc_html__( 'Tags', 'mocha' ),
