@@ -237,7 +237,7 @@ function zr_gallery($attr) {
 	foreach ($attachments as $id => $attachment) {
 		//$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
 		$link = '<a class="thumbnail" href="' .esc_url( wp_get_attachment_url($id) ) . '">';
-		$link .= wp_get_attachment_image($id);
+		$link .= wp_get_attachment_image($id, $size);
 		$link .= '</a>';
 		
 		$output .= '<li style="width: '.esc_attr( $width ).'%;">' . $link;

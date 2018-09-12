@@ -36,7 +36,6 @@
 							<div class="entry-thumb single-thumb">
 								<?php the_post_thumbnail('mocha_detail_thumb'); ?>
 							</div>
-							<?php mocha_get_time() ?>
 						<?php }?>
 					<?php } ?>
 					<h1 class="entry-title clearfix"><?php the_title(); ?></h1>
@@ -135,18 +134,16 @@
 								<div <?php post_class( $class_col ); ?> >
 									<?php if ( get_the_post_thumbnail() ) { ?>
 									<div class="item-relate-img">
-										<div class="entry-meta">
-											<?php mocha_get_time(); ?>
-										</div>
 										<a href="<?php the_permalink(); ?>"><?php the_post_thumbnail('mocha_related_post'); ?></a>
 									</div>
 									<?php } ?>
-
 									<div class="item-relate-content">
-										<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+										<div class="item-title">
+											<h4><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h4>
+										</div>
 										<div class="entry-meta">
+											<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 											<div class="entry-comment">
-												<i class="fa fa-comments-o"></i>
 												<?php 
 													$qty_comment = $post->comment_count;
 													if($qty_comment > 1 ){
@@ -156,13 +153,8 @@
 													}
 												?>
 											</div>
-											<?php if(get_the_tag_list()) { ?>
-												<div class="entry-tag single-tag pull-left">
-													<?php echo get_the_tag_list('<i class="fa fa-tag"></i><span class="custom-font title-tag"></span>',' , ','');  ?>
-												</div>
-											<?php } ?>
 										</div>
-										<a class="read-more" href="<?php the_permalink(); ?>"><i class="fa fa-caret-right"></i><?php echo esc_html__('Read More','mocha');?></a>
+										<div class="readmore"><a href="<?php the_permalink(); ?>"><?php echo esc_html__('Read More','mocha');?></a></div>
 									</div>
 								</div>
 								<?php
