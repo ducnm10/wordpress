@@ -202,3 +202,53 @@ function zr_check_product_visiblity( $query ) {
 	}
 	return $query;
 }
+
+/*
+** Product Meta
+*/
+add_action("admin_init", "post_init");
+add_action( 'save_post', 'zr_product_save_meta', 10, 1 );
+function post_init(){
+	add_meta_box("zr_product_meta", esc_html__( 'Product Meta:', 'zr_woocommerce' ), "zr_product_meta", "product", "side", "low");
+	add_meta_box("zr_product_video_meta", esc_html__( 'Featured Video Product', 'zr_woocommerce' ), "zr_product_video_meta", "product", "side", "low");
+}	
+function zr_product_meta(){
+	global $post;
+	$recommend_product = get_post_meta( $post->ID, 'recommend_product', true );
+	$newproduct 	   = get_post_meta( $post->ID, 'newproduct', true );
+?>
+	<p><label><b><?php esc_html_e( 'Recommend Product:', 'zr_woocommerce' ) ?></b></label> &nbsp;&nbsp;
+	<input type="checkbox" name="recommend_product" value="1" <?php echo checked( $recommend_product, 1 ) ?> /></p>
+	
+	<p><label><b><?php esc_html_e( 'New Product', 'zr_woocommerce' ) ?></b></label> &nbsp;&nbsp;
+		<input type="number" name="newproduct" value="<?php echo esc_attr( $newproduct ) ?>"/>
+		<span class="p-description"><?php echo esc_html__( 'Set day for the new product label from the date publish product.', 'zr_woocommerce' ); ?></span>
+	</p>
+<?php }
+
+function zr_product_video_meta(){
+	global $post;
+	$featured_video_product = get_post_meta( $post->ID, 'featured_video_product', true );
+?>
+	<div class="featured-image">
+		<?php if( $featured_video_product != '' ) : ?>
+		<div class="video-wrapper">
+			<iframe width="560" height="315" src="https://www.youtube.com/embed/<?php echo esc_attr( $featured_video_product ); ?>" frameborder="0" allowfullscreen></iframe>
+		</div>
+		<?php endif; ?>
+		<p><input type="text" name="featured_video_product" placeholder="<?php echo esc_attr__( 'Youtube Video ID', 'zr_woocommerce' ) ?>" value="<?php echo esc_attr( $featured_video_product ); ?>"/></p>
+	</div>
+<?php 
+}
+
+function zr_product_save_meta( $post_id ){
+	$meta_val = ( isset( $_POST['recommend_product'] ) ) ? $_POST['recommend_product'] : 0;
+	update_post_meta( $post_id, 'recommend_product', $meta_val );
+	if( isset( $_POST['featured_video_product'] ) ){
+		update_post_meta( $post_id, 'featured_video_product', $_POST['featured_video_product'] );
+	}
+	if( isset( $_POST['newproduct'] ) ){
+		update_post_meta( $post_id, 'newproduct', intval( $_POST['newproduct'] ) );
+	}
+}
+/*end product meta*/
