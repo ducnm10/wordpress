@@ -39,7 +39,18 @@ function mocha_title() {
 	} elseif (is_404()) {
 		esc_html_e('Not Found', 'mocha');
 	} else {
-		the_title();
+		if( is_single() ){
+			$post_type = get_post_type( get_the_ID() );
+			if( $post_type == 'post' ){
+				$category = get_the_category();
+				echo $category[0]->name;
+			}else if( $post_type == 'product' ){
+				$category = get_the_terms( get_the_ID(), 'product_cat' );
+				echo $category[0]->name;
+			}else{
+				the_title();
+			}
+		}
 	}
 }
 
@@ -1192,32 +1203,6 @@ function mocha_logo(){
 	</a>
 <?php 
 }
-
-/*
-** Product Meta
-*/
-add_action("admin_init", "post_init");
-add_action( 'save_post', 'mocha_product_save_meta', 10, 1 );
-function post_init(){
-	add_meta_box("mocha_product_meta", esc_html__( 'Recommend Product:', 'mocha' ), "mocha_product_meta", "product", "normal", "low");
-}	
-function mocha_product_meta(){
-	global $post;
-	$value = get_post_meta( $post->ID, 'new_product', true );
-	$recommend_product = get_post_meta( $post->ID, 'recommend_product', true );
-?>
-	<p><label><b><?php esc_html_e( 'Recommend Product:', 'mocha' ) ?></b></label> &nbsp;&nbsp;
-	<input type="checkbox" name="recommend_product" value="yes" <?php if(esc_attr($recommend_product) == 'yes'){ echo "CHECKED"; }?> /></p>
-<?php }
-function mocha_product_save_meta(){
-	global $post;
-	if( isset( $_POST['recommend_product'] ) && $_POST['recommend_product'] != '' ){
-		update_post_meta($post->ID, 'recommend_product', $_POST['recommend_product']);
-	}else{
-		return;
-	}
-}
-/*end product meta*/
 
 /*
 ** Function Get datetime blog 

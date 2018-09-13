@@ -1,0 +1,33 @@
+2018-09-13T15:07:02+00:00 CRITICAL Uncaught Error: Call to undefined function sw_woocommerce_version_check() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\woocommerce\single-product\product-image.php:30
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-core-functions.php(210): include()
+#1 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-template-functions.php(1371): wc_get_template('single-product/...')
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): woocommerce_show_product_images('')
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#5 D:\xampp\htdocs\mocha\wp-content\themes\mocha\woocommerce\content-single-product.php(37): do_action('woocommerce_bef...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-core-functions.php(179): load_template('D:\\xa
+
+2018-09-13T15:07:39+00:00 CRITICAL Uncaught Error: Call to undefined function sw_woocommerce_version_check() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\woocommerce\single-product\product-thumbnails.php:14
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-core-functions.php(210): include()
+#1 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-template-functions.php(1380): wc_get_template('single-product/...')
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): woocommerce_show_product_thumbnails('')
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#5 D:\xampp\htdocs\mocha\wp-content\themes\mocha\woocommerce\single-product\product-image.php(61): do_action('woocommerce_pro...')
+#6 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-core-functions.php(210): include('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes
+
+2018-09-13T15:07:45+00:00 CRITICAL Uncaught Error: Call to undefined function sw_woocommerce_version_check() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\woocommerce\single-product\product-thumbnails.php:14
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-core-functions.php(210): include()
+#1 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-template-functions.php(1380): wc_get_template('single-product/...')
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): woocommerce_show_product_thumbnails('')
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#5 D:\xampp\htdocs\mocha\wp-content\themes\mocha\woocommerce\single-product\product-image.php(61): do_action('woocommerce_pro...')
+#6 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes\wc-core-functions.php(210): include('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\mocha\wp-content\plugins\woocommerce\includes
+
