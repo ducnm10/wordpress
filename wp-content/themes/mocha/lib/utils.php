@@ -1053,15 +1053,15 @@ function mocha_advanced(){
 		*/
 		if( $sticky_menu ) :		
 				if( $mocha_header_style == 'style1' || $mocha_header_style == ''){			
-					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
+					$output .= 'var sticky_navigation_offset = $("#header .header-top").offset();';
 					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 					$output .= 'var sticky_navigation = function(){';
 					$output .= 'var scroll_top = $(window).scrollTop();';
 					$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
-					$output .= '$("#header .header-mid").addClass("sticky-menu");';
-					$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
+					$output .= '$("#header .header-top").addClass("sticky-menu");';
+					$output .= '$("#header .header-top").css({ "top":0, "left":0, "right" : 0 });';
 					$output .= '} else {';
-					$output .= '$("#header .header-mid").removeClass("sticky-menu");';
+					$output .= '$("#header .header-top").removeClass("sticky-menu");';
 					$output .= '}';
 					$output .= '};';
 					$output .= 'sticky_navigation();';
@@ -1069,7 +1069,7 @@ function mocha_advanced(){
 					$output .= 'sticky_navigation();';
 					$output .= '});';
 				}
-				elseif( $mocha_header_style == 'style2' || $mocha_header_style == 'style3' || $mocha_header_style == 'style5' || $mocha_header_style == 'style6' || $mocha_header_style == 'style7' || $mocha_header_style == 'style8'){
+				elseif( $mocha_header_style == 'style2' || $mocha_header_style == 'style3' || $mocha_header_style == 'style5' || $mocha_header_style == 'style6' ){
 					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
 					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 					$output .= 'var sticky_navigation = function(){';
