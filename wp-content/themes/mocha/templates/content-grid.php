@@ -77,6 +77,15 @@ global $post;
 								<a href="<?php comments_link(); ?>"><?php echo $post-> comment_count .  ( ($post-> comment_count) > 1 ? esc_html__('  Comments', 'mocha') : esc_html__('  Comment', 'mocha')); ?></a>
 							</span>
 						</div>
+						<div class="entry-summary">
+						<?php 												
+							if ( preg_match('/<!--more(.*?)?-->/', $post->post_content, $matches) ) {
+								echo wp_trim_words($post->post_content, 22, '...');
+							} else {
+								the_content('...');
+							}			
+						?>	
+						</div>
 					</div>
 					<div class="readmore"><a href="<?php echo get_permalink($post->ID)?>"><?php esc_html_e('Read More', 'mocha'); ?></a></div>
 				</div>

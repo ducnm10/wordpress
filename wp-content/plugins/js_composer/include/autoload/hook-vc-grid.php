@@ -159,8 +159,8 @@ class Vc_Hooks_Vc_Grid implements Vc_Vendor_Interface {
 	 */
 	public function gridSavePostSettingsId( array $settings, $post_id, $post ) {
 		$pattern = $this->getShortcodeRegexForId();
-		preg_match_all( "/$pattern/", $post->post_content, $found ); // fetch only needed shortcodes
-		$settings['vc_grid_id'] = array();
+		$content = stripslashes( $post->post_content );
+		preg_match_all( "/$pattern/", $content, $found ); // fetch only needed shortcodes
 		if ( is_array( $found ) && ! empty( $found[0] ) ) {
 			$to_save = array();
 			if ( isset( $found[1] ) && is_array( $found[1] ) ) {

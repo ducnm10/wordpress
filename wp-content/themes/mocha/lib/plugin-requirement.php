@@ -9,7 +9,7 @@ function mocha_register_required_plugins() {
 			'name'               => esc_html__( 'WooCommerce', 'mocha' ), 
 			'slug'               => 'woocommerce', 
 			'required'           => true, 
-			'version'			       => '2.6.13'
+			'version'			       => '3.4.5'
 			),
 
 		array(
@@ -17,7 +17,7 @@ function mocha_register_required_plugins() {
 			'slug'               => 'revslider', 
 			'source'             => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/revslider.zip' ), 
 			'required'           => true, 
-			'version'                  => '5.3.1.5'
+			'version'                  => '5.4.7.4'
 			),
 		
 		array(
@@ -25,7 +25,7 @@ function mocha_register_required_plugins() {
 			'slug'      		 => 'zoro_core',
 			'source'         => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/zoro_core.zip' ), 
 			'required'  		 => true,   
-			'version'			       => '1.2.0'
+			'version'			       => '1.0.0'
 			),
 
 		array(
@@ -39,7 +39,7 @@ function mocha_register_required_plugins() {
 			'slug'               => 'js_composer', 
 			'source'             => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/js_composer.zip' ), 
 			'required'           => true, 
-			'version'                  => '5.0.1'
+			'version'                  => '5.5.4'
 			), 		
 		array(
 			'name'     			 => esc_html__( 'WordPress Importer', 'mocha' ),
