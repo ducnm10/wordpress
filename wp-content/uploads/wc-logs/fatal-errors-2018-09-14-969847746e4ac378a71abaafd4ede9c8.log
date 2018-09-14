@@ -1,0 +1,78 @@
+2018-09-14T14:52:56+00:00 CRITICAL Uncaught Error: Call to undefined function revo_typography_css() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\utils.php:664
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(284): mocha_typography_css_cache()
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2614): do_action('wp_head')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\head.php(6): wp_head()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\header.php(1): get_template_part('templates/head')
+#9 D:\xampp\htdocs\mocha\wp-includes\template.php(690):
+
+2018-09-14T14:53:21+00:00 CRITICAL Uncaught Error: Call to undefined function revo_typography_css() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\utils.php:664
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(284): mocha_typography_css_cache()
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2614): do_action('wp_head')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\head.php(6): wp_head()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\header.php(1): get_template_part('templates/head')
+#9 D:\xampp\htdocs\mocha\wp-includes\template.php(690):
+
+2018-09-14T14:53:28+00:00 CRITICAL Uncaught Error: Call to undefined function revo_typography_css() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\utils.php:664
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(284): mocha_typography_css_cache()
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2614): do_action('wp_head')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\head.php(6): wp_head()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\header.php(1): get_template_part('templates/head')
+#9 D:\xampp\htdocs\mocha\wp-includes\template.php(690):
+
+2018-09-14T14:53:42+00:00 CRITICAL Uncaught Error: Call to undefined function revo_typography_css() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\utils.php:664
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(284): mocha_typography_css_cache()
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2614): do_action('wp_head')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\head.php(6): wp_head()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\header.php(1): get_template_part('templates/head')
+#9 D:\xampp\htdocs\mocha\wp-includes\template.php(690):
+
+2018-09-14T14:54:41+00:00 CRITICAL Uncaught Error: Call to undefined function revo_typography_css() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\utils.php:664
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(284): mocha_typography_css_cache()
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2614): do_action('wp_head')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\head.php(6): wp_head()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\header.php(1): get_template_part('templates/head')
+#9 D:\xampp\htdocs\mocha\wp-includes\template.php(690):
+
+2018-09-14T15:32:58+00:00 CRITICAL Uncaught Error: Call to undefined function revo_typography_css() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\utils.php:664
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(284): mocha_typography_css_cache()
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2614): do_action('wp_head')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\head.php(6): wp_head()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\header.php(1): get_template_part('templates/head')
+#9 D:\xampp\htdocs\mocha\wp-includes\template.php(688):
+

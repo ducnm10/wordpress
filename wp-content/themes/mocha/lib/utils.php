@@ -611,48 +611,69 @@ function mocha_content_page(){
 */
 function mocha_typography_css(){
 	$styles = '';
-	$page_google_webfonts = get_post_meta( get_the_ID(), 'google_webfonts', true );
-	$webfont = ( $page_google_webfonts != '' ) ? $page_google_webfonts : mocha_options()->getCpanelValue('google_webfonts');
+	$page_webfonts  = get_post_meta( get_the_ID(), 'google_webfonts', true );
+	$webfont 		= ( $page_webfonts != '' ) ? $page_webfonts : mocha_options()->getCpanelValue( 'google_webfonts' );
+	$header_webfont = mocha_options()->getCpanelValue( 'header_tag_font' );
+	$menu_webfont 	= mocha_options()->getCpanelValue( 'menu_font' );
+	$custom_webfont = mocha_options()->getCpanelValue( 'custom_font' );
+	$custom_class 	= mocha_options()->getCpanelValue( 'custom_font_class' );
+	
+	$styles = '<style>';
 	if ( $webfont ):	
-		$webfonts_assign = ( get_post_meta( get_the_ID(), 'webfonts_assign', true ) != '' ) ? get_post_meta( get_the_ID(), 'webfonts_assign', true ) : mocha_options()->getCpanelValue('webfonts_assign');
-		$styles = '<style>';
+		$webfonts_assign = ( get_post_meta( get_the_ID(), 'webfonts_assign', true ) != '' ) ? get_post_meta( get_the_ID(), 'webfonts_assign', true ) : '';
 		if ( $webfonts_assign == 'headers' ){
 			$styles .= 'h1, h2, h3, h4, h5, h6 {';
 		} else if ( $webfonts_assign == 'custom' ){
-			$custom_assign = ( get_post_meta( get_the_ID(), 'webfonts_custom', true ) ) ? get_post_meta( get_the_ID(), 'webfonts_custom', true ) : mocha_options()->getCpanelValue('webfonts_custom');
+			$custom_assign = ( get_post_meta( get_the_ID(), 'webfonts_custom', true ) ) ? get_post_meta( get_the_ID(), 'webfonts_custom', true ) : '';
 			$custom_assign = trim($custom_assign);
-			if (!$custom_assign) return '';
+			if ( !$custom_assign ) return '';
 			$styles .= $custom_assign . ' {';
 		} else {
 			$styles .= 'body, input, button, select, textarea, .search-query {';
 		}
-		$styles .= 'font-family: ' . esc_attr( $webfont ) . ' !important;}</style>';
+		$styles .= 'font-family: ' . esc_attr( $webfont ) . ' !important;}';
 	endif;
+	
+	/* Header webfont */
+	if( $header_webfont ) :
+		$styles .= 'h1, h2, h3, h4, h5, h6 {';
+		$styles .= 'font-family: ' . esc_attr( $header_webfont ) . ' !important;}';
+	endif;
+	
+	/* Menu Webfont */
+	if( $menu_webfont ) :
+		$styles .= '.primary-menu .menu-title, .vertical_megamenu .menu-title {';
+		$styles .= 'font-family: ' . esc_attr( $menu_webfont ) . ' !important;}';
+	endif;
+	
+	/* Custom Webfont */
+	if( $custom_webfont && trim( $custom_class ) ) :
+		$styles .= $custom_class . ' {';
+		$styles .= 'font-family: ' . esc_attr( $custom_webfont ) . ' !important;}';
+	endif;
+	
+	$styles .= '</style>';
 	return $styles;
 }
 
 function mocha_typography_css_cache(){ 
-		
 	/* Custom Css */
 	if ( mocha_options()->getCpanelValue('advanced_css') != '' ){
 		echo'<style>'. mocha_options()->getCpanelValue( 'advanced_css' ) .'</style>';
 	}
-	
-	$data = get_transient( 'mocha_typography_css' );
-	if( empty( $data ) ){
-		$data = mocha_typography_css();
-		set_transient( 'mocha_typography_css', $data, 3600 * 24 );
-	}else{
-		$data = mocha_typography_css();
-	}
-	echo $data;
+	$data = mocha_typography_css();
+	echo sprintf( '%s', $data );
 }
 add_action( 'wp_head', 'mocha_typography_css_cache', 12, 0 );
 
 function mocha_typography_webfonts(){
 	$page_google_webfonts = get_post_meta( get_the_ID(), 'google_webfonts', true );
-	$webfont = ( $page_google_webfonts != '' ) ? $page_google_webfonts : mocha_options()->getCpanelValue('google_webfonts');
-	if ( $webfont ):
+	$webfont 		= ( $page_google_webfonts != '' ) ? $page_google_webfonts : mocha_options()->getCpanelValue('google_webfonts');
+	$header_webfont = mocha_options()->getCpanelValue( 'header_tag_font' );
+	$menu_webfont 	= mocha_options()->getCpanelValue( 'menu_font' );
+	$custom_webfont = mocha_options()->getCpanelValue( 'custom_font' );
+	
+	if ( $webfont || $header_webfont || $menu_webfont || $custom_webfont ):
 		$font_url = '';
 		$webfont_weight = array();
 		$webfont_weight	= ( get_post_meta( get_the_ID(), 'webfonts_weight', true ) ) ? get_post_meta( get_the_ID(), 'webfonts_weight', true ) : mocha_options()->getCpanelValue('webfonts_weight');
@@ -666,12 +687,25 @@ function mocha_typography_webfonts(){
 				$font_weight .= $wf_weight;
 			}
 		}
-		$f = strlen($webfont);
-		if ($f > 3){
-			$webfontname = str_replace( ',', '|', $webfont );
-			if ( 'off' !== _x( 'on', 'Google font: on or off', 'mocha' ) ) {
-				$font_url = add_query_arg( 'family', urlencode( $webfontname . ':' . $font_weight ), "//fonts.googleapis.com/css" );
-			}
+		
+		$webfont = $webfont . ':' . $font_weight;
+		
+		if( $header_webfont ){
+			$webfont1 = ( $webfont ) ? '|' . $header_webfont : $header_webfont;
+			$webfont .= $webfont1 . ':' . $font_weight;
+		}
+		
+		if( $menu_webfont ){
+			$webfont1 = ( $webfont ) ? '|' . $menu_webfont : $menu_webfont;
+			$webfont .= $webfont1 . ':' . $font_weight;
+		}
+		
+		if( $custom_webfont ){
+			$webfont1 = ( $webfont ) ? '|' . $custom_webfont : $custom_webfont;
+			$webfont .= $webfont1 . ':' . $font_weight;
+		}
+		if ( 'off' !== _x( 'on', 'Google font: on or off', 'mocha' ) ) {
+			$font_url = add_query_arg( 'family', urlencode( $webfont ), "//fonts.googleapis.com/css" );
 		}
 		return $font_url;
 	endif;
