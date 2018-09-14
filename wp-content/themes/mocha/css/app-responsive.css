@@ -10,6 +10,27 @@
   display: none !important;
   visibility: hidden !important;
 }
+@media (min-width: 1199px) and (max-width: 1600px) {
+  .header.header-style2 .header-top {
+    width: 85%;
+    float: left;
+  }
+  .header.header-style2 .header-bar {
+    width: 15%;
+    position: relative;
+    float: left;
+  }
+  .header.header-style2 .header-bar .search-cate,
+  .header.header-style2 .header-bar .header-wishlist,
+  .header.header-style2 .header-bar .right-header {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .header.header-style2 .header-bar .search-cate,
+  .header.header-style2 .header-bar .header-wishlist {
+    margin-top: 20px;
+  }
+}
 @media (min-width: 1200px) {
   .featured-categories2 .wpb_wrapper {
     max-width: 1230px;

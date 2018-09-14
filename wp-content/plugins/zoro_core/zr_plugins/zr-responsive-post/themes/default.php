@@ -38,6 +38,7 @@
 							?></a>
 							</div>
 							<div class="entry-content clearfix">
+								<div class="item-cate"><?php echo get_cat_name( $category );?></div>
 								<div class="item-title">
 									<h4><a href="<?php echo get_permalink($post->ID)?>"><?php echo $post->post_title;?></a></h4>
 								</div>

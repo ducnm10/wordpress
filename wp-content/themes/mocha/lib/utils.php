@@ -1080,7 +1080,7 @@ function mocha_advanced(){
 					$output .= 'sticky_navigation();';
 					$output .= '});';
 				}
-				elseif( $mocha_header_style == 'style2' || $mocha_header_style == 'style3' || $mocha_header_style == 'style5' || $mocha_header_style == 'style6' ){
+				elseif( $mocha_header_style == 'style7' ){
 					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
 					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 					$output .= 'var sticky_navigation = function(){';
