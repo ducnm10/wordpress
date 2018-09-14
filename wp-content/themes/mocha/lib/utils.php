@@ -661,7 +661,7 @@ function mocha_typography_css_cache(){
 	if ( mocha_options()->getCpanelValue('advanced_css') != '' ){
 		echo'<style>'. mocha_options()->getCpanelValue( 'advanced_css' ) .'</style>';
 	}
-	$data = revo_typography_css();
+	$data = mocha_typography_css();
 	echo sprintf( '%s', $data );
 }
 add_action( 'wp_head', 'mocha_typography_css_cache', 12, 0 );
