@@ -494,47 +494,98 @@ function mocha_Options_Setup(){
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
 					array(
-							'id' => 'google_webfonts',
-							'type' => 'text',
-							'title' => esc_html__('Use Google Webfont', 'mocha'),
-							'sub_desc' => esc_html__( 'Insert font style that you actually need on your webpage.', 'mocha' ), 
-							'std' => ''
-						),
-					array(
-							'id' => 'webfonts_weight',
-							'type' => 'multi_select',
-							'sub_desc' => esc_html__( 'For weight, see Google Fonts to custom for each font style.', 'mocha' ),
-							'title' => esc_html__('Webfont Weight', 'mocha'),
-							'options' => array(
-									'100' => '100',
-									'200' => '200',
-									'300' => '300',
-									'400' => '400',
-									'600' => '600',
-									'700' => '700',
-									'800' => '800',
-									'900' => '900'
-								),
-							'std' => ''
-						),
-					array(
-							'id' => 'webfonts_assign',
-							'type' => 'select',
-							'title' => esc_html__( 'Webfont Assign to', 'mocha' ),
-							'sub_desc' => esc_html__( 'Select the place will apply the font style headers, every where or custom.', 'mocha' ),
-							'options' => array(
-									'headers' => esc_html__( 'Headers',    'mocha' ),
-									'all'     => esc_html__( 'Everywhere', 'mocha' ),
-									'custom'  => esc_html__( 'Custom',     'mocha' )
-								)
-						),
-					 array(
-							'id' => 'webfonts_custom',
-							'type' => 'text',
-							'sub_desc' => esc_html__( 'Insert the places will be custom here, after selected custom Webfont assign.', 'mocha' ),
-							'title' => esc_html__( 'Webfont Custom Selector', 'mocha' )
-						),
-				)
+					'id' => 'info_typo1',
+					'type' => 'info',
+					'title' => esc_html( 'Global Typography', 'mocha' ),
+					'desc' => '',
+					'class' => 'mocha-opt-info'
+				),
+
+				array(
+					'id' => 'google_webfonts',
+					'type' => 'google_webfonts',
+					'title' => esc_html__('Use Google Webfont', 'mocha'),
+					'sub_desc' => esc_html__( 'Insert font style that you actually need on your webpage.', 'mocha' ), 
+					'std' => ''
+				),
+
+				array(
+					'id' => 'webfonts_weight',
+					'type' => 'multi_select',
+					'sub_desc' => esc_html__( 'For weight, see Google Fonts to custom for each font style.', 'mocha' ),
+					'title' => esc_html__('Webfont Weight', 'mocha'),
+					'options' => array(
+						'100' => '100',
+						'200' => '200',
+						'300' => '300',
+						'400' => '400',
+						'500' => '500',
+						'600' => '600',
+						'700' => '700',
+						'800' => '800',
+						'900' => '900'
+					),
+					'std' => ''
+				),
+
+				array(
+					'id' => 'info_typo2',
+					'type' => 'info',
+					'title' => esc_html( 'Header Tag Typography', 'mocha' ),
+					'desc' => '',
+					'class' => 'mocha-opt-info'
+				),
+
+				array(
+					'id' => 'header_tag_font',
+					'type' => 'google_webfonts',
+					'title' => esc_html__('Header Tag Font', 'mocha'),
+					'sub_desc' => esc_html__( 'Select custom font for header tag ( h1...h6 )', 'mocha' ), 
+					'std' => ''
+				),
+
+				array(
+					'id' => 'info_typo2',
+					'type' => 'info',
+					'title' => esc_html( 'Main Menu Typography', 'mocha' ),
+					'desc' => '',
+					'class' => 'mocha-opt-info'
+				),
+
+				array(
+					'id' => 'menu_font',
+					'type' => 'google_webfonts',
+					'title' => esc_html__('Main Menu Font', 'mocha'),
+					'sub_desc' => esc_html__( 'Select custom font for main menu', 'mocha' ), 
+					'std' => ''
+				),
+				
+				array(
+					'id' => 'info_typo2',
+					'type' => 'info',
+					'title' => esc_html( 'Custom Typography', 'mocha' ),
+					'desc' => '',
+					'class' => 'mocha-opt-info'
+				),
+
+				array(
+					'id' => 'custom_font',
+					'type' => 'google_webfonts',
+					'title' => esc_html__('Custom Font', 'mocha'),
+					'sub_desc' => esc_html__( 'Select custom font for custom class', 'mocha' ), 
+					'std' => ''
+				),
+				
+				array(
+					'id' => 'custom_font_class',
+					'title' => esc_html__( 'Custom Font Class', 'mocha' ),
+					'type' => 'text',
+					'sub_desc' => esc_html__( 'Put custom class to this field. Each class separated by commas.', 'mocha' ),
+					'desc' => '',
+					'std' => '',
+				),
+				
+			)
 		);
 	
 	$options[] = array(
