@@ -474,14 +474,6 @@
 			/* End Change Layout */
 		} 
 	});
-	$(window).scroll(function() {    
-	  var whtop = $(window).scrollTop(); 
-	   if (whtop > 0) {
-		$(".header-style4").addClass("header-ontop");
-	   } else {
-		$(".header-style4").removeClass("header-ontop");
-	   } 
-	 });
 	
 	/*remove loading*/
 	$(".sw-woo-tab").fadeIn(300, function() {

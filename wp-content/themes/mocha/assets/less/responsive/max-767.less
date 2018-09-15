@@ -2,9 +2,9 @@
 	body .container{
 		padding: 0 15px;
 	}
-	.header.header-style1{
+	.header.header-style1, .header.header-style4{
 		.sticky-menu{
-			position: relative;
+			position: relative; padding: 0;
 		}
 		.mocha-logo{
 			width: 100%; margin: 0; padding: 15px 0;
@@ -30,6 +30,28 @@
 		.resmenu-container .menu-responsive-wrapper{
 			top: 40px;
 		}
+	}
+	.header.header-style3{
+		.sticky-menu{
+			position: relative; padding: 0;
+		}
+		.header-top {
+			.header-left{
+				display: none;
+			}
+			.mocha-logo{
+				width: 30%; float: left;
+			}
+			.header-right{
+				width: 70%; float: left;
+				.search-cate, .header-wishlist, .top-form-minicart{
+					margin-top:14px;
+				}
+			}
+		}
+	}
+	.header.header-style4 .header-top .header-coupon{
+		display: none;
 	}
 	.zr-child-cat-listing .zr-childcat-container{
 		.item.product{

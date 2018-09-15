@@ -84,6 +84,9 @@
     z-index: 99;
     margin: 12px 0;
   }
+  .header-style3 #main-menu .resmenu-container .navbar-toggle {
+    border: 1px #222 solid;
+  }
   #main-menu .nav-pills {
     display: none;
   }
@@ -92,35 +95,69 @@
   body .container {
     padding: 0 15px;
   }
-  .header.header-style1 .sticky-menu {
+  .header.header-style1 .sticky-menu,
+  .header.header-style4 .sticky-menu {
     position: relative;
+    padding: 0;
   }
-  .header.header-style1 .mocha-logo {
+  .header.header-style1 .mocha-logo,
+  .header.header-style4 .mocha-logo {
     width: 100%;
     margin: 0;
     padding: 15px 0;
   }
-  .header.header-style1 .mocha-logo a img {
+  .header.header-style1 .mocha-logo a img,
+  .header.header-style4 .mocha-logo a img {
     margin: 0 auto;
   }
-  .header.header-style1 #main-menu {
+  .header.header-style1 #main-menu,
+  .header.header-style4 #main-menu {
     padding: 0;
   }
-  .header.header-style1 #main-menu .resmenu-container .navbar-toggle {
+  .header.header-style1 #main-menu .resmenu-container .navbar-toggle,
+  .header.header-style4 #main-menu .resmenu-container .navbar-toggle {
     margin: 0;
   }
-  .header.header-style1 .header-right .header-right-inner .header-login {
+  .header.header-style1 .header-right .header-right-inner .header-login,
+  .header.header-style4 .header-right .header-right-inner .header-login {
     padding: 12px 0 10px 0;
   }
   .header.header-style1 .search-cate,
-  .header.header-style1 .top-form-minicart.mocha-minicart {
+  .header.header-style1 .top-form-minicart.mocha-minicart,
+  .header.header-style4 .search-cate,
+  .header.header-style4 .top-form-minicart.mocha-minicart {
     margin-top: 0;
   }
-  .header.header-style1 .header-wishlist {
+  .header.header-style1 .header-wishlist,
+  .header.header-style4 .header-wishlist {
     display: none;
   }
-  .header.header-style1 .resmenu-container .menu-responsive-wrapper {
+  .header.header-style1 .resmenu-container .menu-responsive-wrapper,
+  .header.header-style4 .resmenu-container .menu-responsive-wrapper {
     top: 40px;
+  }
+  .header.header-style3 .sticky-menu {
+    position: relative;
+    padding: 0;
+  }
+  .header.header-style3 .header-top .header-left {
+    display: none;
+  }
+  .header.header-style3 .header-top .mocha-logo {
+    width: 30%;
+    float: left;
+  }
+  .header.header-style3 .header-top .header-right {
+    width: 70%;
+    float: left;
+  }
+  .header.header-style3 .header-top .header-right .search-cate,
+  .header.header-style3 .header-top .header-right .header-wishlist,
+  .header.header-style3 .header-top .header-right .top-form-minicart {
+    margin-top: 14px;
+  }
+  .header.header-style4 .header-top .header-coupon {
+    display: none;
   }
   .zr-child-cat-listing .zr-childcat-container .item.product {
     width: 100%;
