@@ -26,7 +26,7 @@ class mocha_ResmenuSB{
 			});
 		})(jQuery);';
 		$html .= '</script>';
-		echo $html;
+		echo ( $html );
 	}
 	function mocha_MenuRes_AdFilter( $args ){
 		$args['container'] = false;

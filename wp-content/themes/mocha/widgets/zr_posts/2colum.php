@@ -21,7 +21,7 @@ if (count($list)>0){
 	<ul>
 		<?php foreach ($list as $key => $post){?>
 	<?php if ( $key == 0 && get_the_post_thumbnail( $post->ID ) ) {?>
-		<li class="widget-post item-<?php echo $key;?>">
+		<li class="widget-post item-<?php echo ( $key );?>">
 			<div class="widget-post-inner">
 				
 				<div class="widget-thumb">
@@ -58,7 +58,7 @@ if (count($list)>0){
 			</div>
 		</li>
 		<?php } else {?>
-		<li class="widget-post item-<?php echo $key;?>">
+		<li class="widget-post item-<?php echo ( $key );?>">
 			<div class="widget-post-inner">
 					<div class="widget-caption">
 					<div class="item-title">

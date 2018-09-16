@@ -2,6 +2,9 @@
 
 <div class="mocha_breadcrumbs">
 	<div class="container">
+		<div class="listing-title">			
+			<h1><span><?php mocha_title(); ?></span></h1>				
+		</div>	
 		<?php
 			if (!is_front_page() ) {
 				if (function_exists('mocha_breadcrumb')){
@@ -55,11 +58,6 @@
 									<i class="fa fa-clock-o"></i><?php echo ( get_the_title() ) ? date( 'M j, Y',strtotime($post->post_date)) : '<a href="'.get_the_permalink().'">'.date( 'l, F j, Y',strtotime($post->post_date)).'</a>'; ?>
 								</span>
 							<?php } ?>
-							<?php if(get_the_tag_list()) { ?>
-								<div class="entry-tag single-tag pull-left">
-									<?php echo get_the_tag_list('<i class="fa fa-tags"></i><span class="custom-font title-tag"></span>',' , ','');  ?>
-								</div>
-							<?php } ?>
 						</div>
 						<div class="entry-summary single-content ">
 							<?php the_content(); ?>
@@ -72,7 +70,11 @@
 						<div class="clear"></div>			
 						<div class="single-content-bottom clearfix">
 							<!-- Tag -->
-							
+							<?php if(get_the_tag_list()) { ?>
+								<div class="entry-tag single-tag clearfix">
+									<?php echo get_the_tag_list('<label class="title-tag">TAGS </label>',' ','');  ?>
+								</div>
+							<?php } ?>
 							<!-- Social -->
 							<?php mocha_get_social() ?>
 						</div>
@@ -104,20 +106,20 @@
 					foreach($categories as $individual_category) {$category_ids[] = $individual_category->term_id;}
 					if ($categories) {
 						if($related_post_column =='full'){
-							$class_col .= 'col-lg-3 col-md-3 col-sm-3';
-							$related = array(
-								'category__in' => $category_ids,
-								'post__not_in' => array($post->ID),
-								'showposts'=>4,
-								'orderby'	=> 'name',	
-								'ignore_sticky_posts'=>1
-								 );
-						} else {
 							$class_col .= 'col-lg-4 col-md-4 col-sm-4';
 							$related = array(
 								'category__in' => $category_ids,
 								'post__not_in' => array($post->ID),
 								'showposts'=>3,
+								'orderby'	=> 'name',	
+								'ignore_sticky_posts'=>1
+								 );
+						} else {
+							$class_col .= 'col-lg-6 col-md-6 col-sm-6';
+							$related = array(
+								'category__in' => $category_ids,
+								'post__not_in' => array($post->ID),
+								'showposts'=>2,
 								'orderby'	=> 'name',	
 								'ignore_sticky_posts'=>1
 								 );

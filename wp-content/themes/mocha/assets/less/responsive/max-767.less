@@ -78,9 +78,53 @@
 			display: none;
 		}
 	}
-
+	.products-wrapper .products-loop.grid >li{
+		width: 100%;
+	}
+	.products-wrapper .products-loop.list .item .item-wrap .item-detail {
+		.products-thumb{
+			width: 100%;
+		}
+	}
+	.item .item-wrap:hover .item-detail .item-img a.fancybox{
+		display: none; opacity: 0;
+	}
 	.tparrows{
 		display: none !important;
+	}
+	.single-post-relate .post{
+		margin-bottom: 30px;
+	}
+	.category-contents .blog-content .post .entry .entry-content .entry-title h4 a{
+		font-size: 20px;
+	}
+	#comments{
+		.commentlist .children{
+			margin-left:10px;
+			.rtl &{
+				margin-right:10px;
+				margin-left:0;
+			}
+		}
+		.comment{
+			.author{
+				float: none !important; overflow: hidden; margin-bottom: 10px;
+			}
+			.media-body{
+				padding: 0 !important;
+				.media .media-heading .time{
+					padding:0 10px;
+				}
+			}
+		}
+	}
+	.has-left-sidebar, .has-left-product-sidebar{
+		.body-wrapper-inner >.container >.row{
+			display: flex; flex-direction: column; flex-wrap: wrap;
+			#contents, .category-contents, .single.main{
+				order: -1;
+			}
+		}
 	}
 	.has-left-sidebar{
 		#left{

@@ -20,7 +20,7 @@ class Mocha_Resmenu{
 			});
 		})(jQuery);';
 		$html .= '</script>';
-		echo $html;
+		echo ( $html );
 	}
 	function Mocha_MenuRes_AdFilter( $args ){
 		$args['container'] = false;

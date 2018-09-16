@@ -12,7 +12,7 @@
 				</div>
 				<div class="item-right col-lg-7 col-md-7">
 					<div class="block-top">
-						<h2><span>Oops, This Page Clould Not Be Found</span></h2>
+						<h2><span><?php esc_html_e( 'Oops, This Page Clould Not Be Found', 'mocha' ) ?></span></h2>
 						<div class="warning-code"><p><?php esc_html_e( 'The page you are looking for does not appear to exit. Please Check the URL', 'mocha' ) ?><br><?php esc_html_e( 'or try the search box below.', 'mocha' ) ?></p></div>
 					</div>
 					<div class="block-middle">

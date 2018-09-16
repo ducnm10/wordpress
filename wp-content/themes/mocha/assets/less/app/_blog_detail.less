@@ -79,9 +79,7 @@
 					p {
 						line-height: 26px; 
 						.alignnone{
-							float: none;
-							display: block;
-							clear: none;
+							width: 50%;	clear: none;
 							margin: 20px 0 30px 0;
 							&.image-single{
 								margin-left:30px;
@@ -128,6 +126,20 @@
 								background: none;
 								color: @body-color;
 							}
+						}
+					}
+				}
+				.single-content-bottom{
+					.entry-tag{
+						margin: 15px 0 0 0;
+						label{
+							margin-right: 10px;
+							.rtl &{
+								margin-right: 0; margin-left: 10px;
+							}
+						}
+						a{
+							border: 1px @border-color solid; padding: 3px 8px;
 						}
 					}
 				}
@@ -251,28 +263,24 @@
 }
 
 .single-post-relate {
-	margin-top:40px;
-	margin-bottom: 20px;
+	margin-top:80px; margin-bottom: 20px;
 	> h4 {
-		text-transform: uppercase;
-		margin-bottom: 25px;
+		text-transform: uppercase; text-align: center;
+		margin-bottom: 40px;
 		font-size:18px;
 		color: @body-color;
 		font-weight: bold;
-		padding:0 0 15px;
-		border-bottom:1px solid @border-color;
+		padding:0 0 5px 0;
 		position:relative;
 		&:before{
-			content:'';
-			width:100px;
-			height:2px;
-			position:absolute;
-			left:0;
-			bottom:-1px;
-			background-color:@color;
+			content: "";
+			width: 140px;
+			height: 2px;
+			background: @body-color;
+			position: absolute;
+			bottom: 0; left: 50%; margin-left: -70px;
 			.rtl &{
-				right:0;
-				left:auto;
+				left: auto; right: 50%; margin-left: 0; margin-right: -70px;
 			}
 		}
 	}
@@ -284,7 +292,7 @@
 			.item-title{
 				h4{
 					a{
-						font-size: 14px; text-transform: capitalize; .transition(all 0.3s);
+						font-size: 16px; font-weight:600; text-transform: capitalize; .transition(all 0.3s);
 					}
 				}
 			}
@@ -305,22 +313,25 @@
 		}
 	}
 }
-
 #comments{
+	margin-top: 60px; margin-bottom: 20px;
 	.title{
-		font-size:18px; color: @body-color; text-transform:uppercase;
-		font-weight: bold; padding-bottom: 15px; position: relative;
-		margin-bottom: 30px; border-bottom: 1px @border-color solid;
+		text-transform: uppercase; text-align: center;
+		margin-bottom: 25px;
+		font-size:18px;
+		color: @body-color;
+		font-weight: bold;
+		padding:0 0 5px 0;
+		position:relative;
 		&:before{
-			position: absolute;
 			content: "";
-			width: 100px;
+			width: 140px;
 			height: 2px;
-			bottom: -1px;
-			left: 0;
-			background: @color;
+			background: @body-color;
+			position: absolute;
+			bottom: 0; left: 50%; margin-left: -70px;
 			.rtl &{
-				left: auto; right: 0;
+				left: auto; right: 50%; margin-left: 0; margin-right: -70px;
 			}
 		}
 		small{
@@ -339,30 +350,24 @@
 		}
 	}
 	.comment{
-		margin-bottom:30px; border: 1px @border-color solid; padding: 15px; border-radius: 4px;
-		background-color:#fff;
+		margin-bottom:30px; background-color:#fff;
 		.author{
-			margin: 0;
-			overflow: hidden;
+			margin: 0 20px 0 0;
+			.rtl &{
+				margin: 0 0 0 20px;
+			}
 			img{
-				margin-bottom: 10px;
+				margin-bottom: 10px; border-radius: 50%; overflow: hidden;
 			}
 		}
 		.comment-rating{
 			text-align: center;
 		}
 		.media-body {
-			padding-left: 20px;
-			.rtl & {
-				padding-right: 20px;
-				padding-left: 0;
-			}
+			border-bottom: 1px @border-color solid; padding-bottom: 10px;
 			.media{
 				.media-heading {
-					overflow:hidden;
-					margin-bottom:10px;
-					padding-bottom:5px;
-					border-bottom:1px solid @border-color;
+					overflow:hidden; margin-bottom:10px;
 					.author-name{
 						color:@body-color;
 						text-transform:uppercase;
@@ -461,25 +466,25 @@
 }
 
 #respond {
-	margin-bottom: 60px; margin-top: 40px;
+	margin-top: 80px; margin-bottom: 60px;
 	.title{
-		font-size:18px; color: @body-color; text-transform:uppercase;
-		font-weight: bold; padding-bottom: 15px; position: relative;
-		margin-bottom: 30px; border-bottom: 1px @border-color solid;
+		text-transform: uppercase; text-align: center;
+		margin-bottom: 25px;
+		font-size:18px;
+		color: @body-color;
+		font-weight: bold;
+		padding:0 0 5px 0;
+		position:relative;
 		&:before{
-			position: absolute;
 			content: "";
-			width: 100px;
+			width: 140px;
 			height: 2px;
-			bottom: -1px;
-			left: 0;
-			background: @color;
+			background: @body-color;
+			position: absolute;
+			bottom: 0; left: 50%; margin-left: -70px;
 			.rtl &{
-				left: auto; right: 0;
+				left: auto; right: 50%; margin-left: 0; margin-right: -70px;
 			}
-		}
-		.rtl &{
-			padding: 15px 0 10px 15px;
 		}
 	}
 	form{
@@ -490,27 +495,26 @@
 			padding: 0;
 		}
 		.cmm-box-bottom{
+			text-align: center;
 			textarea{
-				width: 100%; padding: 10px; border-radius: 4px;
+				width: 100%; padding: 10px; border-radius: 0;
 			}
 		}
 		.cmm-box-top{
 			.control-group{
 				width: 32%;
 				input{
-					width: 100%; padding: 10px; border-radius: 4px;
+					width: 100%; padding: 10px; border-radius: 0;
 				}
 				&.your-email{
 					margin: 0 2%; 
 				}
 			}
 		}
-		.form-submit{
-			.submit{
-				color: #fff; background: @color; border-radius: 4px; padding: 10px 20px; text-transform: uppercase; .transition(all 0.3s);
-				&:hover{
-					background: darken(@color, 10%); .transition(all 0.3s);
-				}
+		.btn-default{
+			color: #fff; background: @body-color; padding: 10px 20px; border-radius: 0; text-transform: uppercase; border: none; .transition(all 0.3s);
+			&:hover{
+				background: darken(@color, 10%); .transition(all 0.3s);
 			}
 		}
 	}

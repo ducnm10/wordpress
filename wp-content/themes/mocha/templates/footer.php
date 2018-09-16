@@ -10,7 +10,6 @@ $mocha_copyright_text 	 = mocha_options()->getCpanelValue( 'footer_copyright' );
 			<?php 
 			if( $mocha_page_footer != '' ) :
 				echo get_the_content_by_id( $mocha_page_footer ); 
-					//var_dump(get_permalink( get_page_by_path( 'Home Page 3' ) ) );
 			endif;
 			?>
 		</div>

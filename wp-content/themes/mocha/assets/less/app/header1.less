@@ -1,5 +1,12 @@
 .header{
 	&.header-style1{
+		box-shadow: 0 1px 1px #ccc;
+		.woocommerce-page &{
+			margin-bottom: 30px;
+		}
+		.home-style1 &{
+			box-shadow: none;
+		}
 		.mocha-logo{
 			margin-right: 50px;
 			padding: 30px 0;
@@ -18,7 +25,7 @@
 			}
 		}
 		.sticky-menu{
-			position: fixed; z-index: 999; background: #fff; padding:0 15px; .transition(all 0.2s);
+			position: fixed; z-index: 999; background: #fff; padding:0 15px; box-shadow: 0 1px 1px #ccc; .transition(all 0.2s);
 		}
 	}
 }

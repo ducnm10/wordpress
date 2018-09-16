@@ -436,7 +436,7 @@ function mocha_render_html( $id, $type, $values, $std ){
 			$html .= '<input type="text" id="'.esc_attr( $id ).'" name="'. esc_attr( $id ) .'" value="'.esc_attr( $color_value ).'" class="mocha-popup-colorpicker" style="width:70px;"/>';
 		break;
 	}
-	echo $html;
+	echo ( $html );
 }
 
 function mocha_page_save_meta(){
