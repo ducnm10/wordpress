@@ -316,6 +316,17 @@
   .category-contents .blog-content .post .entry .entry-content .entry-title h4 a {
     font-size: 20px;
   }
+  .tab-about-content,
+  .testimonial-slider .carousel-inner .item .item-inner .client-comment {
+    padding: 0 10px;
+  }
+  .about-top .title h3 {
+    font-size: 24px;
+  }
+  .contact-right .item {
+    width: 100%;
+    border: none !important;
+  }
   #comments .commentlist .children {
     margin-left: 10px;
   }

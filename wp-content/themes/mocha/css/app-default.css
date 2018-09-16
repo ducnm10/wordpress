@@ -4660,12 +4660,17 @@ select:-webkit-autofill {
 .zr-ourteam-slider .resp-slider-container .slick-slider .item .item-wrap .item-social .team-social a:hover {
   background-color: #f61853;
 }
+.content-wrap >.vc_column-inner {
+  max-width: 1170px;
+  margin: 0 auto;
+}
 .about-top .title h3 {
   position: relative;
   text-transform: capitalize;
   text-align: center;
   font-weight: bold;
   font-size: 40px;
+  margin-bottom: 60px;
 }
 .about-top .title h3:before {
   content: "";
