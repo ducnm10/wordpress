@@ -26,48 +26,23 @@ function mocha_widgets_init() {
 
 	// Widgets
 	register_widget('Mocha_Social_Widget');
-	register_widget('Mocha_Posts_Widget');
-	register_widget('Mocha_Vertical_Megamenu_Widget');
 	register_widget('Mocha_Top_Widget');
 }
 add_action('widgets_init', 'mocha_widgets_init');
 
-/**
- * Posts widget class
- *
- * @since 2.8.0
-*/
-class Mocha_Posts_Widget extends Mocha_Widget {
-
-	function __construct() {
-		$widget_ops = array('classname' => 'sw_posts', 'description' => esc_html__('SW Posts', 'mocha'));
-		parent::__construct('sw_posts', esc_html__('SW Posts', 'mocha'), $widget_ops);
-		$this->base = get_template_directory().'/lib';
-	}
-}
-
-class Mocha_Vertical_Megamenu_Widget extends Mocha_Widget{
-
-	function __construct(){
-		$widget_ops = array('classname' => 'vertical_megamenu', 'description' => esc_html__('SW Vertical Mega Menu Widget', 'mocha'));
-		parent::__construct('vertical_megamenu', esc_html__('SW Vertical Mega Menu', 'mocha'), $widget_ops);
-	}
-}
-
-
 class Mocha_Top_Widget extends Mocha_Widget{
 
 	function __construct(){
-		$widget_ops = array('classname' => 'zr_top', 'description' => esc_html__('SW top header widget', 'mocha'));
-		parent::__construct('zr_top', esc_html__('SW Top Widget', 'mocha'), $widget_ops);
+		$widget_ops = array('classname' => 'zr_top', 'description' => esc_html__('Mocha top header widget', 'mocha'));
+		parent::__construct('zr_top', esc_html__('Mocha Top Widget', 'mocha'), $widget_ops);
 	}
 }
 
 class Mocha_Social_Widget extends WP_Widget{
 
 	function __construct(){
-		$widget_ops = array('classname' => 'sw_social', 'description' => esc_html__('SW Social Networks', 'mocha'));
-		parent::__construct('sw_social', esc_html__('SW Social', 'mocha'), $widget_ops);
+		$widget_ops = array('classname' => 'sw_social', 'description' => esc_html__('Mocha Social Networks', 'mocha'));
+		parent::__construct('sw_social', esc_html__('Mocha Social', 'mocha'), $widget_ops);
 		$this->option_name='socials';
 	}
 
@@ -807,3 +782,275 @@ class Mocha_Widgets{
 }
 
 $widgets = new Mocha_Widgets;
+
+/*
+** Check widget display
+*/
+function mocha_check_wdisplay ($widget_display){
+	$widget_display = json_decode(json_encode($widget_display), true);
+	$Mocha_Menu_Checkbox = new Mocha_Menu_Checkbox;
+	if ( isset($widget_display['display_select']) && $widget_display['display_select'] == 'all' ) {
+		return true;
+	}else{
+	if ( in_array( 'sitepress-multilingual-cms/sitepress.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) { 
+		if(  isset($widget_display['display_language']) && strcmp($widget_display['display_language'], ICL_LANGUAGE_CODE) != 0  ){
+			return false;
+		}
+	}
+	if ( isset($widget_display['display_select']) && $widget_display['display_select'] == 'if_selected' ) {
+		
+		if (isset($widget_display['checkbox'])) {
+			
+			if (isset($widget_display['checkbox']['users'])) {
+				global $user_ID;
+				
+				foreach ($widget_display['checkbox']['users'] as $key => $value) {
+					
+					if ( ($key == 'login' && $user_ID) || ($key == 'logout' && !$user_ID) ){
+						
+						if (isset($widget_display['checkbox']['general'])) {
+							foreach ($widget_display['checkbox']['general'] as $key => $value) {
+								$is = 'is_'.$key;
+								if ( $is() === true ) return true;
+							}
+						}
+						
+						if (isset($widget_display['taxonomy-slugs'])) {
+							
+							$taxonomy_slugs = preg_split('/[\s,]/', $widget_display['taxonomy-slugs']);
+							foreach ($taxonomy_slugs as $slug) {is_post_type_archive('product_cat');
+								if (!empty($slug) && is_tax($slug) === true) {
+									return true;
+								}
+							}
+						
+						}
+						
+						if (isset($widget_display['post-type'])) {
+							$post_type = preg_split('/[\s,]/', $widget_display['post-type']);
+							
+							foreach ($post_type as $type) {
+								if(is_archive()){
+									if (!empty($type) && is_post_type_archive($type) === true) {
+										return true;
+									}
+								}
+								
+								if($type!=REVO_PRODUCT_TYPE)
+								{
+									if(!empty($type) && $type==REVO_PRODUCT_DETAIL_TYPE && is_single() && get_post_type() != 'post'){
+										return true;
+									}else if (!empty($type) && is_singular($type) === true) {
+										return true;
+									}
+									
+								}	
+							}
+						}
+						
+						if (isset($widget_display['catid'])) {
+							$catid = preg_split('/[\s,]/', $widget_display['catid']);
+							foreach ($catid as $id) {
+								if (!empty($id) && is_category($id) === true) {
+									return true;
+								}
+							}
+								
+						}
+						
+						if (isset($widget_display['postid'])) {
+							$postid = preg_split('/[\s,]/', $widget_display['postid']);
+							foreach ($postid as $id) {
+								if (!empty($id) && (is_page($id) === true || is_single($id) === true) ) {
+									return true;
+								}
+							}
+						
+						}
+						
+						if (isset($widget_display['checkbox']['menus'])) {
+							
+							foreach ($widget_display['checkbox']['menus'] as $menu_id => $item_ids) {
+								
+								if ( $Mocha_Menu_Checkbox->is_menu_item_active($menu_id, $item_ids) ) return true;
+							}
+						}
+					}
+				}
+			}
+			
+			return false;
+			
+		} else return false ;
+		
+	} elseif ( isset($widget_display['display_select']) && $widget_display['display_select'] == 'if_no_selected' ) {
+		
+		if (isset($widget_display['checkbox'])) {
+			
+			if (isset($widget_display['checkbox']['users'])) {
+				global $user_ID;
+				
+				foreach ($widget_display['checkbox']['users'] as $key => $value) {
+					if ( ($key == 'login' && $user_ID) || ($key == 'logout' && !$user_ID) ) return false;
+				}
+			}
+			
+			if (isset($widget_display['checkbox']['general'])) {
+				foreach ($widget_display['checkbox']['general'] as $key => $value) {
+					$is = 'is_'.$key;
+					if ( $is() === true ) return false;
+				}
+			}
+
+			if (isset($widget_display['taxonomy-slugs'])) {
+				$taxonomy_slugs = preg_split('/[\s,]/', $widget_display['taxonomy-slugs']);
+				foreach ($taxonomy_slugs as $slug) {
+					if (!empty($slug) && is_tax($slug) === true) {
+						return false;
+					}
+				}
+			
+			}
+			
+			if (isset($widget_display['post-type'])) {
+				$post_type = preg_split('/[\s,]/', $widget_display['post-type']);
+				
+				foreach ($post_type as $type) {
+					if(is_archive()){
+						if (!empty($type) && is_post_type_archive($type) === true) {
+							return true;
+						}
+					}
+					
+					if($type!=REVO_PRODUCT_TYPE)
+					{
+						if(!empty($type) && $type==REVO_PRODUCT_DETAIL_TYPE && is_single() && get_post_type() != 'post'){
+							return true;
+						}else if (!empty($type) && is_singular($type) === true) {
+							return true;
+						}
+						
+					}	
+				}
+			}			
+			
+			if (isset($widget_display['catid'])) {
+				$catid = preg_split('/[\s,]/', $widget_display['catid']);
+				foreach ($catid as $id) {
+					if (!empty($id) && is_category($id) === true) {
+						return false;
+					}
+				}
+					
+			}
+			
+			if (isset($widget_display['postid'])) {
+				$postid = preg_split('/[\s,]/', $widget_display['postid']);
+				foreach ($postid as $id) {
+					if (!empty($id) && (is_page($id) === true || is_single($id) === true)) {
+						return false;
+					}
+				}
+			
+			}
+			
+			if (isset($widget_display['checkbox']['menus'])) {
+							
+				foreach ($widget_display['checkbox']['menus'] as $menu_id => $item_ids) {
+					
+					if ( $Mocha_Menu_Checkbox->is_menu_item_active($menu_id, $item_ids) ) return false;
+				}
+			}			
+		} else return false ;
+	}
+	}
+	return true ;
+}
+
+/*
+** Create HTML list checkbox of nav menu items.
+*/
+class Mocha_Menu_Checkbox extends Walker_Nav_Menu{
+	
+	private $menu_slug;
+	
+	public function __construct( $menu_slug = '') {
+		$this->menu_slug = $menu_slug;
+	}
+	
+	public function init($items, $args = array()) {
+		$args = array( $items, 0, $args );
+		
+		return call_user_func_array( array($this, 'walk'), $args );
+	}
+	
+	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+		$class_names = $value = '';
+
+		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
+		$classes[] = 'menu-item-' . $item->ID;
+
+		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
+		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
+
+		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
+		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
+
+		$output .= $indent . '<li' . $id . $value . $class_names .'>';
+		
+		$item_output = '<label for="' . $this->menu_slug . '-' . $item->post_name . '-' . $item->ID . '">';
+		$item_output .= '<input type="checkbox" name="' . $this->menu_slug . '_'  . $item->post_name .  '_' . $item->ID . '" ' . $this->menu_slug.$item->post_name.$item->ID . ' id="' . $this->menu_slug . '-'  . $item->post_name . '-' . $item->ID . '" /> ' . $item->title;
+		$item_output .= '</label>';
+
+		$output .= $item_output;
+	}
+	
+	public function is_menu_item_active($menu_id, $item_ids) {
+		global $wp_query;
+
+		$queried_object = $wp_query->get_queried_object();
+		$queried_object_id = (int) $wp_query->queried_object_id;
+	
+		$items = wp_get_nav_menu_items($menu_id);
+		$items_current = array();
+		$possible_object_parents = array();
+		$home_page_id = (int) get_option( 'page_for_posts' );
+		
+		if ( $wp_query->is_singular && ! empty( $queried_object->post_type ) && ! is_post_type_hierarchical( $queried_object->post_type ) ) {
+			foreach ( (array) get_object_taxonomies( $queried_object->post_type ) as $taxonomy ) {
+				if ( is_taxonomy_hierarchical( $taxonomy ) ) {
+					$terms = wp_get_object_terms( $queried_object_id, $taxonomy, array( 'fields' => 'ids' ) );
+					if ( is_array( $terms ) ) {
+						$possible_object_parents = array_merge( $possible_object_parents, $terms );
+					}
+				}
+			}
+		}
+		
+		foreach ($items as $item) {
+			
+			if (key_exists($item->ID, $item_ids)) {
+				$items_current[] = $item;
+			}
+		}
+		
+		foreach ($items_current as $item) {
+			
+			if ( ($item->object_id == $queried_object_id) && (
+						( ! empty( $home_page_id ) && 'post_type' == $item->type && $wp_query->is_home && $home_page_id == $item->object_id ) ||
+						( 'post_type' == $item->type && $wp_query->is_singular ) ||
+						( 'taxonomy' == $item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) && $queried_object->taxonomy == $item->object )
+					)
+				)
+				return true;
+			elseif ( $wp_query->is_singular &&
+					'taxonomy' == $item->type &&
+					in_array( $item->object_id, $possible_object_parents ) ) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+}

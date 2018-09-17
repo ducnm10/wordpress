@@ -1,0 +1,63 @@
+2018-09-17T15:49:46+00:00 CRITICAL Uncaught Error: Call to undefined function mocha_check_wdisplay() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\widgets.php:221
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): Mocha_Widgets->widget_display_callback(Array, Object(Mocha_Top_Widget), Array)
+#1 D:\xampp\htdocs\mocha\wp-includes\plugin.php(203): WP_Hook->apply_filters(Array, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-widget.php(361): apply_filters('widget_display_...', Array, Object(Mocha_Top_Widget), Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\widgets.php(743): WP_Widget->display_callback(Array, Array)
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\header-style1.php(59): dynamic_sidebar('header-right')
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#8 D:\
+
+2018-09-17T15:53:17+00:00 CRITICAL Uncaught Error: Class 'Mocha_Vertical_Megamenu_Widget' not found in D:\xampp\htdocs\mocha\wp-includes\class-wp-widget-factory.php:100
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\widgets.php(115): WP_Widget_Factory->register('Mocha_Vertical_...')
+#1 D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\widgets.php(29): register_widget('Mocha_Vertical_...')
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): mocha_widgets_init('')
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#5 D:\xampp\htdocs\mocha\wp-includes\widgets.php(1649): do_action('widgets_init')
+#6 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): wp_widgets_init('')
+#7 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#8 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#9 D:\xampp\htdocs\mocha\wp-settings.php(450): do_action('init'
+
+2018-09-17T15:53:39+00:00 CRITICAL Uncaught Error: Class 'SW_Menu_Checkbox' not found in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\widgets.php:791
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\widgets.php(196): mocha_check_wdisplay(Array)
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): Mocha_Widgets->widget_display_callback(Array, Object(Mocha_Top_Widget), Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(203): WP_Hook->apply_filters(Array, Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-widget.php(361): apply_filters('widget_display_...', Array, Object(Mocha_Top_Widget), Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\widgets.php(743): WP_Widget->display_callback(Array, Array)
+#5 D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\header-style1.php(59): dynamic_sidebar('header-right')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#8 D:\xampp\htdocs\moc
+
+2018-09-17T15:55:12+00:00 CRITICAL Uncaught Error: Call to undefined function get_the_content_by_id() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\footer.php:12
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require()
+#1 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#2 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#3 D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\mobile-layout.php(39): get_template_part('templates/foote...')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\footer.php(4): mocha_footer_check()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(688): require_once('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', true)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(76): locate_template(Array, true)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\page.php(52): get_footer()
+#9 D:\xampp\htdocs\mocha\wp-includes\templ
+
+2018-09-17T15:56:04+00:00 CRITICAL Uncaught Error: Call to undefined function mocha_customize() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\options\options.php:83
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): Mocha_Options->print_cpanel('')
+#1 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#3 D:\xampp\htdocs\mocha\wp-includes\general-template.php(2630): do_action('wp_footer')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\footer.php(8): wp_footer()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(688): require_once('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', true)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(76): locate_template(Array, true)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\page.php(52): get_footer()
+#9 D:\xampp\htdocs\mocha\wp-includes\template-loader.php(74): include('D:\\xamp
+

@@ -47,7 +47,7 @@ function mocha_pagecontent_check(){
 	$mobile_check   = mocha_options()->getCpanelValue( 'mobile_enable' );
 	$mobile_content = mocha_options()->getCpanelValue( 'mobile_content' );
 	if( mocha_mobile_check() && $mobile_content != '' && is_front_page() ):
-		echo get_the_content_by_id( $mobile_content );
+		echo mocha_get_the_content_by_id( $mobile_content );
 	else: 
 		the_content();
 	endif;

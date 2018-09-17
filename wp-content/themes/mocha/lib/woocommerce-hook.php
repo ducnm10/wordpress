@@ -64,14 +64,11 @@ if( !function_exists( 'zr_label_stock' ) ){
 function mocha_quickview(){
 	global $product;
 	$html='';
-	$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->get_id();
 	if( function_exists( 'mocha_options' ) ){
 		$quickview = mocha_options()->getCpanelValue( 'product_quickview' );
 	}
 	if( $quickview ):
-		$nonce = wp_create_nonce("mocha_quickviewproduct_nonce");
-		$link = admin_url('admin-ajax.php?ajax=true&amp;action=mocha_quickviewproduct&amp;post_id='. esc_attr( $product_id ).'&amp;nonce='.esc_attr( $nonce ) );
-		$html = '<a href="'. esc_url( $link ) .'" data-fancybox-type="ajax" class="group fancybox fancybox.ajax">'.apply_filters( 'out_of_stock_add_to_cart_text', esc_html__( 'Quick View ', 'mocha' ) ).'</a>';	
+		$html = '<a href="javascript:void(0)" data-product_id="'. esc_attr( $product->get_id() ) .'" class="sw-quickview" data-type="quickview" data-ajax_url="' . WC_AJAX::get_endpoint( "%%endpoint%%" ) . '">'. esc_html__( 'Quick View ', 'mocha' ) .'</a>';	
 	endif;
 	return $html;
 }
@@ -562,7 +559,6 @@ function mocha_single_title(){
 add_action( 'woocommerce_before_add_to_cart_button', 'mocha_single_addcart_wrapper_start', 10 );
 add_action( 'woocommerce_after_add_to_cart_button', 'mocha_single_addcart_wrapper_end', 20 );
 add_action( 'woocommerce_after_add_to_cart_button', 'mocha_single_addcart', 10 );
-add_action( 'woocommerce_single_variation', 'mocha_single_addcart_variable', 25 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 
 function mocha_single_addcart_wrapper_start(){
@@ -577,32 +573,14 @@ function mocha_single_addcart(){
 	/* compare & wishlist */
 	global $product, $post;
 	$html = '';
-	
-	if( $product->get_type() != 'variable' ) :
-		/* compare & wishlist */
-		if( class_exists( 'YITH_WCWL' ) ){
-			$html .= '<div class="item-bottom">';	
-			$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );			
-			$html .= '</div>';
-		}
-		echo $html;
-	endif;
-	/* Working not shutdown*/
-}
-
-function mocha_single_addcart_variable(){
 	/* compare & wishlist */
-	global $product, $post;
-	$html = '';
-	$product_id   = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->get_id();
-	
 	if( class_exists( 'YITH_WCWL' ) ){
-		$html .= '<div class="item-bottom">';
-		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );
+		$html .= '<div class="item-bottom">';	
+		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );			
 		$html .= '</div>';
 	}
 	echo $html;
-
+	/* Working not shutdown*/
 }
 
 /* 
@@ -663,8 +641,8 @@ add_action('admin_init','mocha_cpwl_init');
 /*
 ** Quickview product
 */
-add_action( 'wp_ajax_mocha_quickviewproduct', 'mocha_quickviewproduct' );
-add_action( 'wp_ajax_nopriv_mocha_quickviewproduct', 'mocha_quickviewproduct' );
+add_action( 'wc_ajax_mocha_quickviewproduct', 'mocha_quickviewproduct' );
+add_action( 'wc_ajax_nopriv_mocha_quickviewproduct', 'mocha_quickviewproduct' );
 function mocha_quickviewproduct(){
 	
 	$productid = ( isset( $_REQUEST["post_id"] ) && $_REQUEST["post_id"] > 0 ) ? $_REQUEST["post_id"] : 0;

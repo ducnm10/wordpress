@@ -80,7 +80,7 @@ if ( ! class_exists('Mocha_Options') ){
 		} //function
 		
 		public function print_cpanel(){
-			if ( !is_admin() && !mocha_customize() && $this->get('show_cpanel', 0) ){
+			if ( !is_admin() && $this->get('show_cpanel', 0) ){
 				$this->cpanel();
 			}
 		}

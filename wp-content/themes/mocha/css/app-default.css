@@ -10478,15 +10478,65 @@ h1.page-title {
   max-height: initial;
   overflow-y: visible;
 }
-.fancybox-wrap .fancybox-outer {
-  background-color: #fff;
+.sw-quickview-bottom {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.5);
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
-.fancybox-wrap .fancybox-outer .product_detail .content_product_detail .product-summary-bottom .cart .quantity {
-  margin-right: 10px;
+.sw-quickview-bottom.show {
+  visibility: visible;
+  opacity: 1;
 }
-.rtl .fancybox-wrap .fancybox-outer .product_detail .content_product_detail .product-summary-bottom .cart .quantity {
-  margin-right: 0;
-  margin-left: 10px;
+.sw-quickview-bottom.show .quickview-content .quickview-close {
+  visibility: visible;
+}
+.sw-quickview-bottom.loading {
+  height: 100%;
+}
+.sw-quickview-bottom.loading:before {
+  background-color: transparent;
+  background-image: url(../assets/img/loadingp.gif);
+  background-size: 32px 32px;
+}
+.sw-quickview-bottom.loading .quickview-content .quickview-inner {
+  padding: 0;
+}
+.sw-quickview-bottom.loading .quickview-content .quickview-close {
+  visibility: hidden;
+}
+.sw-quickview-bottom .quickview-content {
+  background: #fff;
+  max-width: 1170px;
+  margin: 200px auto;
+  position: relative;
+}
+.sw-quickview-bottom .quickview-content .quickview-close {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+  border-radius: 50%;
+  right: -15px;
+  top: -15px;
+}
+.sw-quickview-bottom .quickview-content .quickview-inner {
+  padding: 30px 15px;
 }
 .quickview-container.woocommerce {
   padding-top: 15px;
@@ -10503,6 +10553,16 @@ h1.page-title {
 }
 .quickview-container.woocommerce .product_detail .content_product_detail .yith-wcwl-add-to-wishlist .yith-wcwl-add-button a:hover {
   background-color: #f61853 !important;
+}
+@media (max-width: 1400px) {
+  .sw-quickview-bottom .quickview-content {
+    max-width: 960px;
+  }
+}
+@media (max-width: 991px) {
+  .sw-quickview-bottom .quickview-content {
+    max-width: 700px;
+  }
 }
 .gallery {
   padding: 0;

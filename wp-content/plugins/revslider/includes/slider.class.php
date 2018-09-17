@@ -3470,9 +3470,16 @@ class RevSliderSlider extends RevSliderElementsBase{
 		
 		
 		$arrAddition = array_merge($arrAddition, RevSliderWooCommerce::getMetaQuery($this->getParams()));
+		$tax_addition = array();
+		
+		if(isset($arrAddition['tax_query'])){
+			$tax_addition = $arrAddition['tax_query'];
+			unset($arrAddition['tax_query']);
+		}
+		
 		
 		$slider_id = $this->getID();
-		$arrPosts = RevSliderFunctionsWP::getPostsByCategory($slider_id, $catIDs,$sortBy,$sortDir,$maxPosts,$postTypes,$taxonomies,$arrAddition);
+		$arrPosts = RevSliderFunctionsWP::getPostsByCategory($slider_id, $catIDs,$sortBy,$sortDir,$maxPosts,$postTypes,$taxonomies,$arrAddition,$tax_addition);
 		
 		return($arrPosts);
 	}

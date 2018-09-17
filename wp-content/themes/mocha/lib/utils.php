@@ -57,10 +57,10 @@ function mocha_title() {
 /*
 ** Get content page by ID
 */
-function get_the_content_by_id( $post_id ) {
+function mocha_get_the_content_by_id( $post_id ) {
   $page_data = get_page( $post_id );
-  if ($page_data) {
-    $content = apply_filters( 'the_content', $page_data->post_content );
+  if ( $page_data ) {
+    $content = do_shortcode( $page_data->post_content );
 		return $content;
   }
   else return false;
@@ -81,320 +81,6 @@ function mocha_element_empty($element) {
 	$element = trim($element);
 	return empty($element) ? false : true;
 }
-
-function mocha_customize(){
-	return isset($_POST['customized']) && ( isset($_POST['customize_messenger_chanel']) || isset($_POST['wp_customize']) );
-}
-
-/*
-** Create HTML list checkbox of nav menu items.
-*/
-class Mocha_Menu_Checkbox extends Walker_Nav_Menu{
-	
-	private $menu_slug;
-	
-	public function __construct( $menu_slug = '') {
-		$this->menu_slug = $menu_slug;
-	}
-	
-	public function init($items, $args = array()) {
-		$args = array( $items, 0, $args );
-		
-		return call_user_func_array( array($this, 'walk'), $args );
-	}
-	
-	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
-		$class_names = $value = '';
-
-		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
-		$classes[] = 'menu-item-' . $item->ID;
-
-		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
-		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
-
-		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args );
-		$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
-
-		$output .= $indent . '<li' . $id . $value . $class_names .'>';
-		
-		$item_output = '<label for="' . $this->menu_slug . '-' . $item->post_name . '-' . $item->ID . '">';
-		$item_output .= '<input type="checkbox" name="' . $this->menu_slug . '_'  . $item->post_name .  '_' . $item->ID . '" ' . $this->menu_slug.$item->post_name.$item->ID . ' id="' . $this->menu_slug . '-'  . $item->post_name . '-' . $item->ID . '" /> ' . $item->title;
-		$item_output .= '</label>';
-
-		$output .= $item_output;
-	}
-	
-	public function is_menu_item_active($menu_id, $item_ids) {
-		global $wp_query;
-
-		$queried_object = $wp_query->get_queried_object();
-		$queried_object_id = (int) $wp_query->queried_object_id;
-	
-		$items = wp_get_nav_menu_items($menu_id);
-		$items_current = array();
-		$possible_object_parents = array();
-		$home_page_id = (int) get_option( 'page_for_posts' );
-		
-		if ( $wp_query->is_singular && ! empty( $queried_object->post_type ) && ! is_post_type_hierarchical( $queried_object->post_type ) ) {
-			foreach ( (array) get_object_taxonomies( $queried_object->post_type ) as $taxonomy ) {
-				if ( is_taxonomy_hierarchical( $taxonomy ) ) {
-					$terms = wp_get_object_terms( $queried_object_id, $taxonomy, array( 'fields' => 'ids' ) );
-					if ( is_array( $terms ) ) {
-						$possible_object_parents = array_merge( $possible_object_parents, $terms );
-					}
-				}
-			}
-		}
-		
-		foreach ($items as $item) {
-			
-			if (key_exists($item->ID, $item_ids)) {
-				$items_current[] = $item;
-			}
-		}
-		
-		foreach ($items_current as $item) {
-			
-			if ( ($item->object_id == $queried_object_id) && (
-						( ! empty( $home_page_id ) && 'post_type' == $item->type && $wp_query->is_home && $home_page_id == $item->object_id ) ||
-						( 'post_type' == $item->type && $wp_query->is_singular ) ||
-						( 'taxonomy' == $item->type && ( $wp_query->is_category || $wp_query->is_tag || $wp_query->is_tax ) && $queried_object->taxonomy == $item->object )
-					)
-				)
-				return true;
-			elseif ( $wp_query->is_singular &&
-					'taxonomy' == $item->type &&
-					in_array( $item->object_id, $possible_object_parents ) ) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-}
-
-/*
-** Check widget display
-*/
-function mocha_check_wdisplay ($widget_display){
-	$widget_display = json_decode(json_encode($widget_display), true);
-	$Mocha_Menu_Checkbox = new Mocha_Menu_Checkbox;
-	if ( isset($widget_display['display_select']) && $widget_display['display_select'] == 'all' ) {
-		return true;
-	}else{
-	if ( in_array( 'sitepress-multilingual-cms/sitepress.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) { 
-		if(  isset($widget_display['display_language']) && strcmp($widget_display['display_language'], ICL_LANGUAGE_CODE) != 0  ){
-			return false;
-		}
-	}
-	if ( isset($widget_display['display_select']) && $widget_display['display_select'] == 'if_selected' ) {
-		
-		if (isset($widget_display['checkbox'])) {
-			
-			if (isset($widget_display['checkbox']['users'])) {
-				global $user_ID;
-				
-				foreach ($widget_display['checkbox']['users'] as $key => $value) {
-					
-					if ( ($key == 'login' && $user_ID) || ($key == 'logout' && !$user_ID) ){
-						
-						if (isset($widget_display['checkbox']['general'])) {
-							foreach ($widget_display['checkbox']['general'] as $key => $value) {
-								$is = 'is_'.$key;
-								if ( $is() === true ) return true;
-							}
-						}
-						
-						if (isset($widget_display['taxonomy-slugs'])) {
-							
-							$taxonomy_slugs = preg_split('/[\s,]/', $widget_display['taxonomy-slugs']);
-							foreach ($taxonomy_slugs as $slug) {is_post_type_archive('product_cat');
-								if (!empty($slug) && is_tax($slug) === true) {
-									return true;
-								}
-							}
-						
-						}
-						
-						if (isset($widget_display['post-type'])) {
-							$post_type = preg_split('/[\s,]/', $widget_display['post-type']);
-							
-							foreach ($post_type as $type) {
-								if(is_archive()){
-									if (!empty($type) && is_post_type_archive($type) === true) {
-										return true;
-									}
-								}
-								
-								if($type!=MOCHA_PRODUCT_TYPE)
-								{
-									if(!empty($type) && $type==MOCHA_PRODUCT_DETAIL_TYPE && is_single() && get_post_type() != 'post'){
-										return true;
-									}else if (!empty($type) && is_singular($type) === true) {
-										return true;
-									}
-									
-								}	
-							}
-						}
-						
-						if (isset($widget_display['catid'])) {
-							$catid = preg_split('/[\s,]/', $widget_display['catid']);
-							foreach ($catid as $id) {
-								if (!empty($id) && is_category($id) === true) {
-									return true;
-								}
-							}
-								
-						}
-						
-						if (isset($widget_display['postid'])) {
-							$postid = preg_split('/[\s,]/', $widget_display['postid']);
-							foreach ($postid as $id) {
-								if (!empty($id) && (is_page($id) === true || is_single($id) === true) ) {
-									return true;
-								}
-							}
-						
-						}
-						
-						if (isset($widget_display['checkbox']['menus'])) {
-							
-							foreach ($widget_display['checkbox']['menus'] as $menu_id => $item_ids) {
-								
-								if ( $Mocha_Menu_Checkbox->is_menu_item_active($menu_id, $item_ids) ) return true;
-							}
-						}
-					}
-				}
-			}
-			
-			return false;
-			
-		} else return false ;
-		
-	} elseif ( isset($widget_display['display_select']) && $widget_display['display_select'] == 'if_no_selected' ) {
-		
-		if (isset($widget_display['checkbox'])) {
-			
-			if (isset($widget_display['checkbox']['users'])) {
-				global $user_ID;
-				
-				foreach ($widget_display['checkbox']['users'] as $key => $value) {
-					if ( ($key == 'login' && $user_ID) || ($key == 'logout' && !$user_ID) ) return false;
-				}
-			}
-			
-			if (isset($widget_display['checkbox']['general'])) {
-				foreach ($widget_display['checkbox']['general'] as $key => $value) {
-					$is = 'is_'.$key;
-					if ( $is() === true ) return false;
-				}
-			}
-
-			if (isset($widget_display['taxonomy-slugs'])) {
-				$taxonomy_slugs = preg_split('/[\s,]/', $widget_display['taxonomy-slugs']);
-				foreach ($taxonomy_slugs as $slug) {
-					if (!empty($slug) && is_tax($slug) === true) {
-						return false;
-					}
-				}
-			
-			}
-			
-			if (isset($widget_display['post-type'])) {
-				$post_type = preg_split('/[\s,]/', $widget_display['post-type']);
-				
-				foreach ($post_type as $type) {
-					if(is_archive()){
-						if (!empty($type) && is_post_type_archive($type) === true) {
-							return true;
-						}
-					}
-					
-					if($type!=MOCHA_PRODUCT_TYPE)
-					{
-						if(!empty($type) && $type==MOCHA_PRODUCT_DETAIL_TYPE && is_single() && get_post_type() != 'post'){
-							return true;
-						}else if (!empty($type) && is_singular($type) === true) {
-							return true;
-						}
-						
-					}	
-				}
-			}			
-			
-			if (isset($widget_display['catid'])) {
-				$catid = preg_split('/[\s,]/', $widget_display['catid']);
-				foreach ($catid as $id) {
-					if (!empty($id) && is_category($id) === true) {
-						return false;
-					}
-				}
-					
-			}
-			
-			if (isset($widget_display['postid'])) {
-				$postid = preg_split('/[\s,]/', $widget_display['postid']);
-				foreach ($postid as $id) {
-					if (!empty($id) && (is_page($id) === true || is_single($id) === true)) {
-						return false;
-					}
-				}
-			
-			}
-			
-			if (isset($widget_display['checkbox']['menus'])) {
-							
-				foreach ($widget_display['checkbox']['menus'] as $menu_id => $item_ids) {
-					
-					if ( $Mocha_Menu_Checkbox->is_menu_item_active($menu_id, $item_ids) ) return false;
-				}
-			}			
-		} else return false ;
-	}
-	}
-	return true ;
-}
-
-
-/*
-**  Is active sidebar
-*/
-function mocha_sidebar_check($index) {
-	global $wp_registered_widgets;
-	
-	$index = ( is_int($index) ) ? "sidebar-$index" : sanitize_title($index);
-	$sidebars_widgets = wp_get_sidebars_widgets();
-	if (!empty($sidebars_widgets[$index])) {
-		foreach ($sidebars_widgets[$index] as $i => $id) {
-			$id_base = preg_replace( '/-[0-9]+$/', '', $id );
-			
-			if ( isset($wp_registered_widgets[$id]) ) {
-				$widget = new WP_Widget($id_base, $wp_registered_widgets[$id]['name']);
-
-				if ( preg_match( '/' . $id_base . '-([0-9]+)$/', $id, $matches ) )
-					$number = $matches[1];
-					
-				$instances = get_option($widget->option_name);
-				
-				if ( isset($instances) && isset($number) ) {
-					$instance = $instances[$number];
-					
-					if ( isset($instance['widget_display']) && mocha_check_wdisplay($instance['widget_display']) == false ) {
-						unset($sidebars_widgets[$index][$i]);
-					}
-				}
-			}
-		}
-		
-		if ( empty($sidebars_widgets[$index]) ) return false;
-		
-	} else return false;
-	
-	return true;
-}	
 	
 /*
 ** Get Social share
@@ -411,15 +97,13 @@ function mocha_get_social() {
 		<div class="title-share"><?php esc_html_e( 'Share','mocha' ) ?></div>
 		<div class="wrap-content">
 			<a href="http://www.facebook.com/share.php?u=<?php echo get_permalink( $post->ID ); ?>&title=<?php echo get_the_title( $post->ID ); ?>" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-facebook"></i></a>
-				<a href="http://twitter.com/home?status=<?php echo get_the_title( $post->ID ); ?>+<?php echo get_permalink( $post->ID ); ?>" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-twitter"></i></a>
-				<a href="https://plus.google.com/share?url=<?php echo get_permalink( $post->ID ); ?>" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus"></i></a>
-				<a href="#"><i class="fa fa-dribbble"></i></a>
-				<a href="#"><i class="fa fa-instagram"></i></a>
+			<a href="http://twitter.com/home?status=<?php echo get_the_title( $post->ID ); ?>+<?php echo get_permalink( $post->ID ); ?>" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-twitter"></i></a>
+			<a href="https://plus.google.com/share?url=<?php echo get_permalink( $post->ID ); ?>" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><i class="fa fa-google-plus"></i></a>				
 		</div>
 	</div>
 <?php 
 	$data = ob_get_clean();
-	echo $data;
+	echo sprintf( '%s', $data );
 
 }
 
@@ -447,7 +131,7 @@ function mocha_content_product(){
 	$right_span_md_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_md');
 	$right_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_sm');
 	$sidebar 							= mocha_options()->getCpanelValue('sidebar_product');
-	if( !is_post_type_archive( 'product' ) ){
+	if( !is_post_type_archive( 'product' ) && !is_search() ){
 		$term_id = get_queried_object()->term_id;
 		$sidebar = ( get_term_meta( $term_id, 'term_sidebar', true ) != '' ) ? get_term_meta( $term_id, 'term_sidebar', true ) : mocha_options()->getCpanelValue('sidebar_product');
 	}
@@ -489,10 +173,10 @@ function mocha_content_product_detail(){
 	$right_span_class 		= mocha_options()->getCpanelValue('sidebar_right_expand');
 	$right_span_md_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_md');
 	$right_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_sm');
-	$sidebar_template 		= mocha_options()->getCpanelValue('sidebar_product');
+	$sidebar_template 		= mocha_options()->getCpanelValue('sidebar_product_detail');
 	
 	if( is_singular( 'product' ) ) :
-		$sidebar_template = ( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : mocha_options()->getCpanelValue('sidebar_product');
+		$sidebar_template = ( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : mocha_options()->getCpanelValue('sidebar_product_detail');
 		$sidebar 					= ( get_post_meta( get_the_ID(), 'page_sidebar_template', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_template', true ) : 'left-product-detail';
 	endif;
 	
@@ -522,14 +206,14 @@ function mocha_content_product_detail(){
 ** Check col for sidebar and content blog
 */
 function mocha_content_blog(){
-	$left_span_class 			= mocha_options()->getCpanelValue('sidebar_left_expand');
+	$left_span_class 		= mocha_options()->getCpanelValue('sidebar_left_expand');
 	$left_span_md_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_md');
 	$left_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_sm');
-	$right_span_class 		= mocha_options()->getCpanelValue('sidebar_right_expand');
-	$right_span_md_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_md');
-	$right_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_sm');
-	$sidebar_template 		= mocha_options() -> getCpanelValue('sidebar_blog');
-	$sidebar  						= 'left-blog';
+	$right_span_class 		= ( mocha_options()->getCpanelValue('sidebar_right_expand') ) ? mocha_options()->getCpanelValue('sidebar_right_expand') : 3;
+	$right_span_md_class 	= ( mocha_options()->getCpanelValue('sidebar_right_expand_md') ) ? mocha_options()->getCpanelValue('sidebar_right_expand_md') : 3;
+	$right_span_sm_class 	= ( mocha_options()->getCpanelValue('sidebar_right_expand_sm') ) ? mocha_options()->getCpanelValue('sidebar_right_expand_sm') : 3;
+	$sidebar_template 		= ( mocha_options()->getCpanelValue('sidebar_blog') ) ? mocha_options()->getCpanelValue('sidebar_blog') : 'right';
+	$sidebar  				= 'right-blog';
 	if( is_single() ) :
 		$sidebar_template = ( strlen( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) ) > 0 ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : mocha_options()->getCpanelValue('sidebar_blog');
 		$sidebar 					= ( strlen( get_post_meta( get_the_ID(), 'page_sidebar_template', true ) ) > 0 ) ? get_post_meta( get_the_ID(), 'page_sidebar_template', true ) : 'left-blog';
@@ -561,7 +245,7 @@ function mocha_content_blog(){
 ** Check sidebar blog
 */
 function mocha_sidebar_template(){
-	$mocha_sidebar_teplate = mocha_options() -> getCpanelValue('sidebar_blog');
+	$mocha_sidebar_teplate = mocha_options()->getCpanelValue('sidebar_blog');
 	if( !is_archive() ){
 		$mocha_sidebar_teplate = ( get_term_meta( get_queried_object()->term_id, 'term_sidebar', true ) != '' ) ? get_term_meta( get_queried_object()->term_id, 'term_sidebar', true ) : mocha_options()->getCpanelValue('sidebar_blog');
 	}	
@@ -657,6 +341,7 @@ function mocha_typography_css(){
 }
 
 function mocha_typography_css_cache(){ 
+		
 	/* Custom Css */
 	if ( mocha_options()->getCpanelValue('advanced_css') != '' ){
 		echo'<style>'. mocha_options()->getCpanelValue( 'advanced_css' ) .'</style>';
@@ -837,7 +522,7 @@ class mocha_Breadcrumbs {
 				if ( isset( $tax ) && count( $tax ) > 0 ) {
 					$main_tax = $tax[0];
 					if( $post->post_type == 'product' ){
-						$main_tax = $tax[1];
+						$main_tax = 'product_cat';
 					}					
 					$terms    = wp_get_object_terms( $post->ID, $main_tax );
 					
@@ -926,7 +611,7 @@ class mocha_Breadcrumbs {
 		$output = $this->create_breadcrumbs_string( $links );
 
 		if ( $display ) {
-			echo $before . $output . $after;
+			echo sprintf( $before . '%s' . $after, $output );
 			return true;
 		} else {
 			return $before . $output . $after;
@@ -1034,23 +719,78 @@ function mocha_footer_advanced(){
 	** Popup 
 	*/
 	if( mocha_options()->getCpanelValue( 'popup_active' ) ) :
-		$mocha_popup_content = mocha_options()->getCpanelValue( 'popup_shortcode' );
-		echo stripslashes( do_shortcode( $mocha_popup_content ) );
+		$mocha_content = mocha_options()->getCpanelValue( 'popup_content' );
+		$mocha_shortcode = mocha_options()->getCpanelValue( 'popup_form' );
+		$popup_attr = ( mocha_options()->getCpanelValue( 'popup_background' ) != '' ) ? 'style="background: url( '. esc_url( mocha_options()->getCpanelValue( 'popup_background' ) ) .' )"' : '';
+?>
+		<div id="subscribe_popup" class="subscribe-popup"<?php echo sprintf( '%s', $popup_attr ); ?>>
+			<div class="subscribe-popup-container">
+				<?php if( $mocha_content != '' ) : ?>
+				<div class="popup-content">
+					<?php echo sprintf( '%s', $mocha_content ); ?>
+				</div>
+				<?php endif; ?>
+				
+				<?php if( $mocha_shortcode != '' ) : ?>
+				<div class="subscribe-form">
+					<?php	echo do_shortcode( $mocha_shortcode ); ?>
+				</div>
+				<?php endif; ?>
+				
+				<div class="subscribe-checkbox">
+					<label for="popup_check">
+						<input id="popup_check" name="popup_check" type="checkbox" />
+						<?php echo '<span>' . esc_html__( "Don't show this popup again!", "mocha" ) . '</span>'; ?>
+					</label>
+				</div>				
+			</div>
+			<div class="subscribe-social">
+				<h3><?php echo esc_html__('follow us','mocha'); ?></h3>
+				<div class="subscribe-social-inner">
+					<?php mocha_social_link() ?>
+				</div>
+			</div>
+		</div>
+	<?php 
 	endif;
 	
 	/*
 	** Login Form 
 	*/
-	if( class_exists( 'WooCommerce' ) ){
+	if( class_exists( 'WooCommerce' ) ){		
 ?>
 	<div class="modal fade" id="login_form" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog block-popup-login">
+			<?php ob_start(); ?>
 			<a href="javascript:void(0)" title="<?php esc_attr_e( 'Close', 'mocha' ) ?>" class="close close-login" data-dismiss="modal"><?php esc_html_e( 'Close', 'mocha' ) ?></a>
-		<div class="tt_popup_login"><strong><?php esc_html_e('Sign in Or Register', 'mocha'); ?></strong></div>
-		<?php get_template_part('woocommerce/myaccount/login-form'); ?>
+			<div class="tt_popup_login"><strong><?php esc_html_e('Sign in Or Register', 'mocha'); ?></strong></div>
+			<?php get_template_part('woocommerce/myaccount/login-form'); ?>
+			<?php 
+				if( class_exists( 'APSL_Lite_Class' ) ) :
+					echo '<div class="login-line"><span>'. esc_html__( 'Or', 'mocha' ) .'</span></div>';
+						echo do_shortcode('[apsl-login-lite]'); 
+				endif;
+				
+				$html = ob_get_clean();
+				echo apply_filters( 'mocha_custom_login_filter', $html );
+			?>
 		</div>
 	</div>
+<?php 	
+	
+	/*
+	** Quickview Footer
+	*/
+	if( mocha_options()->getCpanelValue( 'product_quickview' ) ){
+?>
+	<div class="zr-quickview-bottom">
+		<div class="quickview-content" id="quickview_content">
+			<a href="javascript:void(0)" class="quickview-close">x</a>
+			<div class="quickview-inner"></div>
+		</div>	
+	</div>
 <?php 
+		}
 	}
 	
 	/*
@@ -1066,7 +806,7 @@ function mocha_footer_advanced(){
 			</form>
 		</div>
 	</div>
-<?php 	
+<?php 
 }
 
 /**
@@ -1074,6 +814,7 @@ function mocha_footer_advanced(){
 **/
 function mocha_advanced(){	
 	$mocha_popup	 		= mocha_options()->getCpanelValue( 'popup_active' );
+	$sticky_mobile	 		= mocha_options()->getCpanelValue( 'sticky_mobile' );
 	$output  = '';
 	$output .= '(function($) {';
 	if( !mocha_mobile_check() ) : 
@@ -1081,7 +822,9 @@ function mocha_advanced(){
 		$mocha_header_style 	= ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : mocha_options()->getCpanelValue('header_style');
 		$output_css = '';
 		$layout = mocha_options()->getCpanelValue('layout');
-		$bg_image = mocha_options()->getCpanelValue('bg_box_img');	
+		$bg_image = mocha_options()->getCpanelValue('bg_box_img');
+		$header_mid = mocha_options()->getCpanelValue('header_mid');
+		$bg_header_mid = mocha_options()->getCpanelValue('bg_header_mid');			
 		
 		if( $layout == 'boxed' ){
 			$output_css .= 'body{';		
@@ -1093,29 +836,61 @@ function mocha_advanced(){
 			wp_add_inline_style( 'mocha_custom_css', $output_css );
 		}
 		
-				/*
+		/*
+		** Add background header mid
+		*/
+		
+		if( $header_mid ){
+			$output_css .= '#header .header-mid{';		
+			$output_css .= ( $bg_header_mid != '' ) ? 'background-image: url('.esc_attr( $bg_header_mid ).');
+				background-position: top center; 
+				background-attachment: fixed;' : '';
+			$output_css .= '}';
+			wp_enqueue_style(	'mocha_custom_css',	get_template_directory_uri() . '/css/custom_css.css' );
+			wp_add_inline_style( 'mocha_custom_css', $output_css );
+		}
+		
+		/*
 		** Menu Sticky 
 		*/
 		if( $sticky_menu ) :		
 				if( $mocha_header_style == 'style1' || $mocha_header_style == ''){			
-					$output .= 'var sticky_navigation_offset = $("#header .header-top").offset();';
+					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
+					$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
 					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 					$output .= 'var sticky_navigation = function(){';
 					$output .= 'var scroll_top = $(window).scrollTop();';
 					$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
-					$output .= '$("#header .header-top").addClass("sticky-menu");';
-					$output .= '$("#header .header-top").css({ "top":0, "left":0, "right" : 0 });';
+					$output .= '$("#header .header-mid").addClass("sticky-menu");';
+					$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
 					$output .= '} else {';
-					$output .= '$("#header .header-top").removeClass("sticky-menu");';
+					$output .= '$("#header .header-mid").removeClass("sticky-menu");';
 					$output .= '}';
 					$output .= '};';
 					$output .= 'sticky_navigation();';
 					$output .= '$(window).scroll(function() {';
 					$output .= 'sticky_navigation();';
-					$output .= '});';
+					$output .= '}); }';
 				}
-				elseif( $mocha_header_style == 'style2' || $mocha_header_style == 'style3' || $mocha_header_style == 'style5' || $mocha_header_style == 'style6' ){
+				elseif( $mocha_header_style == 'style11' ){
+					$output .= 'var sticky_navigation = function(){';
+					$output .= 'var scroll_top = $(window).scrollTop();';
+					$output .= 'if ( scroll_top > 100) {';
+					$output .= '$("#header .header-mid").addClass("sticky-menu");';
+					$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
+					$output .= '} else {';
+					$output .= '$("#header .header-mid").removeClass("sticky-menu");';
+					$output .= '}';
+					$output .= '};';
+					$output .= 'sticky_navigation();';
+					$output .= '$(window).scroll(function() {';
+					$output .= 'sticky_navigation();';
+					$output .= '}); ';
+				}
+				elseif( $mocha_header_style == 'style2' || $mocha_header_style == 'style3' || $mocha_header_style == 'style5' || $mocha_header_style == 'style6' || $mocha_header_style == 'style7' || $mocha_header_style == 'style8'|| $mocha_header_style == 'style9'
+				        || $mocha_header_style == 'style10' || $mocha_header_style == 'style12'){
 					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
+					$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
 					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 					$output .= 'var sticky_navigation = function(){';
 					$output .= 'var scroll_top = $(window).scrollTop();';
@@ -1131,7 +906,7 @@ function mocha_advanced(){
 					$output .= 'sticky_navigation();';
 					$output .= '$(window).scroll(function() {';
 					$output .= 'sticky_navigation();';
-					$output .= '});';
+					$output .= '}); }';
 				}
 			endif;
 			
@@ -1178,8 +953,42 @@ function mocha_advanced(){
 						jQuery("#subscribe_popup").parents(".fancybox-overlay").addClass("popup-fancy");
 					};';
 			}
+			/*
+			** Sticky Mobile
+			*/
+			if( mocha_mobile_check() ) : 
+				
+				if( $sticky_mobile ) :
+				
+					$output .= '$(window).scroll(function() {   
+					if( $( "body" ).hasClass( "mobile-layout" ) ) {
+						var target = $( ".mobile-layout #header" );
+							var scroll_top = $(window).scrollTop();
+							if ( scroll_top > 46 ) {
+								$(".mobile-layout #header").addClass("sticky-mobile");
+							}else{
+								$(".mobile-layout #header").removeClass("sticky-mobile");
+							}
+					}
+				});';
+				
+				endif;
+				
+			endif;
 		$output .= '}(jQuery));';
-		wp_enqueue_script( 'mocha_custom_js', get_template_directory_uri() . '/js/main.js', array(), '1.0.0', true );
+		
+		$translation_text = array(
+			'cart_text' 		 => esc_html__( 'Add To Cart', 'mocha' ),
+			'compare_text' 	 => esc_html__( 'Add To Compare', 'mocha' ),
+			'wishlist_text'  => esc_html__( 'Add To WishList', 'mocha' ),
+			'quickview_text' => esc_html__( 'QuickView', 'mocha' ),
+			'ajax_url' => admin_url( 'admin-ajax.php', 'relative' ), 
+			'redirect' => get_permalink( get_option( 'woocommerce_myaccount_page_id' ) ),
+			'message' => esc_html__( 'Please enter your usename and password', 'mocha' ),
+		);
+		
+		wp_localize_script( 'mocha_custom_js', 'custom_text', $translation_text );
+		wp_enqueue_script( 'mocha_custom_js', get_template_directory_uri() . '/js/main.js', array(), null, true );
 		wp_add_inline_script( 'mocha_custom_js', $output );
 	
 }
@@ -1214,14 +1023,26 @@ function mocha_setPostViews($postID) {
 }  
 
 /*
-** Mocha Logo
+** Create Postview on header
+*/
+add_action( 'wp_head', 'mocha_create_postview' );
+function mocha_create_postview(){
+	if( is_single() || is_singular( 'product' ) ) :
+		mocha_setPostViews( get_the_ID() );
+	endif;
+}
+
+/*
+** Revo Logo
 */
 function mocha_logo(){
 	$scheme_meta = get_post_meta( get_the_ID(), 'scheme', true );
-	$scheme = ( $scheme_meta != '' && $scheme_meta != 'none' ) ? $scheme_meta : mocha_options()->getCpanelValue( 'scheme' );
+	$scheme 		 = ( $scheme_meta != '' && $scheme_meta != 'none' ) ? $scheme_meta : mocha_options()->getCpanelValue( 'scheme' );
 	$meta_img_ID = get_post_meta( get_the_ID(), 'page_logo', true );
-	$meta_img = ( $meta_img_ID != '' ) ? wp_get_attachment_image_url( $meta_img_ID, 'full' ) : '';
-	$main_logo = ( $meta_img != '' )? $meta_img : mocha_options()->getCpanelValue( 'sitelogo' );
+	$meta_img 	 = ( $meta_img_ID != '' ) ? wp_get_attachment_image_url( $meta_img_ID, 'full' ) : '';
+	$mobile_logo = mocha_options()->getCpanelValue( 'mobile_logo' );
+	$logo_select = ( mocha_mobile_check() && $mobile_logo != ''  ) ? $mobile_logo : mocha_options()->getCpanelValue( 'sitelogo' );
+	$main_logo	 = ( $meta_img != '' )? $meta_img : $logo_select;
 ?>
 	<a  href="<?php echo esc_url( home_url( '/' ) ); ?>">
 		<?php if( $main_logo != '' ){ ?>
@@ -1253,8 +1074,8 @@ function mocha_get_time(){
 ** BLog columns
 */
 function mocha_blogcol(){
-	global $sw_blogcol;
-	$blog_col = ( isset( $sw_blogcol ) && $sw_blogcol > 0 ) ? $sw_blogcol : mocha_options()->getCpanelValue('blog_column');
+	global $mocha_blogcol;
+	$blog_col = ( isset( $mocha_blogcol ) && $mocha_blogcol > 0 ) ? $mocha_blogcol : mocha_options()->getCpanelValue('blog_column');
 	$col = 'col-md-'.( 12/$blog_col ).' col-sm-6 col-xs-12 theme-clearfix';
 	$col .= ( get_the_post_thumbnail() ) ? '' : ' no-thumb';
 	return $col;
@@ -1280,8 +1101,8 @@ function mocha_trim_words( $title ){
 */
 add_filter( 'get_site_icon_url', 'mocha_site_favicon', 10, 1 );
 function mocha_site_favicon( $url ){
-	if ( mocha_options()->getCpanelValue('favico') ){
-		$url = esc_url( mocha_options()->getCpanelValue('favico') );
+	if ( mocha_options()->getCpanelValue('favicon') ){
+		$url = esc_url( mocha_options()->getCpanelValue('favicon') );
 	}
 	return $url;
 }
@@ -1289,41 +1110,60 @@ function mocha_site_favicon( $url ){
 /*
 ** Social Link
 */
-function mocha_social_link(){
-	$fb_link = mocha_options()->getCpanelValue('social-share-fb');
-	$tw_link = mocha_options()->getCpanelValue('social-share-tw');
-	$tb_link = mocha_options()->getCpanelValue('social-share-tumblr');
-	$li_link = mocha_options()->getCpanelValue('social-share-in');
-	$gg_link = mocha_options()->getCpanelValue('social-share-go');
-	$pt_link = mocha_options()->getCpanelValue('social-share-pi');
+if( !function_exists( 'mocha_social_link' ) ) {
+	function mocha_social_link(){
+		$fb_link = mocha_options()->getCpanelValue('social-share-fb');
+		$tw_link = mocha_options()->getCpanelValue('social-share-tw');
+		$tb_link = mocha_options()->getCpanelValue('social-share-tumblr');
+		$li_link = mocha_options()->getCpanelValue('social-share-in');
+		$gg_link = mocha_options()->getCpanelValue('social-share-go');
+		$pt_link = mocha_options()->getCpanelValue('social-share-pi');
+		$it_link = mocha_options()->getCpanelValue('social-share-instagram');
 
-	$html = '';
-	if( $fb_link != '' || $tw_link != '' || $tb_link != '' || $li_link != '' || $gg_link != '' || $pt_link != '' ):
-	$html .= '<div class="mocha-socials"><ul>';
-		if( $fb_link != '' ):
-			$html .= '<li><a href="'. esc_url( $fb_link ) .'" title="'. esc_attr__( 'Facebook', 'mocha' ) .'"><i class="fa fa-facebook"></i></a></li>';
+		$html = '';
+		if( $fb_link != '' || $tw_link != '' || $tb_link != '' || $li_link != '' || $gg_link != '' || $pt_link != '' ):
+		$html .= '<div class="mocha-socials"><ul>';
+			if( $fb_link != '' ):
+				$html .= '<li><a href="'. esc_url( $fb_link ) .'" title="'. esc_attr__( 'Facebook', 'mocha' ) .'"><i class="fa fa-facebook"></i></a></li>';
+			endif;
+			
+			if( $tw_link != '' ):
+				$html .= '<li><a href="'. esc_url( $tw_link ) .'" title="'. esc_attr__( 'Twitter', 'mocha' ) .'"><i class="fa fa-twitter"></i></a></li>';
+			endif;
+			
+			if( $tb_link != '' ):
+				$html .= '<li><a href="'. esc_url( $tb_link ) .'" title="'. esc_attr__( 'Tumblr', 'mocha' ) .'"><i class="fa fa-tumblr"></i></a></li>';
+			endif;
+			
+			if( $li_link != '' ):
+				$html .= '<li><a href="'. esc_url( $li_link ) .'" title="'. esc_attr__( 'Linkedin', 'mocha' ) .'"><i class="fa fa-linkedin"></i></a></li>';
+			endif;
+			
+			if( $it_link != '' ):
+				$html .= '<li><a href="'. esc_url( $it_link ) .'" title="'. esc_attr__( 'Instagram', 'mocha' ) .'"><i class="fa fa-instagram"></i></a></li>';
+			endif;
+			
+			if( $gg_link != '' ):
+				$html .= '<li><a href="'. esc_url( $gg_link ) .'" title="'. esc_attr__( 'Google+', 'mocha' ) .'"><i class="fa fa-google-plus"></i></a></li>';
+			endif;
+			
+			if( $pt_link != '' ):
+				$html .= '<li><a href="'. esc_url( $pt_link ) .'" title="'. esc_attr__( 'Pinterest', 'mocha' ) .'"><i class="fa fa-pinterest"></i></a></li>';
+			endif;
+		$html .= '</ul></div>';
 		endif;
-		
-		if( $tw_link != '' ):
-			$html .= '<li><a href="'. esc_url( $tw_link ) .'" title="'. esc_attr__( 'Twitter', 'mocha' ) .'"><i class="fa fa-twitter"></i></a></li>';
-		endif;
-		
-		if( $tb_link != '' ):
-			$html .= '<li><a href="'. esc_url( $tb_link ) .'" title="'. esc_attr__( 'Tumblr', 'mocha' ) .'"><i class="fa fa-tumblr"></i></a></li>';
-		endif;
-		
-		if( $li_link != '' ):
-			$html .= '<li><a href="'. esc_url( $li_link ) .'" title="'. esc_attr__( 'Linkedin', 'mocha' ) .'"><i class="fa fa-linkedin"></i></a></li>';
-		endif;
-		
-		if( $gg_link != '' ):
-			$html .= '<li><a href="'. esc_url( $gg_link ) .'" title="'. esc_attr__( 'Google+', 'mocha' ) .'"><i class="fa fa-google-plus"></i></a></li>';
-		endif;
-		
-		if( $pt_link != '' ):
-			$html .= '<li><a href="'. esc_url( $pt_link ) .'" title="'. esc_attr__( 'Pinterest', 'mocha' ) .'"><i class="fa fa-pinterest"></i></a></li>';
-		endif;
-	$html .= '</ul></div>';
-	endif;
-	echo wp_kses( $html, array( 'div' => array( 'class' => array() ), 'ul' => array(), 'li' => array(), 'a' => array( 'href' => array(), 'class' => array(), 'title' => array() ), 'i' => array( 'class' => array() ) ) );
+		echo wp_kses( $html, array( 'div' => array( 'class' => array() ), 'ul' => array(), 'li' => array(), 'a' => array( 'href' => array(), 'class' => array(), 'title' => array() ), 'i' => array( 'class' => array() ) ) );
+	}
 }
+
+/**
+* Change position of comment form
+**/
+function mocha_move_comment_field_to_bottom( $fields ) {
+$comment_field = $fields['comment'];
+unset( $fields['comment'] );
+$fields['comment'] = $comment_field;
+return $fields;
+}
+ 
+add_filter( 'comment_form_fields', 'mocha_move_comment_field_to_bottom' );

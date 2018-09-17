@@ -80,14 +80,13 @@ function zr_label_sales(){
 */
 function zr_quickview(){
 	global $product;
-	$product_id = ( zr_woocommerce_version_check( '3.0' ) ) ? $product->get_id() : $product->id;
-	$quickview = 1;
+	$html='';
 	if( function_exists( 'mocha_options' ) ){
 		$quickview = mocha_options()->getCpanelValue( 'product_quickview' );
 	}
-	$nonce = wp_create_nonce("mocha_quickviewproduct_nonce");
-	$link = admin_url('admin-ajax.php?ajax=true&amp;action=mocha_quickviewproduct&amp;post_id='. esc_attr( $product_id ).'&amp;nonce='.esc_attr( $nonce ) );
-	$html = '<a href="'. esc_url( $link ) .'" data-fancybox-type="ajax" class="group fancybox fancybox.ajax">'.apply_filters( 'out_of_stock_add_to_cart_text', esc_html__( 'Quick View ', 'zr_core' ) ).'</a>';	
+	if( $quickview ):
+		$html = '<a href="javascript:void(0)" data-product_id="'. esc_attr( $product->get_id() ) .'" class="sw-quickview" data-type="quickview" data-ajax_url="' . WC_AJAX::get_endpoint( "%%endpoint%%" ) . '">'. esc_html__( 'Quick View ', 'mocha' ) .'</a>';	
+	endif;
 	return $html;
 }
 

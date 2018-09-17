@@ -2291,19 +2291,22 @@ ob_end_clean();
 						
 						$regex_url	= "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 						$url		= $setBase.'fonts.googleapis.com/css?family='.$font;
-						$content	= file_get_contents($url);
+						$content	= wp_remote_get($url);
 						
+						$body = RevSliderFunctions::getVal($content, 'body', '');
 						
-						if(preg_match_all($regex_url, $content, $found_fonts)){
+						if(preg_match_all($regex_url, $body, $found_fonts)){
 							foreach($found_fonts as $found_font){
 								$found_font = $found_font[0];
 								$found_font = rtrim($found_font, ')');
 								
-								$f_c = file_get_contents($found_font);
+								$f_c = wp_remote_get($found_font);
+								
+								$f_c_body = RevSliderFunctions::getVal($f_c, 'body', '');
 								
 								$file = $base_dir.'/revslider/gfonts/'. $font_name . '/' . $font_name . '.woff2';
 								@mkdir(dirname($file));
-								@file_put_contents($file, $f_c);
+								@file_put_contents($file, $f_c_body);
 								
 								break;
 							}

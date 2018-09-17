@@ -1794,7 +1794,7 @@ class RevSliderAdmin extends RevSliderBaseAdmin{
 					if(!empty($data['code'])){ // && !empty($data['email'])
 						$result = $operations->checkPurchaseVerification($data);
 					}else{
-						RevSliderFunctions::throwError(__('The Purchase Code and the E-Mail address need to be set!', 'revslider'));
+						RevSliderFunctions::throwError(__('The Purchase Code need to be set!', 'revslider')); // and the E-Mail address
 						exit();
 					}
 
