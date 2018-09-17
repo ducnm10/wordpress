@@ -763,13 +763,13 @@ class Mocha_Widgets{
 			
 			if ( file_exists($_theme_style) ){
 				require $_theme_style;
-				return @$ws[$style];
+				return $ws[$style];
 			}
 			
 			$_core_style = MOCHA_DIR.'/widgets/_styles/'.$style.'.php';
 			if ( file_exists($_core_style) ){
 				require $_core_style;
-				return @$ws[$style];
+				return $ws[$style];
 			}
 			
 			if ( $style != 'default' ){

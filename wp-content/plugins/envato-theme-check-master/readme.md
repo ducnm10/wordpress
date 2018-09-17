@@ -1,9 +1,13 @@
 # Envato Theme Check
 Plugin Name: Envato Theme Check
 
+<<<<<<< HEAD
 Author: Scott Parry
 
 Author URI: https://scottparry.co/
+=======
+Author URI: https://envato.com/
+>>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
 
 Plugin URI: https://github.com/envato/Envato-Theme-Check
 

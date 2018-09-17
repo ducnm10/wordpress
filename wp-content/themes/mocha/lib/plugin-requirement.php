@@ -15,7 +15,7 @@ function mocha_register_required_plugins() {
 		array(
 			'name'               => esc_html__( 'Revslider', 'mocha' ), 
 			'slug'               => 'revslider', 
-			'source'             => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/revslider.zip' ), 
+			'source'             => get_template_directory_uri() . '/lib/plugins/revslider.zip',  
 			'required'           => true, 
 			'version'                  => '5.4.7.4'
 			),
@@ -23,7 +23,7 @@ function mocha_register_required_plugins() {
 		array(
 			'name'     			 => esc_html__( 'ZORO Core', 'mocha' ),
 			'slug'      		 => 'zoro_core',
-			'source'         => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/zoro_core.zip' ), 
+			'source'             => get_template_directory_uri() . '/lib/plugins/zoro_core.zip',  
 			'required'  		 => true,   
 			'version'			       => '1.0.0'
 			),
@@ -31,13 +31,13 @@ function mocha_register_required_plugins() {
 		array(
 			'name'               => esc_html__( 'One Click Install', 'mocha' ), 
 			'slug'               => 'one-click-install', 
-			'source'             => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/one-click-install.zip' ), 
+			'source'             => get_template_directory_uri() . '/lib/plugins/one-click-install.zip',  
 			'required'           => true, 
 			),
 		array(
 			'name'               => esc_html__( 'Visual Composer', 'mocha' ), 
 			'slug'               => 'js_composer', 
-			'source'             => esc_url( 'http://wp.ZoroTheme.com/themes/zr_mocha/plugins/js_composer.zip' ), 
+			'source'             => get_template_directory_uri() . '/lib/plugins/js_composer.zip',  
 			'required'           => true, 
 			'version'                  => '5.5.4'
 			), 		

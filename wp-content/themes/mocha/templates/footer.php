@@ -9,7 +9,11 @@ $mocha_copyright_text 	 = mocha_options()->getCpanelValue( 'footer_copyright' );
 		<div class="container">
 			<?php 
 			if( $mocha_page_footer != '' ) :
+<<<<<<< HEAD
 				echo mocha_get_the_content_by_id( $mocha_page_footer ); 
+=======
+				echo get_the_content_by_id( $mocha_page_footer ); 
+>>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
 			endif;
 			?>
 		</div>

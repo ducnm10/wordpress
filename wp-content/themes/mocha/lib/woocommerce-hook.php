@@ -238,7 +238,7 @@ function mocha_woommerce_view_mode_wrap () {
 						<a href="javascript:void(0)" class="list-view" title="'. esc_attr__('List view', 'mocha') .'"><span>'.esc_html__('List view', 'mocha').'</span></a>
 				</div>	
 			</div>';
-	echo $html;
+	echo ( $html );
 }
 
 function mocha_woocommerce_pagination() { 
@@ -348,7 +348,7 @@ function mocha_woocommerce_catalog_ordering() {
 	if( mocha_mobile_check() ) : 
 	$html .= '<div class="filter-product">'. esc_html__('Filter','mocha') .'</div>';
 		endif;
-	echo $html;
+	echo ( $html );
 }
 
 add_action('woocommerce_get_catalog_ordering_args', 'mocha_woocommerce_get_catalog_ordering_args', 20);
@@ -493,7 +493,7 @@ function mocha_product_addcart_mid(){
 	if( class_exists( 'YITH_WCWL' ) ){
 		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );
 	}	
-	echo $html;
+	echo ( $html );
 }
 
 /*
@@ -547,7 +547,7 @@ function mocha_product_excerpt(){
 	$html .= '<div class="description" itemprop="description">';
 	$html .= apply_filters( 'woocommerce_short_description', $post->post_excerpt );
 	$html .= '</div>';
-	echo $html;
+	echo ( $html );
 }
 function mocha_single_title(){
 	if( mocha_mobile_check() ):
@@ -573,14 +573,36 @@ function mocha_single_addcart(){
 	/* compare & wishlist */
 	global $product, $post;
 	$html = '';
+<<<<<<< HEAD
+=======
+	
+	if( $product->get_type() != 'variable' ) :
+		/* compare & wishlist */
+		if( class_exists( 'YITH_WCWL' ) ){
+			$html .= '<div class="item-bottom">';	
+			$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );			
+			$html .= '</div>';
+		}
+		echo ( $html );
+	endif;
+	/* Working not shutdown*/
+}
+
+function mocha_single_addcart_variable(){
+>>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
 	/* compare & wishlist */
 	if( class_exists( 'YITH_WCWL' ) ){
 		$html .= '<div class="item-bottom">';	
 		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );			
 		$html .= '</div>';
 	}
+<<<<<<< HEAD
 	echo $html;
 	/* Working not shutdown*/
+=======
+	echo ( $html );
+
+>>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
 }
 
 /* 

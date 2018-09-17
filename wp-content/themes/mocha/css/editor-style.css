@@ -17,12 +17,11 @@ Description: Used to style the TinyMCE editor.
 /**
  * 1.0 General
  */
-@import url(https://fonts.googleapis.com/css?family=Poppins:400,700,300);
 body {
   background: #fff;
   color: #666;
   font-size: 13px;
-  font-family: 'Poppins';
+  font-family: "Nunito",Helvetica,Arial,sans-serif;
   -ms-word-wrap: break-word;
   word-wrap: break-word;
 }

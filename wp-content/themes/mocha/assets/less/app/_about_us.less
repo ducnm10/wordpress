@@ -1,5 +1,6 @@
 .zr-count{
-	.flex-display( flex ); .flex-wrap(wrap); background: url( ../assets/img/bg_childcat.jpg); padding: 20px 10px;
+	.flex-display( flex ); .flex-wrap(wrap); 
+	background: url( ../assets/img/bg_childcat.jpg); padding: 20px 10px;
 	.item{
 		width:25%; text-align: center;
 		.wrap{
@@ -85,10 +86,13 @@
 		}
 	}
 }
+.content-wrap >.vc_column-inner{
+	max-width: 1170px; margin: 0 auto;
+}
 .about-top{
 	.title{
 		h3{
-			position: relative; text-transform: capitalize; text-align: center; font-weight: bold; font-size: 40px;
+			position: relative; text-transform: capitalize; text-align: center; font-weight: bold; font-size: 40px; margin-bottom: 60px;
 			&:before{
 				content: "";width: 40px;height: 2px;background: @color;position: absolute;
 				bottom: -20px;left: 50%;margin-left: -20px;

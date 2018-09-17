@@ -9,7 +9,7 @@
 ?>
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header ); ?>">
 	<div class="header-top clearfix">	
-		<div class="header-left col-lg-4 col-md-4">
+		<div class="header-left col-lg-4 col-md-4 col-sm-4">
 			<a class="top-icon" href="javascript:void(0)"><i class="fa fa-bars" aria-hidden="true"></i></a>
 			<?php if ( is_active_sidebar( 'top2' ) ) { ?>	
 				<div class="header-bar">
@@ -18,10 +18,10 @@
 			<?php } ?>
 		</div>	
 		<!-- Logo -->
-		<div class="mocha-logo col-lg-4 col-md-4">
+		<div class="mocha-logo col-lg-4 col-md-4 col-sm-4">
 			<?php mocha_logo(); ?>
 		</div>				
-		<div class="header-right col-lg-4 col-md-4">
+		<div class="header-right col-lg-4 col-md-4 col-sm-4">
 			<div class="header-right-inner clearfix">
 				<!-- Sidebar right -->
 				<?php if ( is_active_sidebar( 'header-right' ) ) { ?>
