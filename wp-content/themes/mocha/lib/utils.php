@@ -872,7 +872,7 @@ function mocha_advanced(){
 					$output .= 'sticky_navigation();';
 					$output .= '}); }';
 				}
-<<<<<<< HEAD
+
 				elseif( $mocha_header_style == 'style11' ){
 					$output .= 'var sticky_navigation = function(){';
 					$output .= 'var scroll_top = $(window).scrollTop();';
@@ -892,10 +892,10 @@ function mocha_advanced(){
 				        || $mocha_header_style == 'style10' || $mocha_header_style == 'style12'){
 					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
 					$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
-=======
+				}
 				elseif( $mocha_header_style == 'style3' || $mocha_header_style == 'style4' ){
 					$output .= 'var sticky_navigation_offset = $("#header .header-mid").offset();';
->>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
+
 					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 					$output .= 'var sticky_navigation = function(){';
 					$output .= 'var scroll_top = $(window).scrollTop();';

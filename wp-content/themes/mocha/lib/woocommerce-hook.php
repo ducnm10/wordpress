@@ -68,7 +68,7 @@ function mocha_quickview(){
 		$quickview = mocha_options()->getCpanelValue( 'product_quickview' );
 	}
 	if( $quickview ):
-		$html = '<a href="javascript:void(0)" data-product_id="'. esc_attr( $product->get_id() ) .'" class="sw-quickview" data-type="quickview" data-ajax_url="' . WC_AJAX::get_endpoint( "%%endpoint%%" ) . '">'. esc_html__( 'Quick View ', 'mocha' ) .'</a>';	
+		$html = '<a href="javascript:void(0)" data-product_id="'. esc_attr( $product->get_id() ) .'" class="sw-quickview fancybox" data-type="quickview" data-ajax_url="' . WC_AJAX::get_endpoint( "%%endpoint%%" ) . '">'. esc_html__( 'Quick View ', 'mocha' ) .'</a>';	
 	endif;
 	return $html;
 }
@@ -573,9 +573,6 @@ function mocha_single_addcart(){
 	/* compare & wishlist */
 	global $product, $post;
 	$html = '';
-<<<<<<< HEAD
-=======
-	
 	if( $product->get_type() != 'variable' ) :
 		/* compare & wishlist */
 		if( class_exists( 'YITH_WCWL' ) ){
@@ -589,20 +586,16 @@ function mocha_single_addcart(){
 }
 
 function mocha_single_addcart_variable(){
->>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
+
 	/* compare & wishlist */
 	if( class_exists( 'YITH_WCWL' ) ){
 		$html .= '<div class="item-bottom">';	
 		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );			
 		$html .= '</div>';
 	}
-<<<<<<< HEAD
 	echo $html;
 	/* Working not shutdown*/
-=======
 	echo ( $html );
-
->>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
 }
 
 /* 

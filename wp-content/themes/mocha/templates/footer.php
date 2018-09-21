@@ -2,18 +2,13 @@
 $mocha_page_footer   	 = ( get_post_meta( get_the_ID(), 'page_footer_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_footer_style', true ) : mocha_options()->getCpanelValue( 'footer_style' );
 $mocha_copyright_text 	 = mocha_options()->getCpanelValue( 'footer_copyright' ); 
 ?>
-
 <footer id="footer" class="footer default theme-clearfix">
 	<div class="footer-top-wrapper">
 		<!-- Content footer -->
 		<div class="container">
 			<?php 
 			if( $mocha_page_footer != '' ) :
-<<<<<<< HEAD
 				echo mocha_get_the_content_by_id( $mocha_page_footer ); 
-=======
-				echo get_the_content_by_id( $mocha_page_footer ); 
->>>>>>> 674f046c8a700a1d191a9a7e0c4dd8425cb4f6a4
 			endif;
 			?>
 		</div>
