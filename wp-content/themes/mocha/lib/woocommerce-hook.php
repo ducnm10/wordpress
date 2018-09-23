@@ -586,14 +586,12 @@ function mocha_single_addcart(){
 }
 
 function mocha_single_addcart_variable(){
-
 	/* compare & wishlist */
 	if( class_exists( 'YITH_WCWL' ) ){
 		$html .= '<div class="item-bottom">';	
 		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );			
 		$html .= '</div>';
 	}
-	echo $html;
 	/* Working not shutdown*/
 	echo ( $html );
 }
