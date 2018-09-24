@@ -33,7 +33,7 @@ if( !function_exists('mocha_comment') ){
 
 <?php if (have_comments()) : ?>
 	<div id="comments">
-		<div class="title"><?php esc_html_e( 'Comments', 'mocha' ) ?> <small>(<?php echo get_post()->comment_count;?>)</small></div>
+		<h3><?php esc_html_e( 'Comments', 'mocha' ) ?> <small>(<?php echo get_post()->comment_count;?>)</small></h3>
 		<?php if (post_password_required()) : ?>
 			<div class="alert alert-warning alert-dismissible" role="alert">
 				<a class="close" data-dismiss="alert">&times;</a>
@@ -67,43 +67,34 @@ if( !function_exists('mocha_comment') ){
 	</div><!-- /#comments -->
 <?php endif; ?>
 
-<?php if (comments_open()) : ?>
-<div id="respond">
-	<div class="wp-comment">
-		<h2 class="title"><?php esc_html_e('Leave Your Comment','mocha');?></h2>
-		<p class="cancel-comment-reply"><?php cancel_comment_reply_link(); ?></p>
-		
-		<form action="<?php echo get_option('siteurl'); ?>/wp-comments-post.php" method="post" id="commentform" name="commentform" onsubmit="return submitform()" class="form-horizontal row-fluid">		
-			<?php if (is_user_logged_in()) : ?>
-				<p><?php printf(__('Logged in as <a href="%s/wp-admin/profile.php">%s</a>.', 'mocha'), get_option('siteurl'), $user_identity); ?> <a href="<?php echo wp_logout_url(get_permalink()); ?>" title="<?php esc_attr_e('Log out of this account', 'mocha'); ?>"><?php esc_html_e('Log out &raquo;', 'mocha'); ?></a></p>
-			<?php else : ?>
-	        <div class="cmm-box-top clearfix">
+<?php 
+if (comments_open()) : 
+		$aria_req = ( $req ? " aria-required='true'" : '' );
+		$title_reply = '<div class="title">' . esc_html__( 'LEAVE A COMMENT', 'mocha' ) . '</div>';
+		$comment_notes_before = '<p>' . esc_html__( 'Make sure you enter the(*) required information where indicated. HTML code is not allowed', 'mocha' ) .'</p>';
+		$author = '<div class="cmm-box-top clearfix">
 				<div class="control-group your-name pull-left">
 					<div class="controls">
-						<input type="text" class="input-block-level" placeholder="<?php esc_attr_e( 'Name*', 'mocha' ) ?>" name="author" id="author" value="<?php echo esc_attr($comment_author); ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?>>	
+						<input type="text" class="input-block-level" placeholder="'. esc_attr__( 'Name*', 'mocha' ) .'" name="author" id="author" value="'. esc_attr( $comment_author ) .'" size="22" tabindex="1" '. $aria_req . '>	
 					</div>
-				</div>
-				<div class="control-group your-email pull-left">
+				</div>';
+		$email = '<div class="control-group your-email pull-left">
 					<div class="controls">
-						<input placeholder="<?php esc_attr_e( 'Email*', 'mocha' ) ?>" type="email" class="input-block-level" name="email" id="email" value="<?php echo esc_attr($comment_author_email); ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?>>
+						<input placeholder="'. esc_attr__( 'Email*', 'mocha' ) .'" type="email" class="input-block-level" name="email" id="email" value="' . esc_attr( $comment_author_email ) .'" size="22" tabindex="2" '. $aria_req . '>
 					</div>
+				</div>';
+		$url = '<div class="control-group website pull-left">		
+					<input placeholder="'. esc_attr__( 'Your Website', 'mocha' ) .'" type="url" class="input-block-level" name="url" id="url" value="'. esc_attr( $comment_author_url ) .'" size="22" tabindex="3">
 				</div>
-				<div class="control-group website pull-left">		
-					<input placeholder="<?php esc_attr_e( 'Your Website', 'mocha' ) ?>" type="url" class="input-block-level" name="url" id="url" value="<?php echo esc_attr($comment_author_url); ?>" size="22" tabindex="3">
-				</div>
-			</div>
-			<?php endif; ?>
-	        <div class="cmm-box-bottom clearfix">
+			</div>';
+		$comment_field = '<div class="cmm-box-bottom clearfix">
 				<div class="control-group your-comment">			
 					<div class="controls">
-						<textarea name="comment" placeholder="<?php esc_attr_e( 'Your Comment *', 'mocha' ) ?>" id="comment" class="input-block-level" rows="7" tabindex="4" <?php if ($req) echo "aria-required='true'"; ?>></textarea>
+						<textarea name="comment" placeholder="'. esc_attr__( 'Your Comment *', 'mocha' ) .'" id="comment" class="input-block-level" rows="7" tabindex="4" '. $aria_req . '></textarea>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-default"><?php esc_html_e('submit', 'mocha'); ?></button>
-	        </div>
-			<?php comment_id_fields(); ?>
-			<?php do_action('comment_form', $post->ID ); ?>
-		</form>
-	</div> <!-- /.wp-comment -->
-</div><!-- /#respond -->
-<?php endif; ?>
+			</div>';
+		$fields = array( 'author' => $author, 'email' => $email, 'url' => $url );
+		$args = array( 'fields' => $fields, 'comment_field' => $comment_field, 'comment_notes_before' => $comment_notes_before, 'comment_notes_after' => '', 'title_reply' => $title_reply, 'label_submit' => esc_html__( 'Submit', 'mocha' ) );
+		comment_form( $args );
+	endif;

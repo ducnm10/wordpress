@@ -127,7 +127,7 @@ class Mocha_Menu {
 		);
 		
 		wp_enqueue_style('thickbox'); // thanks to https://github.com/rzepak
-		wp_localize_script('mocha-menu-upload-js', 'mocha_upload', array('url' => MOCHA_URL.'/admin/img/mocha.png') );
+		wp_localize_script('mocha-menu-upload-js', 'mocha_upload', array('url' => MOCHA_URL.'/admin/img/placeholder.png') );
 	}
 
 	public function add_custom_nav_fields( $menu_item ){
@@ -164,10 +164,23 @@ class Mocha_Menu {
 							if ($field == 'icon'){
 								$field_value = sanitize_html_class($field_value);
 							}
-							break;
+						break;
+						
+						case 'page_select':
+							$field_value = intval( $field_value );
+						break;
+						
+						case 'upload':
+							$field_value = esc_url( $field_value );
+						break;
+						
 						default:
 					}
-					update_post_meta( $menu_item_db_id, '_menu_item_'.$field, $field_value );
+					if( strlen( trim( $field_value ) ) > 0 ) :
+						update_post_meta( $menu_item_db_id, '_menu_item_'.$field, $field_value );
+					else: 
+						delete_post_meta( $menu_item_db_id, '_menu_item_'.$field );
+					endif;
 				}
 			}
 		}
@@ -370,7 +383,7 @@ class Mocha_Menu_Admin_Walker extends Walker_Nav_Menu  {
 						
 						?><p class="field-<?php echo esc_attr( $field ); ?> description description-wide">
 								<label for="edit-menu-item-<?php echo esc_attr( $field ); ?>-<?php echo esc_attr( $item_id ); ?>">						
-								<?php if( $field_opts['type'] !='checkbox' ){ echo $field_opts['label'];} ?>
+								<?php if( $field_opts['type'] !='checkbox' ){ echo esc_html( $field_opts['label'] );} ?>
 								<?php
 								switch( $field_opts['type'] ):
 									default:
@@ -410,7 +423,7 @@ class Mocha_Menu_Admin_Walker extends Walker_Nav_Menu  {
 									?>			
 											<input type="hidden" id="edit-menu-item-<?php echo esc_attr( $field ); ?>-<?php echo esc_attr( $item_id ); ?>" class="code edit-menu-item-<?php echo esc_attr( $field ); ?>" name="menu-item-<?php echo esc_attr( $field ); ?>[<?php echo esc_attr( $item_id ); ?>]" value="<?php echo esc_attr( $item->$field ); ?>" />
 											<?php
-												echo ( $item->$field != '') ? '<img class="mocha-opts-screenshot" id="mocha-opts-screenshot-'.esc_attr( $item_id ).'" src="'.esc_attr( $item->$field ).'" width = "30" />': '';
+												echo sprintf( ( $item->$field != '') ? '<img class="mocha-opts-screenshot" id="mocha-opts-screenshot-'.esc_attr( $item_id ).'" src="%s" width = "30" />': '', esc_url( $item->$field ) );
 											if($item -> imgupload == ''){$remove = ' style="display:none;"';$upload = '';}else{$remove = '';$upload = ' style="display:none;"';}
 											echo ' <a href="javascript:void(0);" class="mocha-menu-upload button-secondary"'.$upload.' rel-id="edit-menu-item-'.esc_attr( $field ).'-'.esc_attr( $item_id ).'">'.esc_html__('Browse', 'mocha').'</a>';
 											echo ' <a href="javascript:void(0);" class="mocha-menu-upload-remove"'.$remove.' rel-id="edit-menu-item-'.esc_attr( $field ).'-'.esc_attr( $item_id ).'">'.esc_html__('Remove', 'mocha').'</a>';
@@ -425,8 +438,8 @@ class Mocha_Menu_Admin_Walker extends Walker_Nav_Menu  {
 									?>
 										
 								<?php endswitch; ?>
-								<?php if( $field_opts['type'] =='checkbox' ){ echo $field_opts['label'];} ?>
-								<?php if (isset( $field_opts['description'] ) && is_string( $field_opts['description'] )): ?><span class="description"> ( <?php echo $field_opts['description']; ?> ) </span><?php endif; ?>
+								<?php if( $field_opts['type'] =='checkbox' ){ echo esc_html( $field_opts['label'] );} ?>
+								<?php if (isset( $field_opts['description'] ) && is_string( $field_opts['description'] )): ?><span class="description"> ( <?php echo esc_html( $field_opts['description'] ); ?> ) </span><?php endif; ?>
 								</label>
 							</p>
 							
@@ -488,8 +501,8 @@ class Mocha_Menu_Walker extends Walker_Nav_Menu {
 			$item_html = str_replace('</a>', '</a>', $item_html);
 		}
 		if ($item->is_dropdown && ($depth === 0)) {
-			$item_html = str_replace('<a', '<a class="item-link dropdown-toggle"', $item_html);
-			$item_html = str_replace('</a>', '</a>', $item_html);
+			$item_html = str_replace( '<a', '<a class="item-link dropdown-toggle" data-toogle="dropdown"', $item_html );
+			$item_html = str_replace( '</a>', '</a>', $item_html );
 		}
 		elseif (stristr($item_html, 'li class="nav-header')) {
 			$item_html = preg_replace('/<a[^>]*>(.*)<\/a>/iU', '$1', $item_html);
@@ -504,7 +517,7 @@ class Mocha_Menu_Walker extends Walker_Nav_Menu {
 			}
 		}else if( isset($item->imgupload) && !empty($item->imgupload) ){
 			if( $depth == 0 ){
-				$item_html = preg_replace('/(<a[^>]*>)(.*)(<\/a>)/iU', '$1<span class="menu-title">$2</span><span class="menu-img"><img src="'.esc_url($item->imgupload).'" alt=""/></span>$3', $item_html);
+				$item_html = preg_replace('/(<a[^>]*>)(.*)(<\/a>)/iU', '$1<span class="menu-title">$2</span><span class="menu-img"><img src="'.esc_url($item->imgupload).'" alt="'. esc_attr__( 'Thumbnail', 'mocha' ) .'"/></span>$3', $item_html);
 			}
 		}
 		else {
@@ -597,14 +610,15 @@ class Mocha_Mega_Menu_Walker extends Walker_Nav_Menu {
 		$attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
 		$attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
 		$attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-		$attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
+		$attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';		
 		
 		// if have child.
 		if (!$item->is_dropdown && ($depth === 0)){
-			$attributes .= ' class="item-link" ';
+			$attributes .= ' class="item-link" ';			
 		}
 		if ($item->is_dropdown && ($depth === 0)){
 			$attributes .= ' class="item-link dropdown-toggle"';
+			$attributes .= ' data-toogle="dropdown"';
 		}
 		
 		$show_icon = isset($item->icon) && !empty($item->icon);
@@ -841,7 +855,7 @@ add_filter('nav_menu_item_id', '__return_null');
 function mocha_nav_menu_args($args = '') {
 	$mocha_nav_menu_args['container'] = false;
 	$mocha_theme_locates = array();
-	$mocha_menu = mocha_options()->getCpanelValue( 'menu_location' );
+	$mocha_menu = zr_options( 'menu_location' );
 	if( !is_array( $mocha_menu ) ){
 		$mocha_theme_locates[] = $mocha_menu;
 	}else{
@@ -851,7 +865,7 @@ function mocha_nav_menu_args($args = '') {
 		$mocha_nav_menu_args['items_wrap'] = '<ul class="%2$s">%3$s</ul>';
 	}
 	if (!$args['walker']) {
-		if ( 'mega' == mocha_options()->getCpanelValue( 'menu_type' ) && $mocha_theme_locates[0] != NULL && in_array( $args['theme_location'], $mocha_theme_locates ) ){
+		if ( 'mega' == zr_options( 'menu_type' ) && $mocha_theme_locates[0] != NULL && in_array( $args['theme_location'], $mocha_theme_locates ) ){
 			$args['menu_class'] .= ' mocha-mega';
 			$mocha_nav_menu_args['walker'] = new Mocha_Mega_Menu_Walker();
 			

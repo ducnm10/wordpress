@@ -1,0 +1,13 @@
+2018-09-20T15:03:55+00:00 CRITICAL Uncaught Error: Call to undefined function mocha_get_the_content_by_id() in D:\xampp\htdocs\mocha\wp-content\themes\mocha\templates\footer.php:12
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-includes\template.php(690): require()
+#1 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', false)
+#2 D:\xampp\htdocs\mocha\wp-includes\general-template.php(155): locate_template(Array, true, false)
+#3 D:\xampp\htdocs\mocha\wp-content\themes\mocha\lib\mobile-layout.php(41): get_template_part('templates/foote...')
+#4 D:\xampp\htdocs\mocha\wp-content\themes\mocha\footer.php(4): mocha_footer_check()
+#5 D:\xampp\htdocs\mocha\wp-includes\template.php(688): require_once('D:\\xampp\\htdocs...')
+#6 D:\xampp\htdocs\mocha\wp-includes\template.php(647): load_template('D:\\xampp\\htdocs...', true)
+#7 D:\xampp\htdocs\mocha\wp-includes\general-template.php(76): locate_template(Array, true)
+#8 D:\xampp\htdocs\mocha\wp-content\themes\mocha\page.php(52): get_footer()
+#9 D:\xampp\htdocs\mocha\wp-includes
+

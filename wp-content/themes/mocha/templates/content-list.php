@@ -10,12 +10,12 @@ $mocha_bclass .= 'clearfix';
 		<div class="entry-content">				
 			<div class="content-top clearfix">
 				<div class="entry-title">
-					<h4><a href="<?php echo get_permalink($post->ID)?>"><?php mocha_trim_words( $post->post_title ); ?></a></h4>
+					<h4><a href="<?php echo get_permalink( $post->ID ) ?>"><?php mocha_trim_words( $post->post_title ); ?></a></h4>
 				</div>
 				<div class="entry-meta">
 					<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 					<span class="entry-comment">
-						<a href="<?php comments_link(); ?>"><?php echo $post-> comment_count .  ( ($post-> comment_count) > 1 ? esc_html__('  Comments', 'mocha') : esc_html__('  Comment', 'mocha')); ?></a>
+						<a href="<?php comments_link(); ?>"><?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?></a>
 					</span>
 				</div>
 			</div>
@@ -32,7 +32,7 @@ $mocha_bclass .= 'clearfix';
 					$content = explode($matches[0], $post->post_content, 2);
 					$content = $content[0];
 					$content = wp_trim_words($post->post_content, 55, '...');
-					echo $content;	
+					echo sprintf( '%s', $content );	
 				} else {
 					the_content('...');
 				}		
@@ -43,7 +43,7 @@ $mocha_bclass .= 'clearfix';
 		<?php } else { ?>
 		<div class="entry-thumb">	
 			<?php if( $format == 'video' || $format == 'audio' ){ ?>	
-			<?php echo ( $format == 'video' ) ? '<div class="video-wrapper">'. mocha_get_entry_content_asset($post->ID) . '</div>' : mocha_get_entry_content_asset($post->ID); ?>										
+			<?php echo sprintf( ( $format == 'video' ) ? '<div class="video-wrapper">%s</div>' : revo_get_entry_content_asset( $post->ID ), revo_get_entry_content_asset( $post->ID ) ); ?>																			
 			<?php } ?>
 			<?php if( $format == 'image' ){?>
 			<div class="entry-thumb-content">
@@ -70,18 +70,18 @@ $mocha_bclass .= 'clearfix';
 						}
 					}
 					?>
-					<div id="gallery_slider_<?php echo $post->ID; ?>" class="carousel slide gallery-slider" data-interval="0">	
+					<div id="gallery_slider_<?php echo esc_attr( $post->ID ); ?>" class="carousel slide gallery-slider" data-interval="0">	
 						<div class="carousel-inner">
 							<?php
 							$ids = explode(',', $ids);						
 							foreach ( $ids as $i => $id ){ ?>
-							<div class="item<?php echo ( $i== 0 ) ? ' active' : '';  ?>">			
+							<div class="item<?php echo esc_attr( ( $i== 0 ) ? ' active' : '' );  ?>">			
 								<?php echo wp_get_attachment_image($id, 'full'); ?>
 							</div>
 							<?php }	?>
 						</div>
-						<a href="#gallery_slider_<?php echo $post->ID; ?>" class="left carousel-control" data-slide="prev"><?php esc_html_e( 'Prev', 'mocha' ) ?></a>
-						<a href="#gallery_slider_<?php echo $post->ID; ?>" class="right carousel-control" data-slide="next"><?php esc_html_e( 'Next', 'mocha' ) ?></a>
+						<a href="#gallery_slider_<?php echo esc_attr( $post->ID ); ?>" class="left carousel-control" data-slide="prev"><?php esc_html_e( 'Prev', 'mocha' ) ?></a>
+						<a href="#gallery_slider_<?php echo esc_attr( $post->ID ); ?>" class="right carousel-control" data-slide="next"><?php esc_html_e( 'Next', 'mocha' ) ?></a>
 					</div>
 					<?php }	?>							
 					<?php } ?>
@@ -94,7 +94,7 @@ $mocha_bclass .= 'clearfix';
 						<div class="entry-meta">
 							<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 							<span class="entry-comment">
-								<a href="<?php comments_link(); ?>"><?php echo $post-> comment_count .  ( ($post-> comment_count) > 1 ? esc_html__('  Comments', 'mocha') : esc_html__('  Comment', 'mocha')); ?></a>
+								<a href="<?php comments_link(); ?>"><?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?></a>
 							</span>
 						</div>
 						<div class="entry-summary">
@@ -103,7 +103,7 @@ $mocha_bclass .= 'clearfix';
 								$content = explode($matches[0], $post->post_content, 2);
 								$content = $content[0];
 								$content = wp_trim_words($post->post_content, 55, '...');
-								echo $content;	
+								echo sprintf( '%s', $content );	
 							} else {
 								the_content('...');
 							}		

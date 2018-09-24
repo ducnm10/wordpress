@@ -23,9 +23,9 @@
 		<div class="row">
 		<?php 
 			if ( is_active_sidebar( $mocha_sidebar ) && $mocha_sidebar_template != 'right' && $mocha_sidebar_template !='full' ):
-			$mocha_left_span_class = 'col-lg-'.mocha_options()->getCpanelValue('sidebar_left_expand');
-			$mocha_left_span_class .= ' col-md-'.mocha_options()->getCpanelValue('sidebar_left_expand_md');
-			$mocha_left_span_class .= ' col-sm-'.mocha_options()->getCpanelValue('sidebar_left_expand_sm');
+			$mocha_left_span_class = 'col-lg-'.zr_options('sidebar_left_expand');
+			$mocha_left_span_class .= ' col-md-'.zr_options('sidebar_left_expand_md');
+			$mocha_left_span_class .= ' col-sm-'.zr_options('sidebar_left_expand_sm');
 		?>
 			<aside id="left" class="sidebar <?php echo esc_attr( $mocha_left_span_class ); ?>">
 				<?php dynamic_sidebar( $mocha_sidebar ); ?>
@@ -39,9 +39,9 @@
 			</div>
 			<?php 
 			if ( is_active_sidebar( $mocha_sidebar ) && $mocha_sidebar_template != 'left' && $mocha_sidebar_template !='full' ):
-				$mocha_left_span_class = 'col-lg-'.mocha_options()->getCpanelValue('sidebar_left_expand');
-				$mocha_left_span_class .= ' col-md-'.mocha_options()->getCpanelValue('sidebar_left_expand_md');
-				$mocha_left_span_class .= ' col-sm-'.mocha_options()->getCpanelValue('sidebar_left_expand_sm');
+				$mocha_left_span_class = 'col-lg-'.zr_options('sidebar_left_expand');
+				$mocha_left_span_class .= ' col-md-'.zr_options('sidebar_left_expand_md');
+				$mocha_left_span_class .= ' col-sm-'.zr_options('sidebar_left_expand_sm');
 			?>
 				<aside id="right" class="sidebar <?php echo esc_attr($mocha_left_span_class); ?>">
 					<?php dynamic_sidebar( $mocha_sidebar ); ?>

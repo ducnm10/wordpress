@@ -3,40 +3,61 @@
  * Add and remove body_class() classes
  */
 function mocha_body_class($classes) {
-	$page_metabox_hometemp = get_post_meta( get_the_ID(), 'page_home_template', true );
-	$mocha_direction   = mocha_options()->getCpanelValue( 'direction' );
-	$mocha_box_layout 	= mocha_options()->getCpanelValue( 'layout' );
+	$page_metabox_hometemp  = get_post_meta( get_the_ID(), 'page_home_template', true );
+	$menu_event		  		= zr_options( 'menu_event' );
+	$disable_search 		=  zr_options( 'disable_search' );
+	$zr_demo   		  		= get_option( 'zr_mdemo' );
+	$single_video			= get_post_meta( get_the_ID(), 'featured_video_product', true );
+	$mocha_box_layout 		= zr_options( 'layout' );
+	$product_single_style 	= zr_options( 'product_single_style' );
+	$mocha_direction 		= zr_options( 'direction' );
+	$mocha_single_thunbmail  = ( zr_options( 'product_single_thumbnail' ) ) ? zr_options( 'product_single_thumbnail' ) : 'bottom';
+	
 	if( $mocha_direction == 'rtl' ){
 		$classes[] = 'rtl';
 	}
-	if( mocha_mobile_check()  ){
+	
+	/* WC Vendor class */
+	if( class_exists( 'WC_Vendors' ) ) {
+		$classes[] = 'wc-vendor-page';
+		if( WCV_Vendors::is_vendor_page() ) {
+			$classes[] = 'wc-vendor-listing';
+		}
+	}
+	
+	if( $menu_event == 'click' ){
+		$classes[] = 'menu-click';
+	}
+	
+	if( $zr_demo == 1 ){
+		$classes[] = 'mobile-demo';
+	}
+	
+	if( $single_video != '' && is_singular( 'product' ) ){
+		$classes[] = 'product-video';
+	}
+	
+	if( get_option( 'zr_wooswatches_enable' ) && !is_singular( 'product' ) ){
+		$classes[] = 'zr-wooswatches';
+	}
+	
+	if( mocha_mobile_check() ){
 		$classes[] = 'mobile-layout';
+	}
+	if( $disable_search  ){
+		$classes[] = 'disable-search';
 	}
 	if( $mocha_box_layout == 'boxed' ){
 		$classes[] = 'boxed-layout';
 	}
-	if( $page_metabox_hometemp != '' ){
+	if( $page_metabox_hometemp != '' && is_page() ){
 		$classes[] = $page_metabox_hometemp;
 	}
 
 	// Add post/page slug
 	if (is_single() || is_page() && !is_front_page()) {
 		$classes[] = basename(get_permalink());
-	}
-	
-	$sidebar_template 		= mocha_options() -> getCpanelValue('sidebar_blog');
-	if( is_active_sidebar('left-blog') && $sidebar_template == 'left' ){
-		$classes[] = 'has-left-sidebar';
-	}elseif( ( is_active_sidebar('right-blog') && $sidebar_template == 'right' && $sidebar_template != 'left') ){
-		$classes[] = 'has-right-sidebar';
-	}
-	if( function_exists( 'mocha_sidebar_product' ) ) :
-		if( is_active_sidebar('left-product') && mocha_sidebar_product() == 'left' ){
-			$classes[] = 'has-left-product-sidebar';
-		}elseif( ( is_active_sidebar('right-product') && mocha_sidebar_product() == 'right' && mocha_sidebar_product() != 'left') ){
-			$classes[] = 'has-right-product-sidebar';
-		}
-	endif;
+	}	
 	
 	// Remove unnecessary classes
 	$home_id_class = 'page-id-' . get_option('page_on_front');
@@ -44,8 +65,14 @@ function mocha_body_class($classes) {
 			'page-template-default',
 			$home_id_class
 	);
+	
+	if( is_singular( 'product' ) && !mocha_mobile_check() ){
+		$classes[] = 'single-product-' . $product_single_style;	
+		$classes[] = 'product-thumbnail-' . $mocha_single_thunbmail;
+	}
+	
 	$classes = array_diff($classes, $remove_classes);
-	return $classes;
+	return apply_filters( 'mocha_custom_body_class', $classes );
 }
 add_filter('body_class', 'mocha_body_class');
 
@@ -192,27 +219,6 @@ function mocha_widget_first_last_classes($params) {
 	return $params;
 }
 add_filter('dynamic_sidebar_params', 'mocha_widget_first_last_classes');
-
-/**
- * Redirects search results from /?s=query to /search/query/, converts %20 to +
- *
- * @link http://txfx.net/wordpress-plugins/nice-search/
- */
-function mocha_nice_search_redirect() {
-	global $mocha_rewrite;
-	if (!isset($mocha_rewrite) || !is_object($mocha_rewrite) || !$mocha_rewrite->using_permalinks()) {
-		return;
-	}
-
-	$search_base = $mocha_rewrite->search_base;
-	if (is_search() && !is_admin() && strpos($_SERVER['REQUEST_URI'], "/{$search_base}/") === false) {
-		wp_redirect(home_url("/{$search_base}/" . urlencode(get_query_var('s'))));
-		exit();
-	}
-}
-if (current_theme_supports('nice-search')) {
-	add_action('template_redirect', 'mocha_nice_search_redirect');
-}
 
 /**
  * Fix for empty search queries redirecting to home page

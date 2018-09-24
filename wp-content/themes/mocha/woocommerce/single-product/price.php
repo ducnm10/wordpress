@@ -13,7 +13,7 @@
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  WooThemes
  * @package WooCommerce/Templates
- * @version 3.4.0
+ * @version 3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,26 +21,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 global $product;
+$wc_price = ( function_exists( 'wc_get_price_to_display' ) ) ? wc_get_price_to_display( $product ) : $product->get_display_price();
 
 ?>
 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-	<p class="price"><?php echo $product->get_price_html(); ?></p>
+	<p class="price"><?php echo sprintf( '%s', $product->get_price_html() ); ?></p>
 
-	<meta itemprop="price" content="<?php echo esc_attr( $product->get_display_price() ); ?>" />
+	<meta itemprop="price" content="<?php echo esc_attr( $wc_price ); ?>" />
 	<meta itemprop="priceCurrency" content="<?php echo esc_attr( get_woocommerce_currency() ); ?>" />
-	<link itemprop="availability" href="http://schema.org/<?php echo $product->is_in_stock() ? 'InStock' : 'OutOfStock'; ?>" />
+	<link itemprop="availability" href="http://schema.org/<?php echo esc_attr( $product->is_in_stock() ? 'InStock' : 'OutOfStock' ); ?>" />
 
 </div>
 <?php if( !mocha_mobile_check() ) :?>
-<div class="product-info">
-	<?php $stock = ( $product->is_in_stock() )? 'in-stock' : 'out-stock' ; ?>
-	<div class="product-stock <?php echo esc_attr( $stock ); ?>">
-		<span><?php echo ( $product->is_in_stock() )? esc_html__( 'in stock', 'mocha' ) : esc_html__( 'Out stock', 'mocha' ); ?></span>
-	</div>
+<div class="product-info product_meta">
 	<?php if ( wc_product_sku_enabled() && ( $product->get_sku() || $product->is_type( 'variable' ) ) ) : ?>
 
-		<span class="sku_wrapper"><?php esc_html_e( 'SKU:', 'mocha' ); ?> <span class="sku" itemprop="sku"><?php echo ( $sku = $product->get_sku() ) ? $sku : esc_html__( 'N/A', 'mocha' ); ?></span></span>
+		<span class="sku_wrapper"><?php esc_html_e( 'SKU:', 'mocha' ); ?> <span class="sku" itemprop="sku"><?php echo sprintf( ( $sku = $product->get_sku() ) ? '%s' : esc_html__( 'N/A', 'mocha' ), $sku ); ?></span></span>
 
 	<?php endif; ?>
 </div>

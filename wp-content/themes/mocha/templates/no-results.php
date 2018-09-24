@@ -1,6 +1,6 @@
 <?php
 	global $mocha_detect;
-	$mobile_check   = mocha_options()->getCpanelValue( 'mobile_enable' );
+	$mobile_check   = zr_options( 'mobile_enable' );
 	if( !empty( $mocha_detect ) && ( $mocha_detect->isMobile() ) && $mobile_check ) :?>
 	<?php if (!have_posts()) : ?>
 	<div class="no-result">

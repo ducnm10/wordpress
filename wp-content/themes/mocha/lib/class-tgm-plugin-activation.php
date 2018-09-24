@@ -3420,7 +3420,6 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 						$this->skin->footer();
 
 						// Cleanup our hooks, in case something else does a upgrade on this connection.
-						/* [TGMPA - ] remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin')); */
 
 						// [TGMPA + ] Remove our auto-activation hook.
 						remove_filter( 'upgrader_post_install', array( $this, 'auto_activate' ), 10 );
@@ -3600,7 +3599,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								// Automatic activation strings.
 								$this->upgrader->strings['skin_upgrade_start'] = esc_html__( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'mocha' );
 								/* translators: 1: plugin name. */
-								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed and activated successfully.', 'mocha' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'mocha' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'mocha' ) . '</span>.</a>';
+								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed and activated successfully.', 'mocha' );
 								$this->upgrader->strings['skin_upgrade_end']       = esc_html__( 'All installations and activations have been completed.', 'mocha' );
 								/* translators: 1: plugin name, 2: action number 3: total number of actions. */
 								$this->upgrader->strings['skin_before_update_header'] = esc_html__( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'mocha' );
@@ -3608,7 +3607,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								// Default installation strings.
 								$this->upgrader->strings['skin_upgrade_start'] = esc_html__( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'mocha' );
 								/* translators: 1: plugin name. */
-								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed successfully.', 'mocha' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'mocha' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'mocha' ) . '</span>.</a>';
+								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed successfully.', 'mocha' );
 								$this->upgrader->strings['skin_upgrade_end']       = esc_html__( 'All installations have been completed.', 'mocha' );
 								/* translators: 1: plugin name, 2: action number 3: total number of actions. */
 								$this->upgrader->strings['skin_before_update_header'] = esc_html__( 'Installing Plugin %1$s (%2$d/%3$d)', 'mocha' );

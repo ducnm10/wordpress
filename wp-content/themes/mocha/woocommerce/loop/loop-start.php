@@ -4,7 +4,7 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     3.4.0
+ * @version     3.3.0
  */
 ?>
 <ul  class="products-loop row grid clearfix">

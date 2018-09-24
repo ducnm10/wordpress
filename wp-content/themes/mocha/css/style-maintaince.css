@@ -1,5 +1,5 @@
 
-body.sw-mocha{
+body.zr-mocha{
 	 background: url('../assets/img/maintaince/bg-main.jpg') no-repeat center center;
     text-align: center;
     color: #fff;
@@ -8,7 +8,7 @@ body.sw-mocha{
 	z-index: 1;
 }
 
-body.sw-mocha .body-wrapper{
+body.zr-mocha .body-wrapper{
 	overflow:visible;
 }
 

@@ -20,7 +20,7 @@ function mocha_title() {
 	} elseif (is_archive()) {
 		$term = get_term_by('slug', get_query_var('term'), get_query_var('taxonomy'));
 		if ($term) {
-			echo $term->name;
+			echo esc_html( $term->name );
 		} elseif (is_post_type_archive()) {
 			echo get_queried_object()->labels->name;
 		} elseif (is_day()) {
@@ -39,18 +39,7 @@ function mocha_title() {
 	} elseif (is_404()) {
 		esc_html_e('Not Found', 'mocha');
 	} else {
-		if( is_single() ){
-			$post_type = get_post_type( get_the_ID() );
-			if( $post_type == 'post' ){
-				$category = get_the_category();
-				echo $category[0]->name;
-			}else if( $post_type == 'product' ){
-				$category = get_the_terms( get_the_ID(), 'product_cat' );
-				echo $category[0]->name;
-			}else{
-				the_title();
-			}
-		}
+		the_title();
 	}
 }
 
@@ -66,17 +55,6 @@ function mocha_get_the_content_by_id( $post_id ) {
   else return false;
 }
 
-/**
- * Opposite of built in WP functions for trailing slashes
- */
-function mocha_leadingslashit($string) {
-	return '/' . mocha_unleadingslashit($string);
-}
-
-function mocha_unleadingslashit($string) {
-	return ltrim($string, '/');
-}
-
 function mocha_element_empty($element) {
 	$element = trim($element);
 	return empty($element) ? false : true;
@@ -88,7 +66,7 @@ function mocha_element_empty($element) {
 function mocha_get_social() {
 	global $post;
 	
-	$social = mocha_options()->getCpanelValue('social_share');	
+	$social = zr_options('social_share');	
 	
 	if ( !$social ) return false;
 	ob_start();
@@ -124,16 +102,16 @@ add_filter('get_avatar', 'mocha_get_avatar');
 ** Check col for sidebar and content product
 */
 function mocha_content_product(){ 
-	$left_span_class 			= mocha_options()->getCpanelValue('sidebar_left_expand');
-	$left_span_md_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_md');
-	$left_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_sm');
-	$right_span_class 		= mocha_options()->getCpanelValue('sidebar_right_expand');
-	$right_span_md_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_md');
-	$right_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_sm');
-	$sidebar 							= mocha_options()->getCpanelValue('sidebar_product');
+	$left_span_class 			= zr_options('sidebar_left_expand');
+	$left_span_md_class 	= zr_options('sidebar_left_expand_md');
+	$left_span_sm_class 	= zr_options('sidebar_left_expand_sm');
+	$right_span_class 		= zr_options('sidebar_right_expand');
+	$right_span_md_class 	= zr_options('sidebar_right_expand_md');
+	$right_span_sm_class 	= zr_options('sidebar_right_expand_sm');
+	$sidebar 							= zr_options('sidebar_product');
 	if( !is_post_type_archive( 'product' ) && !is_search() ){
 		$term_id = get_queried_object()->term_id;
-		$sidebar = ( get_term_meta( $term_id, 'term_sidebar', true ) != '' ) ? get_term_meta( $term_id, 'term_sidebar', true ) : mocha_options()->getCpanelValue('sidebar_product');
+		$sidebar = ( get_term_meta( $term_id, 'term_sidebar', true ) != '' ) ? get_term_meta( $term_id, 'term_sidebar', true ) : zr_options('sidebar_product');
 	}
 	
 	if( is_active_sidebar('left-product') && is_active_sidebar('right-product') && $sidebar =='lr' ){
@@ -167,16 +145,16 @@ function mocha_content_product(){
 ** Check col for sidebar and content product detail
 */
 function mocha_content_product_detail(){
-	$left_span_class 			= mocha_options()->getCpanelValue('sidebar_left_expand');
-	$left_span_md_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_md');
-	$left_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_sm');
-	$right_span_class 		= mocha_options()->getCpanelValue('sidebar_right_expand');
-	$right_span_md_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_md');
-	$right_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_sm');
-	$sidebar_template 		= mocha_options()->getCpanelValue('sidebar_product_detail');
+	$left_span_class 		= zr_options('sidebar_left_expand');
+	$left_span_md_class 	= zr_options('sidebar_left_expand_md');
+	$left_span_sm_class 	= zr_options('sidebar_left_expand_sm');
+	$right_span_class 		= zr_options('sidebar_right_expand');
+	$right_span_md_class 	= zr_options('sidebar_right_expand_md');
+	$right_span_sm_class 	= zr_options('sidebar_right_expand_sm');
+	$sidebar_template 		= zr_options('sidebar_product_detail');
 	
 	if( is_singular( 'product' ) ) :
-		$sidebar_template = ( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : mocha_options()->getCpanelValue('sidebar_product_detail');
+		$sidebar_template = ( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : zr_options('sidebar_product_detail');
 		$sidebar 					= ( get_post_meta( get_the_ID(), 'page_sidebar_template', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_template', true ) : 'left-product-detail';
 	endif;
 	
@@ -206,16 +184,16 @@ function mocha_content_product_detail(){
 ** Check col for sidebar and content blog
 */
 function mocha_content_blog(){
-	$left_span_class 		= mocha_options()->getCpanelValue('sidebar_left_expand');
-	$left_span_md_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_md');
-	$left_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_sm');
-	$right_span_class 		= ( mocha_options()->getCpanelValue('sidebar_right_expand') ) ? mocha_options()->getCpanelValue('sidebar_right_expand') : 3;
-	$right_span_md_class 	= ( mocha_options()->getCpanelValue('sidebar_right_expand_md') ) ? mocha_options()->getCpanelValue('sidebar_right_expand_md') : 3;
-	$right_span_sm_class 	= ( mocha_options()->getCpanelValue('sidebar_right_expand_sm') ) ? mocha_options()->getCpanelValue('sidebar_right_expand_sm') : 3;
-	$sidebar_template 		= ( mocha_options()->getCpanelValue('sidebar_blog') ) ? mocha_options()->getCpanelValue('sidebar_blog') : 'right';
+	$left_span_class 		= zr_options('sidebar_left_expand');
+	$left_span_md_class 	= zr_options('sidebar_left_expand_md');
+	$left_span_sm_class 	= zr_options('sidebar_left_expand_sm');
+	$right_span_class 		= ( zr_options('sidebar_right_expand') ) ? zr_options('sidebar_right_expand') : 3;
+	$right_span_md_class 	= ( zr_options('sidebar_right_expand_md') ) ? zr_options('sidebar_right_expand_md') : 3;
+	$right_span_sm_class 	= ( zr_options('sidebar_right_expand_sm') ) ? zr_options('sidebar_right_expand_sm') : 3;
+	$sidebar_template 		= ( zr_options('sidebar_blog') ) ? zr_options('sidebar_blog') : 'right';
 	$sidebar  				= 'right-blog';
 	if( is_single() ) :
-		$sidebar_template = ( strlen( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) ) > 0 ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : mocha_options()->getCpanelValue('sidebar_blog');
+		$sidebar_template = ( strlen( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) ) > 0 ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : zr_options('sidebar_blog');
 		$sidebar 					= ( strlen( get_post_meta( get_the_ID(), 'page_sidebar_template', true ) ) > 0 ) ? get_post_meta( get_the_ID(), 'page_sidebar_template', true ) : 'left-blog';
 	endif;
 	
@@ -245,12 +223,12 @@ function mocha_content_blog(){
 ** Check sidebar blog
 */
 function mocha_sidebar_template(){
-	$mocha_sidebar_teplate = mocha_options()->getCpanelValue('sidebar_blog');
+	$mocha_sidebar_teplate = zr_options('sidebar_blog');
 	if( !is_archive() ){
-		$mocha_sidebar_teplate = ( get_term_meta( get_queried_object()->term_id, 'term_sidebar', true ) != '' ) ? get_term_meta( get_queried_object()->term_id, 'term_sidebar', true ) : mocha_options()->getCpanelValue('sidebar_blog');
+		$mocha_sidebar_teplate = ( get_term_meta( get_queried_object()->term_id, 'term_sidebar', true ) != '' ) ? get_term_meta( get_queried_object()->term_id, 'term_sidebar', true ) : zr_options('sidebar_blog');
 	}	
 	if( is_single() ) {
-		$mocha_sidebar_teplate = ( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : mocha_options()->getCpanelValue('sidebar_blog');
+		$mocha_sidebar_teplate = ( get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_sidebar_layout', true ) : zr_options('sidebar_blog');
 	}
 	return $mocha_sidebar_teplate;
 }
@@ -259,14 +237,14 @@ function mocha_sidebar_template(){
 ** Check col for sidebar and content page
 */
 function mocha_content_page(){
-	$left_span_class 			= mocha_options()->getCpanelValue('sidebar_left_expand');
-	$left_span_md_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_md');
-	$left_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_left_expand_sm');
-	$right_span_class 		= mocha_options()->getCpanelValue('sidebar_right_expand');
-	$right_span_md_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_md');
-	$right_span_sm_class 	= mocha_options()->getCpanelValue('sidebar_right_expand_sm');
+	$left_span_class 		= zr_options('sidebar_left_expand');
+	$left_span_md_class 	= zr_options('sidebar_left_expand_md');
+	$left_span_sm_class 	= zr_options('sidebar_left_expand_sm');
+	$right_span_class 		= zr_options('sidebar_right_expand');
+	$right_span_md_class 	= zr_options('sidebar_right_expand_md');
+	$right_span_sm_class 	= zr_options('sidebar_right_expand_sm');
 	$sidebar_template 		= get_post_meta( get_the_ID(), 'page_sidebar_layout', true );
-	$sidebar 							= get_post_meta( get_the_ID(), 'page_sidebar_template', true );
+	$sidebar 				= get_post_meta( get_the_ID(), 'page_sidebar_template', true );
 	
 	if( is_active_sidebar( $sidebar ) && $sidebar_template == 'left' ) {
 		$content_span_class 		= ( $left_span_class >= 12 ) ? 12 : 12 - $left_span_class ;
@@ -296,11 +274,11 @@ function mocha_content_page(){
 function mocha_typography_css(){
 	$styles = '';
 	$page_webfonts  = get_post_meta( get_the_ID(), 'google_webfonts', true );
-	$webfont 		= ( $page_webfonts != '' ) ? $page_webfonts : mocha_options()->getCpanelValue( 'google_webfonts' );
-	$header_webfont = mocha_options()->getCpanelValue( 'header_tag_font' );
-	$menu_webfont 	= mocha_options()->getCpanelValue( 'menu_font' );
-	$custom_webfont = mocha_options()->getCpanelValue( 'custom_font' );
-	$custom_class 	= mocha_options()->getCpanelValue( 'custom_font_class' );
+	$webfont 		= ( $page_webfonts != '' ) ? $page_webfonts : zr_options( 'google_webfonts' );
+	$header_webfont = zr_options( 'header_tag_font' );
+	$menu_webfont 	= zr_options( 'menu_font' );
+	$custom_webfont = zr_options( 'custom_font' );
+	$custom_class 	= zr_options( 'custom_font_class' );
 	
 	$styles = '<style>';
 	if ( $webfont ):	
@@ -343,8 +321,8 @@ function mocha_typography_css(){
 function mocha_typography_css_cache(){ 
 		
 	/* Custom Css */
-	if ( mocha_options()->getCpanelValue('advanced_css') != '' ){
-		echo'<style>'. mocha_options()->getCpanelValue( 'advanced_css' ) .'</style>';
+	if ( zr_options('advanced_css') != '' ){
+		echo'<style>'. zr_options( 'advanced_css' ) .'</style>';
 	}
 	$data = mocha_typography_css();
 	echo sprintf( '%s', $data );
@@ -353,15 +331,15 @@ add_action( 'wp_head', 'mocha_typography_css_cache', 12, 0 );
 
 function mocha_typography_webfonts(){
 	$page_google_webfonts = get_post_meta( get_the_ID(), 'google_webfonts', true );
-	$webfont 		= ( $page_google_webfonts != '' ) ? $page_google_webfonts : mocha_options()->getCpanelValue('google_webfonts');
-	$header_webfont = mocha_options()->getCpanelValue( 'header_tag_font' );
-	$menu_webfont 	= mocha_options()->getCpanelValue( 'menu_font' );
-	$custom_webfont = mocha_options()->getCpanelValue( 'custom_font' );
+	$webfont 		= ( $page_google_webfonts != '' ) ? $page_google_webfonts : zr_options('google_webfonts');
+	$header_webfont = zr_options( 'header_tag_font' );
+	$menu_webfont 	= zr_options( 'menu_font' );
+	$custom_webfont = zr_options( 'custom_font' );
 	
 	if ( $webfont || $header_webfont || $menu_webfont || $custom_webfont ):
 		$font_url = '';
 		$webfont_weight = array();
-		$webfont_weight	= ( get_post_meta( get_the_ID(), 'webfonts_weight', true ) ) ? get_post_meta( get_the_ID(), 'webfonts_weight', true ) : mocha_options()->getCpanelValue('webfonts_weight');
+		$webfont_weight	= ( get_post_meta( get_the_ID(), 'webfonts_weight', true ) ) ? get_post_meta( get_the_ID(), 'webfonts_weight', true ) : zr_options('webfonts_weight');
 		$font_weight = '';
 		if( empty($webfont_weight) ){
 			$font_weight = '400';
@@ -419,18 +397,6 @@ function mocha_get_entry_content_asset( $post_id ){
 	}
 }
 
-function mocha_excerpt($limit) {
-  $excerpt = explode(' ', get_the_content(), $limit);
-  if (count($excerpt)>=$limit) {
-    array_pop($excerpt);
-    $excerpt = implode(" ",$excerpt).'...';
-  } else {
-    $excerpt = implode(" ",$excerpt);
-  }
-  $excerpt = preg_replace('`[[^]]*]`','',$excerpt);
-  return $excerpt;
-}
-
 /*
 ** Tag cloud size
 */
@@ -441,269 +407,6 @@ function mocha_tag_clound($args){
 }
 
 /*
-** Direction
-*/
-if( !is_admin() ){
-	add_filter( 'language_attributes', 'mocha_direction', 20 );
-	function mocha_direction( $doctype = 'html' ){
-		$mocha_direction = mocha_options()->getCpanelValue( 'direction' );
-		if ( ( function_exists( 'is_rtl' ) && is_rtl() ) || $mocha_direction == 'rtl' )
-			$mocha_attribute[] = 'dir="rtl"';
-		( $mocha_direction === 'rtl' ) ? $lang = 'ar' : $lang = get_bloginfo('language');
-		if ( $lang ) {
-		if ( get_option('html_type') == 'text/html' || $doctype == 'html' )
-			$mocha_attribute[] = "lang=\"$lang\"";
-
-		if ( get_option('html_type') != 'text/html' || $doctype == 'xhtml' )
-			$mocha_attribute[] = "xml:lang=\"$lang\"";
-		}
-		$mocha_output = implode(' ', $mocha_attribute);
-		return $mocha_output;
-	}
-}
-
-/**
- * This class handles the Breadcrumbs generation and display
- */
-class mocha_Breadcrumbs {
-
-	/**
-	 * Wrapper function for the breadcrumb so it can be output for the supported themes.
-	 */
-	function breadcrumb_output() {
-		$this->breadcrumb( '<div class="breadcumbs">', '</div>' );
-	}
-
-	/**
-	 * Get a term's parents.
-	 *
-	 * @param object $term Term to get the parents for
-	 * @return array
-	 */
-	function get_term_parents( $term ) {
-		$tax     = $term->taxonomy;
-		$parents = array();
-		while ( $term->parent != 0 ) {
-			$term      = get_term( $term->parent, $tax );
-			$parents[] = $term;
-		}
-		return array_reverse( $parents );
-	}
-
-	/**
-	 * Display or return the full breadcrumb path.
-	 *
-	 * @param string $before  The prefix for the breadcrumb, usually something like "You're here".
-	 * @param string $after   The suffix for the breadcrumb.
-	 * @param bool   $display When true, echo the breadcrumb, if not, return it as a string.
-	 * @return string
-	 */
-	function breadcrumb( $before = '', $after = '', $display = true ) {
-		$options = array('breadcrumbs-home' => esc_html__( 'Home', 'mocha' ), 'breadcrumbs-blog-remove' => false, 'post_types-post-maintax' => '0');
-		
-		global $wp_query, $post;	
-		$on_front  = get_option( 'show_on_front' );
-		$blog_page = get_option( 'page_for_posts' );
-
-		$links = array(
-			array(
-				'url'  => get_home_url(),
-				'text' => ( isset( $options['breadcrumbs-home'] ) && $options['breadcrumbs-home'] != '' ) ? $options['breadcrumbs-home'] : esc_html__( 'Home', 'mocha' )
-			)
-		);
-
-		if ( ( $on_front == "page" && is_front_page() ) || ( $on_front == "posts" && is_home() ) ) {
-
-		} else if ( $on_front == "page" && is_home() ) {
-			$links[] = array( 'id' => $blog_page );
-		} else if ( is_singular() ) {		
-			$tax = get_object_taxonomies( $post->post_type );
-			if ( 0 == $post->post_parent ) {
-				if ( isset( $tax ) && count( $tax ) > 0 ) {
-					$main_tax = $tax[0];
-					if( $post->post_type == 'product' ){
-						$main_tax = 'product_cat';
-					}					
-					$terms    = wp_get_object_terms( $post->ID, $main_tax );
-					
-					if ( count( $terms ) > 0 ) {
-						// Let's find the deepest term in this array, by looping through and then unsetting every term that is used as a parent by another one in the array.
-						$terms_by_id = array();
-						foreach ( $terms as $term ) {
-							$terms_by_id[$term->term_id] = $term;
-						}
-						foreach ( $terms as $term ) {
-							unset( $terms_by_id[$term->parent] );
-						}
-
-						// As we could still have two subcategories, from different parent categories, let's pick the first.
-						reset( $terms_by_id );
-						$deepest_term = current( $terms_by_id );
-
-						if ( is_taxonomy_hierarchical( $main_tax ) && $deepest_term->parent != 0 ) {
-							foreach ( $this->get_term_parents( $deepest_term ) as $parent_term ) {
-								$links[] = array( 'term' => $parent_term );
-							}
-						}
-						$links[] = array( 'term' => $deepest_term );
-					}
-
-				}
-			} else {
-				if ( isset( $post->ancestors ) ) {
-					if ( is_array( $post->ancestors ) )
-						$ancestors = array_values( $post->ancestors );
-					else
-						$ancestors = array( $post->ancestors );
-				} else {
-					$ancestors = array( $post->post_parent );
-				}
-
-				// Reverse the order so it's oldest to newest
-				$ancestors = array_reverse( $ancestors );
-
-				foreach ( $ancestors as $ancestor ) {
-					$links[] = array( 'id' => $ancestor );
-				}
-			}
-			$links[] = array( 'id' => $post->ID );
-		} else {
-			if ( is_post_type_archive() ) {
-				$links[] = array( 'ptarchive' => get_post_type() );
-			} else if ( is_tax() || is_tag() || is_category() ) {
-				$term = $wp_query->get_queried_object();
-
-				if ( is_taxonomy_hierarchical( $term->taxonomy ) && $term->parent != 0 ) {
-					foreach ( $this->get_term_parents( $term ) as $parent_term ) {
-						$links[] = array( 'term' => $parent_term );
-					}
-				}
-
-				$links[] = array( 'term' => $term );
-			} else if ( is_date() ) {
-				$bc = esc_html__( 'Archives for', 'mocha' );
-				
-				if ( is_day() ) {
-					global $wp_locale;
-					$links[] = array(
-						'url'  => get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) ),
-						'text' => $wp_locale->get_month( get_query_var( 'monthnum' ) ) . ' ' . get_query_var( 'year' )
-					);
-					$links[] = array( 'text' => $bc . " " . get_the_date() );
-				} else if ( is_month() ) {
-					$links[] = array( 'text' => $bc . " " . single_month_title( ' ', false ) );
-				} else if ( is_year() ) {
-					$links[] = array( 'text' => $bc . " " . get_query_var( 'year' ) );
-				}
-			} elseif ( is_author() ) {
-				$bc = esc_html__( 'Archives for', 'mocha' );
-				$user    = $wp_query->get_queried_object();
-				$links[] = array( 'text' => $bc . " " . esc_html( $user->display_name ) );
-			} elseif ( is_search() ) {
-				$bc = esc_html__( 'You searched for', 'mocha' );
-				$links[] = array( 'text' => $bc . ' "' . esc_html( get_search_query() ) . '"' );
-			} elseif ( is_404() ) {
-				$crumb404 = esc_html__( 'Error 404: Page not found', 'mocha' );
-				$links[] = array( 'text' => $crumb404 );
-			}
-		}
-		
-		$output = $this->create_breadcrumbs_string( $links );
-
-		if ( $display ) {
-			echo sprintf( $before . '%s' . $after, $output );
-			return true;
-		} else {
-			return $before . $output . $after;
-		}
-	}
-
-	/**
-	 * Take the links array and return a full breadcrumb string.
-	 *
-	 * Each element of the links array can either have one of these keys:
-	 * "id"            for post types;
-	 * "ptarchive"  for a post type archive;
-	 * "term"         for a taxonomy term.
-	 * If either of these 3 are set, the url and text are retrieved. If not, url and text have to be set.
-	 *
-	 * @link http://support.google.com/webmasters/bin/answer.py?hl=en&answer=185417 Google documentation on RDFA
-	 *
-	 * @param array  $links   The links that should be contained in the breadcrumb.
-	 * @param string $wrapper The wrapping element for the entire breadcrumb path.
-	 * @param string $element The wrapping element for each individual link.
-	 * @return string
-	 */
-	function create_breadcrumbs_string( $links, $wrapper = 'ul', $element = 'li' ) {
-		global $paged;
-		
-		$output = '';
-
-		foreach ( $links as $i => $link ) {
-
-			if ( isset( $link['id'] ) ) {
-				$link['url']  = get_permalink( $link['id'] );
-				$link['text'] = strip_tags( get_the_title( $link['id'] ) );
-			}
-
-			if ( isset( $link['term'] ) ) {
-				$link['url']  = get_term_link( $link['term'] );
-				$link['text'] = $link['term']->name;
-			}
-
-			if ( isset( $link['ptarchive'] ) ) {
-				$post_type_obj = get_post_type_object( $link['ptarchive'] );
-				$archive_title = $post_type_obj->labels->menu_name;
-				$link['url']  = get_post_type_archive_link( $link['ptarchive'] );
-				$link['text'] = $archive_title;
-			}
-			
-			$link_class = '';
-			if ( isset( $link['url'] ) && ( $i < ( count( $links ) - 1 ) || $paged ) ) {
-				$link_output = '<a href="' . esc_url( $link['url'] ) . '" >' . esc_html( $link['text'] ) . '</a><span class="go-page"></span>';
-			} else {
-				$link_class = ' class="active" ';
-				$link_output = '<span>' . esc_html( $link['text'] ) . '</span>';
-			}
-			
-			$element = esc_attr(  $element );
-			$element_output = '<' . $element . $link_class . '>' . $link_output . '</' . $element . '>';
-			
-			$output .=  $element_output;
-			
-			$class = ' class="breadcrumb" ';
-		}
-
-		return '<' . $wrapper . $class . '>' . $output . '</' . $wrapper . '>';
-	}
-
-}
-
-global $mocha_breadcrumb;
-$mocha_breadcrumb = new mocha_Breadcrumbs();
-
-if ( !function_exists( 'mocha_breadcrumb' ) ) {
-	/**
-	 * Template tag for breadcrumbs.
-	 *
-	 * @param string $before  What to show before the breadcrumb.
-	 * @param string $after   What to show after the breadcrumb.
-	 * @param bool   $display Whether to display the breadcrumb (true) or return it (false).
-	 * @return string
-	 */
-	function mocha_breadcrumb( $before = '', $after = '', $display = true ) {
-		global $mocha_breadcrumb;
-		
-		/* Turn off Breadcrumb */
-		if( mocha_options()->getCpanelValue( 'breadcrumb_active' ) ) :
-			$display = false;
-		endif;
-		return $mocha_breadcrumb->breadcrumb( $before, $after, $display );
-	}
-}
-
-
-/*
 ** Footer Adnvanced
 */
 add_action( 'wp_footer', 'mocha_footer_advanced' );
@@ -711,17 +414,17 @@ function mocha_footer_advanced(){
 	/* 
 	** Back To Top 
 	*/
-	if( mocha_options()->getCpanelValue( 'back_active' ) ) :
+	if( zr_options( 'back_active' ) ) :
 		echo '<a id="mocha-totop" href="#" ></a>';
 	endif;
 	
 	/* 
 	** Popup 
 	*/
-	if( mocha_options()->getCpanelValue( 'popup_active' ) ) :
-		$mocha_content = mocha_options()->getCpanelValue( 'popup_content' );
-		$mocha_shortcode = mocha_options()->getCpanelValue( 'popup_form' );
-		$popup_attr = ( mocha_options()->getCpanelValue( 'popup_background' ) != '' ) ? 'style="background: url( '. esc_url( mocha_options()->getCpanelValue( 'popup_background' ) ) .' )"' : '';
+	if( zr_options( 'popup_active' ) ) :
+		$mocha_content = zr_options( 'popup_content' );
+		$mocha_shortcode = zr_options( 'popup_form' );
+		$popup_attr = ( zr_options( 'popup_background' ) != '' ) ? 'style="background: url( '. esc_url( zr_options( 'popup_background' ) ) .' )"' : '';
 ?>
 		<div id="subscribe_popup" class="subscribe-popup"<?php echo sprintf( '%s', $popup_attr ); ?>>
 			<div class="subscribe-popup-container">
@@ -747,7 +450,7 @@ function mocha_footer_advanced(){
 			<div class="subscribe-social">
 				<h3><?php echo esc_html__('follow us','mocha'); ?></h3>
 				<div class="subscribe-social-inner">
-					<?php mocha_social_link() ?>
+					<?php zr_social_link() ?>
 				</div>
 			</div>
 		</div>
@@ -781,7 +484,7 @@ function mocha_footer_advanced(){
 	/*
 	** Quickview Footer
 	*/
-	if( mocha_options()->getCpanelValue( 'product_quickview' ) ){
+	if( zr_options( 'product_quickview' ) ){
 ?>
 	<div class="zr-quickview-bottom">
 		<div class="quickview-content" id="quickview_content">
@@ -792,39 +495,24 @@ function mocha_footer_advanced(){
 <?php 
 		}
 	}
-	
-	/*
-	** Search form to footer
-	*/
-?>
-	<div class="modal fade" id="search_form" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog block-popup-search-form">
-			<form role="search" method="get" class="form-search searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-				<input type="text" value="<?php if (is_search()) { echo get_search_query(); } ?>" name="s" class="search-query" placeholder="<?php esc_attr_e( 'Enter your keyword...', 'mocha' ) ?>">
-				<button type="submit" class=" fa fa-search button-search-pro form-button"></button>
-				<a href="javascript:void(0)" title="<?php esc_attr_e( 'Close', 'mocha' ) ?>" class="close close-search" data-dismiss="modal"><?php esc_html_e( 'X', 'mocha' ) ?></a>
-			</form>
-		</div>
-	</div>
-<?php 
 }
 
 /**
 * Popup Newsletter & Menu Sticky
 **/
 function mocha_advanced(){	
-	$mocha_popup	 		= mocha_options()->getCpanelValue( 'popup_active' );
-	$sticky_mobile	 		= mocha_options()->getCpanelValue( 'sticky_mobile' );
+	$mocha_popup	 		= zr_options( 'popup_active' );
+	$sticky_mobile	 		= zr_options( 'sticky_mobile' );
 	$output  = '';
 	$output .= '(function($) {';
 	if( !mocha_mobile_check() ) : 
-		$sticky_menu 		= mocha_options()->getCpanelValue( 'sticky_menu' );
-		$mocha_header_style 	= ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : mocha_options()->getCpanelValue('header_style');
+		$sticky_menu 		= zr_options( 'sticky_menu' );
+		$mocha_header_style 	= ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : zr_options('header_style');
 		$output_css = '';
-		$layout = mocha_options()->getCpanelValue('layout');
-		$bg_image = mocha_options()->getCpanelValue('bg_box_img');
-		$header_mid = mocha_options()->getCpanelValue('header_mid');
-		$bg_header_mid = mocha_options()->getCpanelValue('bg_header_mid');			
+		$layout = zr_options('layout');
+		$bg_image = zr_options('bg_box_img');
+		$header_mid = zr_options('header_mid');
+		$bg_header_mid = zr_options('bg_header_mid');			
 		
 		if( $layout == 'boxed' ){
 			$output_css .= 'body{';		
@@ -854,70 +542,29 @@ function mocha_advanced(){
 		** Menu Sticky 
 		*/
 		if( $sticky_menu ) :		
-				if( $mocha_header_style == 'style1' || $mocha_header_style == ''){			
-					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
-					$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
-					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
-					$output .= 'var sticky_navigation = function(){';
-					$output .= 'var scroll_top = $(window).scrollTop();';
-					$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
-					$output .= '$("#header .header-mid").addClass("sticky-menu");';
-					$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
-					$output .= '} else {';
-					$output .= '$("#header .header-mid").removeClass("sticky-menu");';
-					$output .= '}';
-					$output .= '};';
-					$output .= 'sticky_navigation();';
-					$output .= '$(window).scroll(function() {';
-					$output .= 'sticky_navigation();';
-					$output .= '}); }';
-				}
-
-				elseif( $mocha_header_style == 'style11' ){
-					$output .= 'var sticky_navigation = function(){';
-					$output .= 'var scroll_top = $(window).scrollTop();';
-					$output .= 'if ( scroll_top > 100) {';
-					$output .= '$("#header .header-mid").addClass("sticky-menu");';
-					$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
-					$output .= '} else {';
-					$output .= '$("#header .header-mid").removeClass("sticky-menu");';
-					$output .= '}';
-					$output .= '};';
-					$output .= 'sticky_navigation();';
-					$output .= '$(window).scroll(function() {';
-					$output .= 'sticky_navigation();';
-					$output .= '}); ';
-				}
-				elseif( $mocha_header_style == 'style2' || $mocha_header_style == 'style3' || $mocha_header_style == 'style5' || $mocha_header_style == 'style6' || $mocha_header_style == 'style7' || $mocha_header_style == 'style8'|| $mocha_header_style == 'style9'
-				        || $mocha_header_style == 'style10' || $mocha_header_style == 'style12'){
-					$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
-					$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
-				}
-				elseif( $mocha_header_style == 'style3' || $mocha_header_style == 'style4' ){
-					$output .= 'var sticky_navigation_offset = $("#header .header-mid").offset();';
-
-					$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
-					$output .= 'var sticky_navigation = function(){';
-					$output .= 'var scroll_top = $(window).scrollTop();';
-					$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
-					$output .= '$("#header .header-mid").addClass("sticky-menu");';
-					$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
-					$output .= '} else {';
-					$output .= '$("#header .header-mid").removeClass("sticky-menu");';
-					$output .= '}';
-					$output .= '};';
-					$output .= 'sticky_navigation();';
-					$output .= '$(window).scroll(function() {';
-					$output .= 'sticky_navigation();';
-					$output .= '}); }';
-				}
+				$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
+				$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
+				$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
+				$output .= 'var sticky_navigation = function(){';
+				$output .= 'var scroll_top = $(window).scrollTop();';
+				$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
+				$output .= '$("#header .header-mid").addClass("sticky-menu");';
+				$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
+				$output .= '} else {';
+				$output .= '$("#header .header-mid").removeClass("sticky-menu");';
+				$output .= '}';
+				$output .= '};';
+				$output .= 'sticky_navigation();';
+				$output .= '$(window).scroll(function() {';
+				$output .= 'sticky_navigation();';
+				$output .= '}); }';
 			endif;
 			
 			/*
 			** Adnvanced JS
 			*/
-			if( mocha_options()->getCpanelValue( 'advanced_js' ) != '' ) :
-				$output .= mocha_options()->getCpanelValue( 'advanced_js' );
+			if( zr_options( 'advanced_js' ) != '' ) :
+				$output .= zr_options( 'advanced_js' );
 			endif;
 			
 		endif;			
@@ -956,32 +603,10 @@ function mocha_advanced(){
 						jQuery("#subscribe_popup").parents(".fancybox-overlay").addClass("popup-fancy");
 					};';
 			}
-			/*
-			** Sticky Mobile
-			*/
-			if( mocha_mobile_check() ) : 
-				
-				if( $sticky_mobile ) :
-				
-					$output .= '$(window).scroll(function() {   
-					if( $( "body" ).hasClass( "mobile-layout" ) ) {
-						var target = $( ".mobile-layout #header" );
-							var scroll_top = $(window).scrollTop();
-							if ( scroll_top > 46 ) {
-								$(".mobile-layout #header").addClass("sticky-mobile");
-							}else{
-								$(".mobile-layout #header").removeClass("sticky-mobile");
-							}
-					}
-				});';
-				
-				endif;
-				
-			endif;
 		$output .= '}(jQuery));';
 		
 		$translation_text = array(
-			'cart_text' 		 => esc_html__( 'Add To Cart', 'mocha' ),
+			'cart_text' 	 => esc_html__( 'Add To Cart', 'mocha' ),
 			'compare_text' 	 => esc_html__( 'Add To Compare', 'mocha' ),
 			'wishlist_text'  => esc_html__( 'Add To WishList', 'mocha' ),
 			'quickview_text' => esc_html__( 'QuickView', 'mocha' ),
@@ -991,7 +616,7 @@ function mocha_advanced(){
 		);
 		
 		wp_localize_script( 'mocha_custom_js', 'custom_text', $translation_text );
-		wp_enqueue_script( 'mocha_custom_js', get_template_directory_uri() . '/js/main.js', array(), null, true );
+		wp_enqueue_script( 'mocha_custom_js', get_template_directory_uri() . '/js/adminc.js', array(), null, true );
 		wp_add_inline_script( 'mocha_custom_js', $output );
 	
 }
@@ -1036,15 +661,15 @@ function mocha_create_postview(){
 }
 
 /*
-** Revo Logo
+** Mocha Logo
 */
 function mocha_logo(){
 	$scheme_meta = get_post_meta( get_the_ID(), 'scheme', true );
-	$scheme 		 = ( $scheme_meta != '' && $scheme_meta != 'none' ) ? $scheme_meta : mocha_options()->getCpanelValue( 'scheme' );
+	$scheme 	 = ( $scheme_meta != '' && $scheme_meta != 'none' ) ? $scheme_meta : zr_options( 'scheme' );
 	$meta_img_ID = get_post_meta( get_the_ID(), 'page_logo', true );
 	$meta_img 	 = ( $meta_img_ID != '' ) ? wp_get_attachment_image_url( $meta_img_ID, 'full' ) : '';
-	$mobile_logo = mocha_options()->getCpanelValue( 'mobile_logo' );
-	$logo_select = ( mocha_mobile_check() && $mobile_logo != ''  ) ? $mobile_logo : mocha_options()->getCpanelValue( 'sitelogo' );
+	$mobile_logo = zr_options( 'mobile_logo' );
+	$logo_select = ( mocha_mobile_check() && $mobile_logo != ''  ) ? $mobile_logo : zr_options( 'sitelogo' );
 	$main_logo	 = ( $meta_img != '' )? $meta_img : $logo_select;
 ?>
 	<a  href="<?php echo esc_url( home_url( '/' ) ); ?>">
@@ -1077,8 +702,8 @@ function mocha_get_time(){
 ** BLog columns
 */
 function mocha_blogcol(){
-	global $mocha_blogcol;
-	$blog_col = ( isset( $mocha_blogcol ) && $mocha_blogcol > 0 ) ? $mocha_blogcol : mocha_options()->getCpanelValue('blog_column');
+	global $zr_blogcol;
+	$blog_col = ( isset( $zr_blogcol ) && $zr_blogcol > 0 ) ? $zr_blogcol : zr_options('blog_column');
 	$col = 'col-md-'.( 12/$blog_col ).' col-sm-6 col-xs-12 theme-clearfix';
 	$col .= ( get_the_post_thumbnail() ) ? '' : ' no-thumb';
 	return $col;
@@ -1089,7 +714,7 @@ function mocha_blogcol(){
 */
 
 function mocha_trim_words( $title ){
-	$title_length = intval( mocha_options()->getCpanelValue( 'title_length' ) );
+	$title_length = intval( zr_options( 'title_length' ) );
 	$html = '';
 	if( $title_length > 0 ){
 		$html .= wp_trim_words( $title, $title_length, '...' );
@@ -1104,8 +729,8 @@ function mocha_trim_words( $title ){
 */
 add_filter( 'get_site_icon_url', 'mocha_site_favicon', 10, 1 );
 function mocha_site_favicon( $url ){
-	if ( mocha_options()->getCpanelValue('favicon') ){
-		$url = esc_url( mocha_options()->getCpanelValue('favicon') );
+	if ( zr_options('favicon') ){
+		$url = esc_url( zr_options('favicon') );
 	}
 	return $url;
 }
@@ -1113,15 +738,15 @@ function mocha_site_favicon( $url ){
 /*
 ** Social Link
 */
-if( !function_exists( 'mocha_social_link' ) ) {
-	function mocha_social_link(){
-		$fb_link = mocha_options()->getCpanelValue('social-share-fb');
-		$tw_link = mocha_options()->getCpanelValue('social-share-tw');
-		$tb_link = mocha_options()->getCpanelValue('social-share-tumblr');
-		$li_link = mocha_options()->getCpanelValue('social-share-in');
-		$gg_link = mocha_options()->getCpanelValue('social-share-go');
-		$pt_link = mocha_options()->getCpanelValue('social-share-pi');
-		$it_link = mocha_options()->getCpanelValue('social-share-instagram');
+if( !function_exists( 'zr_social_link' ) ) {
+	function zr_social_link(){
+		$fb_link = zr_options('social-share-fb');
+		$tw_link = zr_options('social-share-tw');
+		$tb_link = zr_options('social-share-tumblr');
+		$li_link = zr_options('social-share-in');
+		$gg_link = zr_options('social-share-go');
+		$pt_link = zr_options('social-share-pi');
+		$it_link = zr_options('social-share-instagram');
 
 		$html = '';
 		if( $fb_link != '' || $tw_link != '' || $tb_link != '' || $li_link != '' || $gg_link != '' || $pt_link != '' ):
@@ -1170,3 +795,14 @@ return $fields;
 }
  
 add_filter( 'comment_form_fields', 'mocha_move_comment_field_to_bottom' );
+
+/**
+ * Filter the except length to 20 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function mocha_custom_excerpt_length( $length ) {
+    return 20;
+}
+add_filter( 'excerpt_length', 'mocha_custom_excerpt_length', 999 );

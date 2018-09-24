@@ -75,13 +75,13 @@
 											$average      = $product->get_average_rating();
 										?>
 										<div class="reviews-content">
-											<div class="star"><?php echo ( $average > 0 ) ?'<span style="width:'. ( $average*13 ).'px"></span>' : ''; ?></div>
+											<div class="star"><?php echo sprintf( ( $average > 0 ) ?'<span style="width: %s"></span>' : '', ( $average*13 . 'px' ) ); ?></div>
 										</div>	
 										<!-- end rating  -->
 										<?php if ( $price_html = $product->get_price_html() ){?>
 										<div class="item-price">
 											<span>
-												<?php echo ( $price_html ); ?>
+												<?php echo sprintf( '%s', $price_html ); ?>
 											</span>
 										</div>
 										<?php } ?>

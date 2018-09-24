@@ -3,9 +3,9 @@
 	** Content Header
 	*/
 	$mocha_page_header = get_post_meta( get_the_ID(), 'page_header_style', true );
-	$mocha_colorset = mocha_options()->getCpanelValue('scheme');
-	$mocha_logo = mocha_options()->getCpanelValue('sitelogo');
-	$mocha_page_header  = ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : mocha_options()->getCpanelValue('header_style');
+	$mocha_colorset = zr_options('scheme');
+	$mocha_logo = zr_options('sitelogo');
+	$mocha_page_header  = ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : zr_options('header_style');
 ?>
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header );?>">
 	<div class="header-top clearfix">		
@@ -28,7 +28,7 @@
 				<div class="navbar-menu clearfix">
 					<?php
 						$mocha_menu_class = 'nav nav-pills';
-						if ( 'mega' == mocha_options()->getCpanelValue( 'menu_type' ) ){
+						if ( 'mega' == zr_options( 'menu_type' ) ){
 							$mocha_menu_class .= ' nav-mega';
 						} else $mocha_menu_class .= ' nav-css';
 					?>

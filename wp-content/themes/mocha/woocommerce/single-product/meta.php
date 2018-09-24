@@ -4,7 +4,7 @@
  *
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     3.4.0
+ * @version     3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -15,10 +15,8 @@ global $post, $product;
 
 	<?php do_action( 'woocommerce_product_meta_start' ); ?>
 
-	<?php
-		$size = sizeof( get_the_terms( $post->ID, 'product_tag' ) );
-		echo $product->get_tags( ', ', '<span class="tagged_as">' . _n( 'Tag:', 'Tags:', $size, 'mocha' ) . ' ', '.</span>' );
-	?>
+	<?php echo wc_get_product_tag_list( $product->get_id(), ', ', '<span class="tagged_as">' . _n( 'Tag:', 'Tags:', count( $product->get_tag_ids() ), 'mocha' ) . ' ', '</span>' ); ?>
+
 
 	<?php do_action( 'woocommerce_product_meta_end' ); ?>
 

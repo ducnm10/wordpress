@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Currency Converter Widget
  *
@@ -8,99 +12,115 @@
  */
 class WooCommerce_Widget_Currency_Converter extends WP_Widget {
 
-	/** Variables to setup the widget. */
-	var $woo_widget_cssclass;
-	var $woo_widget_description;
-	var $woo_widget_idbase;
-	var $woo_widget_name;
+	/** @var string Widgets ID */
+	private $widget_id_base = 'woocommerce_currency_converter';
 
-	/** constructor */
-	function __construct() {
-
-		/* Widget variable settings. */
-		$this->woo_widget_cssclass = 'widget_currency_converter';
-		$this->woo_widget_description = esc_html__( 'Allow users to choose a currency for prices to be displayed in.', 'mocha' );
-		$this->woo_widget_idbase = 'woocommerce_currency_converter';
-		$this->woo_widget_name = esc_html__('WooCommerce Currency Converter', 'mocha' );
-
-		/* Widget settings. */
-		$widget_ops = array( 'classname' => $this->woo_widget_cssclass, 'description' => $this->woo_widget_description );
-
-		/* Create the widget. */
-		parent::__construct($this->woo_widget_idbase, $this->woo_widget_name, $widget_ops);
+	/**
+	 * Register the Widget with WP
+	 */
+	public static function register() {
+		register_widget( 'WooCommerce_Widget_Currency_Converter' );
 	}
 
-	/** @see WP_Widget */
-	function widget( $args, $instance ) {
-		extract($args);
-
-		$title   = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
-		$show_reset   = $instance['show_reset'];
-
-		echo $before_widget;
-
-		if ($title) echo $before_title . $title . $after_title;
-
-		?>
-		<form method="post" class="currency_converter" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-			
-			<ul class="currency_w">
-				
-				<?php					
-
-					$currencies = array_map( 'trim', array_filter( explode( "\n", $instance['currency_codes'] ) ) );
-
-					if ( $currencies ) {
-						echo '<li><a href="#" class="" >' . esc_attr($currencies[0]) . '</a>';
-						echo '<ul class="currency_switcher">';
-						$i = 0;
-						foreach ( $currencies as  $currency  ) {
-							
-							$class    = '';
-
-							if ( $currency == get_option( 'woocommerce_currency' ) ){
-								$class = 'reset default';
-							}
-							echo '<li><a href="#" class="' . esc_attr( $class ) . '" data-currencycode="' . esc_attr( $currency ) . '">' . esc_attr( $currency ) . '</a></li>';
-							$i++;
-						}
-						echo '</ul></li>';
-						if ( $show_reset )
-							echo '<li><a href="#" class="reset">' . esc_html__('Reset', 'mocha') . '</a></li>';
-
-						
-						
-					}
-				?>
-				
-			</ul>
-		</form>
-		<?php
-
-		echo $after_widget;
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		parent::__construct( $this->widget_id_base, esc_html__( 'WooCommerce Currency Converter', 'mocha' ), array(
+			'classname'   => 'widget_currency_converter',
+			'description' =>  esc_html__( 'Allow users to choose a currency for prices to be displayed in.', 'mocha' )
+		) );
 	}
 
-	/** @see WP_Widget->update */
-	function update( $new_instance, $old_instance ) {
-		$instance['title']          = empty( $new_instance['title'] ) ? '' : strip_tags(stripslashes($new_instance['title']));
-		$instance['currency_codes'] = empty( $new_instance['currency_codes'] ) ? '' : strip_tags(stripslashes($new_instance['currency_codes']));
-		$instance['show_reset']     = empty( $new_instance['show_reset'] ) ? '' : strip_tags(stripslashes($new_instance['show_reset']));
+	/**
+	 * Output the widget content
+	 * @param  array $args
+	 * @param  array $instance
+	 */
+	public function widget( $args, $instance ) {
+		extract( $args );
+
+		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->widget_id_base );
+
+		echo sprintf( '%s', $before_widget );
+
+		if ( $title ) {
+			echo sprintf( $before_title . '%s' . $after_title,  '%s', $title );
+		}
+
+		do_action( 'woocommerce_currency_converter', $instance, true );
+
+		echo sprintf( '%s', $after_widget );
+	}
+
+	/**
+	 * Save settings form
+	 * @param  array $new_instance
+	 * @param  array $old_instance
+	 * @return array
+	 */
+	public function update( $new_instance, $old_instance ) {
+		$instance['title']            = empty( $new_instance['title'] ) ? '' : wc_clean( $new_instance['title'] );
+		$instance['currency_codes']   = empty( $new_instance['currency_codes'] ) ? '' : implode( "\n", array_map( 'wc_clean', explode( "\n", $new_instance['currency_codes'] ) ) );
+		$instance['message']          = empty( $new_instance['message'] ) ? '' : wc_clean( $new_instance['message'] );
+		$instance['show_reset']       = empty( $new_instance['show_reset'] ) ? '' : wc_clean( $new_instance['show_reset'] );
+		$instance['show_symbols']     = empty( $new_instance['show_symbols'] ) ? '' : wc_clean( $new_instance['show_symbols'] );
+		$instance['currency_display'] = empty( $new_instance['currency_display'] ) ? '' : wc_clean( $new_instance['currency_display'] );
+		$instance['disable_location'] = empty( $new_instance['disable_location'] ) ? false : (bool) $new_instance['disable_location'];
+
+		// We want to save the "disable_location" to options table
+		// as this setting should be global and easily retrieved to
+		// be set in cookie. TODO: move setting away from widget to
+		// products tab in WC setting.
+		update_option( 'wc_currency_converter_disable_location', empty( $new_instance['disable_location'] ) ? false : (bool) $new_instance['disable_location'] );
+
+		update_option( 'wc_currency_converter_allowed_currencies', empty( $new_instance['currency_codes'] ) ? '' : implode( "\n", array_map( 'wc_clean', explode( "\n", $new_instance['currency_codes'] ) ) ) );
+
 		return $instance;
 	}
 
-	/** @see WP_Widget->form */
-	function form( $instance ) {
-		global $wpdb;
+	/**
+	 * Settings Form
+	 * @param  array $instance
+	 */
+	public function form( $instance ) {
+		$instance['currency_display'] = empty( $instance['currency_display'] ) ? '' : $instance['currency_display'];
 		?>
-		<p><label for="<?php echo esc_attr( $this->get_field_id('title') ); ?>"><?php esc_html_e('Title:', 'mocha') ?></label>
-		<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id('title') ); ?>" name="<?php echo esc_attr( $this->get_field_name('title') ); ?>" value="<?php if (isset ( $instance['title'])) {echo esc_attr( $instance['title'] );} else {echo esc_html__('Currency converter', 'mocha');} ?>" /></p>
-
-		<p><label for="<?php echo esc_attr( $this->get_field_id('currency_codes') ); ?>"><?php esc_html_e('Currency codes:', 'mocha') ?> <small>(<?php esc_html_e('1 per line', 'mocha') ?>)</small></label>
-		<textarea class="widefat" rows="5" cols="20" name="<?php echo esc_attr( $this->get_field_name('currency_codes') ); ?>" id="<?php echo esc_attr( $this->get_field_id('currency_codes') ); ?>"><?php if ( ! empty( $instance['currency_codes'] ) ) echo esc_attr( $instance['currency_codes'] ); else echo "USD\nEUR"; ?></textarea>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'mocha' ) ?></label>
+			<input type="text" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" value="<?php if ( isset( $instance['title'] ) ) echo esc_attr( $instance['title'] ); else echo esc_html__( 'Currency converter', 'mocha' ); ?>" />
 		</p>
-		
-		<p><label for="<?php echo esc_attr( $this->get_field_id('show_reset') ); ?>"><?php esc_html_e('Show reset link:', 'mocha') ?></label>
-		<input type="checkbox" class="" id="<?php echo esc_attr( $this->get_field_id('show_reset') ); ?>" name="<?php echo esc_attr( $this->get_field_name('show_reset') ); ?>" value="1" <?php if (isset($instance['show_reset'])) checked($instance['show_reset'], 1); ?> /></p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'currency_codes' ) ); ?>"><?php esc_html_e( 'Currency codes:', 'mocha' ); ?> <small>(<?php esc_html_e( '1 per line', 'mocha' ) ?>)</small></label>
+			<textarea class="widefat" rows="5" cols="20" name="<?php echo esc_attr( $this->get_field_name( 'currency_codes' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'currency_codes' ) ); ?>"><?php if ( ! empty( $instance['currency_codes'] ) ) echo esc_attr( $instance['currency_codes'] ); else echo "USD\nEUR"; ?></textarea>
+			<p class="description"><?php esc_html_e( "Use * to control how the amounts and currency symbols are displayed. Example: SEK* becomes 999kr. USD * becomes 999 $. If you omit * and just provide the currency (USD, EUR), WooCommerce's default currency position will be used.", 'mocha' ); ?></p>
+		</p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'currency_display' ) ); ?>"><?php esc_html_e( 'Currency Display Mode:', 'mocha' ); ?></label>
+			<select id="<?php echo esc_attr( $this->get_field_id( 'currency_display' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'currency_display' ) ); ?>">
+				<option value="" <?php selected( $instance['currency_display'], '' ) ?>><?php esc_html_e( 'Buttons', 'mocha' ); ?></option>
+				<option value="select" <?php selected( $instance['currency_display'], 'select' ) ?>><?php esc_html_e( 'Select Box', 'mocha' ); ?></option>
+			</select>
+		</p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'message' ) ); ?>"><?php esc_html_e( 'Widget message:', 'mocha' ) ?></label>
+			<textarea class="widefat" rows="5" cols="20" name="<?php echo esc_attr( $this->get_field_name( 'message' ) ); ?>" id="<?php echo esc_attr( $this->get_field_id( 'message' ) ); ?>"><?php if ( isset ( $instance['message'] ) ) echo esc_attr( $instance['message'] ); else esc_html_e( "Currency conversions are estimated and should be used for informational purposes only.", 'mocha' ); ?></textarea>
+		</p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_symbols' ) ); ?>"><?php esc_html_e( 'Show currency symbols in widget:', 'mocha' ) ?></label>
+			<input type="checkbox" class="" id="<?php echo esc_attr( $this->get_field_id( 'show_symbols' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name('show_symbols') ); ?>" value="1" <?php if ( isset( $instance['show_symbols'] ) ) checked( $instance['show_symbols'], 1 ); ?> />
+		</p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'show_reset' ) ); ?>"><?php esc_html_e( 'Show reset link:', 'mocha' ) ?></label>
+			<input type="checkbox" class="" id="<?php echo esc_attr( $this->get_field_id( 'show_reset' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'show_reset' ) ); ?>" value="1" <?php if ( isset( $instance['show_reset'] ) ) checked( $instance['show_reset'], 1 ); ?> />
+		</p>
+		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'disable_location' ) ); ?>"><?php esc_html_e( 'Disable location detection:', 'mocha' ) ?></label>
+			<input type="checkbox" class="" id="<?php echo esc_attr( $this->get_field_id( 'disable_location' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'disable_location' ) ); ?>" value="1" <?php if ( isset( $instance['disable_location'] ) ) checked( $instance['disable_location'], 1 ); ?> />
+			<p class="description"><?php esc_html_e( "The currency converter widget will default to the currency for a user's currenct location. Check this box to disable location detection and default to the store's currency.", 'mocha' ); ?></p>
+		</p>
 		<?php
 	}
 }
+
+WooCommerce_Widget_Currency_Converter::register();

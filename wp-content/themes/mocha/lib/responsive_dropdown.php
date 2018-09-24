@@ -10,29 +10,28 @@ class Mocha_Resmenu{
 		$html .= '(function($) {
 			/* Responsive Menu */
 			$(document).ready(function(){
-				$( ".show-dropdown" ).each(function(){
-					$(this).on("click", function(){
-						$(this).toggleClass("show");
-						var $element = $(this).parent().find( "> ul" );
-						$element.toggle( 300 );
-					});
+				$(".show-dropdown").on("click", function(){
+					$(this).toggleClass("show");
+					var $element = $(this).parent().find( "> ul" );
+					$element.toggle( 300 );
+				});
+				$(document).click(function(e) {			
+					var container = $( ".resmenu-container" );
+					if ( typeof container != "undefined" && !container.is(e.target) && container.has(e.target).length === 0 && container.html().length > 0 ){
+						container.find( ".navbar-toggle" ).addClass( "collapsed" );
+						container.find( ".menu-responsive-wrapper" ).removeClass("in").addClass( "collapse" ).height(0);
+					}
 				});
 			});
 		})(jQuery);';
 		$html .= '</script>';
-		echo ( $html );
+		echo sprintf( $html );
 	}
 	function Mocha_MenuRes_AdFilter( $args ){
-		$args['container'] = false;
-		$mocha_theme_locates = array();
-		$mocha_menu = mocha_options()->getCpanelValue( 'menu_location' );
-		if( !is_array( $mocha_menu ) ){
-			$mocha_theme_locates[] = $mocha_menu;
-		}else{
-			$mocha_theme_locates = $mocha_menu;
-		}
-		foreach( $mocha_theme_locates as $mocha_theme_locate ){
-			if ( ( strcmp( $mocha_theme_locate, $args['theme_location'] ) == 0 ) ) {	
+		$args['container'] = false;		
+		$menu = get_registered_nav_menus() ;
+		foreach( $menu as $mocha_theme_locate => $menu_description ){
+			if( $mocha_theme_locate == $args['theme_location'] ){
 				if( isset( $args['mocha_resmenu'] ) && $args['mocha_resmenu'] == true ) {
 					return $args;
 				}		
@@ -41,7 +40,7 @@ class Mocha_Resmenu{
 				$args['container_class'].= '';	
 				$args['menu_class'].= ($args['menu_class'] == '' ? '' : ' ') . 'mocha-menures';			
 				$args['items_wrap']	= '<ul id="%1$s" class="%2$s">%3$s</ul>'.$ResNavMenu;
-			}			
+			}
 		}
 		return $args;
 	}
@@ -56,15 +55,9 @@ class Mocha_Resmenu{
 			return $args;
 		}
 		$args['container'] = false;
-		$mocha_theme_locates = array();
-		$mocha_menu = mocha_options()->getCpanelValue( 'menu_location' );
-		if( !is_array( $mocha_menu ) ){
-			$mocha_theme_locates[] = $mocha_menu;
-		}else{
-			$mocha_theme_locates = $mocha_menu;
-		}
-		foreach( $mocha_theme_locates as $mocha_theme_locate ){
-			if ( ( strcmp( $mocha_theme_locate, $args['theme_location'] ) == 0 ) ) {	
+		$menu = get_registered_nav_menus() ;
+		foreach( $menu as $mocha_theme_locate => $menu_description ){
+			if( $mocha_theme_locate == $args['theme_location'] ){
 				$args['container'] = 'div';
 				$args['container_class'].= 'resmenu-container';
 				$args['items_wrap']	= '<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#ResMenu'. esc_attr( $mocha_theme_locate ) .'">
@@ -74,13 +67,13 @@ class Mocha_Resmenu{
 					<span class="icon-bar"></span>
 				</button><div id="ResMenu'. esc_attr( $mocha_theme_locate ) .'" class="collapse menu-responsive-wrapper"><ul id="%1$s" class="%2$s">%3$s</ul></div>';	
 				$args['menu_class'] = 'mocha_resmenu';
-				$args['walker'] = new PACO_ResMenu_Walker();
-			}			
+				$args['walker'] = new Mocha_ResMenu_Walker();
+			}
 		}
 		return $args;
 	}
 }
-class PACO_ResMenu_Walker extends Walker_Nav_Menu {
+class Mocha_ResMenu_Walker extends Walker_Nav_Menu {
 	function check_current($classes) {
 		return preg_match('/(current[-_])|active|dropdown/', $classes);
 	}
