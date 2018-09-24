@@ -92,11 +92,33 @@
   .header.header-style1 .mocha-logo {
     margin-right: 20px;
   }
+  .header.header-style2 .header-right .header-right-inner .header-login {
+    border: none;
+  }
+  .header-bar {
+    display: none;
+  }
   .zr-child-cat-listing .zr-childcat-container .zr-childcat-top {
     width: 100%;
   }
   .zr-child-cat-listing .zr-childcat-container .item.product {
     width: 33.332%;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content .description {
+    display: none;
+  }
+  .zr-category-slider .resp-slider-container .slider .item .item-content h3 a {
+    font-size: 40px;
+  }
+  .zr-woo-container-slider .zr-content .banner-info {
+    display: none;
+  }
+  .zr-woo-container-slider .zr-content .resp-slider-container {
+    width: 100%;
+    padding: 0 !important;
+  }
+  .rtl .zr-woo-container-slider .zr-content .resp-slider-container {
+    padding: 0 !important;
   }
   .responsive-post-slider .slider .slick-list .item .item-detail .entry-content .item-title h4 a {
     font-size: 18px;
@@ -174,6 +196,16 @@
   #main-menu .nav-pills {
     display: none;
   }
+  .free-deli {
+    margin: 0;
+  }
+  .free-deli span {
+    font-size: 20px;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-image-countdown,
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content {
+    width: 100%;
+  }
   .woocommerce nav.woocommerce-pagination {
     float: left;
   }
@@ -201,6 +233,15 @@
   }
   .respon-style {
     display: none;
+  }
+  .subcribe h3 {
+    float: none;
+    text-align: center;
+    width: 100%;
+    margin: 0 0 30px 0;
+  }
+  .subcribe .mc4wp-form {
+    float: none;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {
@@ -267,6 +308,20 @@
   .header.header-style4 .resmenu-container .menu-responsive-wrapper {
     top: 40px;
   }
+  .header.header-style2 {
+    padding: 0;
+  }
+  .header.header-style2 .mocha-logo {
+    width: 100%;
+    float: none;
+    padding: 20px 0 0 0;
+  }
+  .header.header-style2 .mocha-logo a img {
+    margin: 0 auto;
+  }
+  .header.header-style2 .header-right .header-right-inner .header-login .top-login > a {
+    padding: 0 10px;
+  }
   .header.header-style3 .sticky-menu {
     position: relative;
     padding: 0;
@@ -287,8 +342,41 @@
   .header.header-style3 .header-top .header-right .top-form-minicart {
     margin-top: 14px;
   }
-  .header.header-style4 .header-top .header-coupon {
+  .header.header-style4 .header-top .header-coupon,
+  .free-deli {
     display: none;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content {
+    padding: 0;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content .item-info {
+    padding: 30px 10px;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content .item-price del {
+    font-size: 16px;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content .item-price ins {
+    font-size: 22px;
+  }
+  .countdown-slider .item-countdown .item-wrap .item-detail .item-content .product-countdown .countdown-row .countdown-section .countdown-amount {
+    font-size: 16px;
+    width: 50px;
+  }
+  .mocha_breadcrumbs {
+    min-height: 200px;
+    padding-top: 60px;
+  }
+  .mocha_breadcrumbs .listing-title {
+    display: none;
+  }
+  .subcribe h3 {
+    display: none;
+  }
+  .subcribe .mc4wp-form {
+    width: 100%;
+  }
+  .subcribe .mc4wp-form .mc4wp-form-fields {
+    min-width: auto;
   }
   .zr-child-cat-listing .zr-childcat-container .item.product {
     width: 100%;
@@ -504,7 +592,6 @@
 @media (max-width: 479px) {
   [class*="col-xs-"] {
     float: none;
-    width: auto;
   }
   .rtl [class*="col-xs-"] {
     float: none;

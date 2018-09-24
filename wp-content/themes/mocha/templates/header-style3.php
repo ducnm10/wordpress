@@ -8,7 +8,8 @@
 	$mocha_page_header  = ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : mocha_options()->getCpanelValue('header_style');
 ?>
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header ); ?>">
-	<div class="header-top clearfix">	
+	<div class="header-top clearfix">
+		<div class="container">	
 		<div class="header-left col-lg-4 col-md-4 col-sm-4">
 			<a class="top-icon" href="javascript:void(0)"><i class="fa fa-bars" aria-hidden="true"></i></a>
 			<?php if ( is_active_sidebar( 'top2' ) ) { ?>	
@@ -50,22 +51,25 @@
 				<?php endif; ?>		
 			</div>
 		</div>
+		</div>
 	</div>
 	<div class="header-mid">
-		<!-- Primary navbar -->
-		<?php if ( has_nav_menu( 'primary_menu' ) ) { ?>
-			<div id="main-menu" class="main-menu clearfix">
-				<div class="navbar-menu clearfix">
-					<?php
-						$mocha_menu_class = 'nav nav-pills';
-						if ( 'mega' == mocha_options()->getCpanelValue( 'menu_type' ) ){
-							$mocha_menu_class .= ' nav-mega';
-						} else $mocha_menu_class .= ' nav-css';
-					?>
-					<?php wp_nav_menu( array( 'theme_location' => 'primary_menu', 'menu_class' => $mocha_menu_class ) ); ?>
-				</div>
-			</div>			
-		<?php } ?>
-		<!-- /Primary navbar -->
+		<div class="container">
+			<!-- Primary navbar -->
+			<?php if ( has_nav_menu( 'primary_menu' ) ) { ?>
+				<div id="main-menu" class="main-menu clearfix">
+					<div class="navbar-menu clearfix">
+						<?php
+							$mocha_menu_class = 'nav nav-pills';
+							if ( 'mega' == mocha_options()->getCpanelValue( 'menu_type' ) ){
+								$mocha_menu_class .= ' nav-mega';
+							} else $mocha_menu_class .= ' nav-css';
+						?>
+						<?php wp_nav_menu( array( 'theme_location' => 'primary_menu', 'menu_class' => $mocha_menu_class ) ); ?>
+					</div>
+				</div>			
+			<?php } ?>
+			<!-- /Primary navbar -->
+		</div>
 	</div>
 </header>

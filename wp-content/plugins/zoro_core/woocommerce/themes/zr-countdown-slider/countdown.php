@@ -82,6 +82,7 @@ if ( $list -> have_posts() ){ ?>
 							?></a>				
 							</div>
 							<div class="item-content">
+								<div class="item-info">
 								<?php if( $title1 != '' ){?>
 									<div class="box-title">
 										<h3><?php echo ( $title1 != '' ) ? $title1 : $term_name; ?></h3>
@@ -108,7 +109,8 @@ if ( $list -> have_posts() ){ ?>
 								<?php } ?>
 								<div class="description"><?php echo $post->post_excerpt; ?></div>
 								<div class="product-countdown" data-date="<?php echo esc_attr( $date ); ?>"  data-price="<?php echo esc_attr( $symboy.$forginal_price ); ?>" data-starttime="<?php echo esc_attr( $start_time ); ?>" data-cdtime="<?php echo esc_attr( $countdown_time ); ?>" data-id="<?php echo 'product_'.$id.$post->ID; ?>"></div>	
-								<div class="view-product"><a href="<?php echo get_permalink($post->ID)?>" ><?php esc_html_e( 'View products', 'zr_core' ); ?></a></div>				
+								<div class="view-product"><a href="<?php echo get_permalink($post->ID)?>" ><?php esc_html_e( 'View products', 'zr_core' ); ?></a></div>	
+								</div>
 							</div>															
 						</div>
 					</div>
