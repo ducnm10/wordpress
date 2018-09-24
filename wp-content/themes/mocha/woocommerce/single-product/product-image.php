@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $post, $woocommerce, $product;
 $attachments 	     	  =	 array();
 $mocha_featured_video   = get_post_meta( $post->ID, 'featured_video_product', true );
-$mocha_single_thunbmail = ( mocha_options()->getCpanelValue( 'product_single_thumbnail' ) && !mocha_mobile_check() ) ? mocha_options()->getCpanelValue( 'product_single_thumbnail' ) : 'bottom';
+$mocha_single_thunbmail = ( zr_options( 'product_single_thumbnail' ) && !mocha_mobile_check() ) ? zr_options( 'product_single_thumbnail' ) : 'bottom';
 $post_thumbnail_id	 	  = get_post_thumbnail_id( $post->ID );
 ?>
 <div id="product_img_<?php echo esc_attr( $post->ID ); ?>" class="woocommerce-product-gallery woocommerce-product-gallery--with-images images product-images loading" data-vertical="<?php echo ( ( $mocha_single_thunbmail == 'left' || $mocha_single_thunbmail == 'right' ) && !mocha_mobile_check() ) ? 'true' : 'false'; ?>" data-video="<?php echo sprintf( ( $mocha_featured_video != '' ) ? '%s' : '', esc_url( 'https://www.youtube.com/embed/' . $mocha_featured_video ) ); ?>">

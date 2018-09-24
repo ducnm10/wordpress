@@ -1,4 +1,5 @@
 ul.currency_switcher {
+	overflow: hidden;
 	zoom: 1;
 	list-style: none outside;
 }

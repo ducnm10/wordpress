@@ -56,18 +56,7 @@
 							<?php endif; ?>
 						</div>
 						<div class="entry-description">
-							<?php 
-														
-								if ( preg_match('/<!--more(.*?)?-->/', $post->post_content, $matches) ) {
-									$content = explode($matches[0], $post->post_content, 2);
-									$content = $content[0];
-									$content = wp_trim_words($post->post_content, 30, '...');
-									echo $content;	
-								} else {
-									$content = wp_trim_words($post->post_content, 25, '...');
-									echo $content;	
-								}		
-							?>
+							<?php the_excerpt(); ?>
 						</div>
 						<div class="bl_read_more"><a href="<?php the_permalink(); ?>"><?php esc_html_e('Read more','mocha')?><i class="fa fa-angle-double-right"></i></a></div>
 						 <?php wp_link_pages( array( 'before' => '<div class="page-links"><span class="page-links-title">' . esc_html__( 'Pages:', 'mocha' ).'</span>', 'after' => '</div>' , 'link_before' => '<span>', 'link_after'  => '</span>' ) ); ?>

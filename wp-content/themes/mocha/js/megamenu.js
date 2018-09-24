@@ -14,37 +14,41 @@
 			mwrap.find('.mocha-mega > li').each(function(){
 				var menucontent 		= $(this).find(".dropdown-menu");
 				var menuitemlink 		= $(this).find(".item-link:first");
-		    	var menucontentinner 	= $(this).find(".nav-level1");
-		    	var mshow_timer = 0;
-		    	var mhide_timer = 0;
-		     	var li = $(this);
-		     	var islevel1 = (li.hasClass('level1'))?true:false;
-				var havechild = (li.hasClass('dropdown'))?true:false;
-				li.mouseenter(function(el){
-					el.stopPropagation();
-					clearTimeout(mhide_timer);
-					clearTimeout(mshow_timer);
-					addHover(li);
-					if(havechild){
-						positionSubMenu(li, islevel1);						
-					}
-				}).mouseleave(function(el){ //return;
-					clearTimeout(mshow_timer);
-					clearTimeout(mhide_timer);					
-					removeHover(li);
-			    });
+				var menucontentinner 	= $(this).find(".nav-level1");
+				var mshow_timer = 0;
+				var mhide_timer = 0;
+				var li = $(this);
+				var islevel1 = (li.hasClass('level1')) ?true:false;
+				var havechild = (li.hasClass('dropdown')) ?true:false;
+				var menu_event = $( 'body' ).hasClass( 'menu-click' );
+				if( menu_event ){
+					li.on( 'click', function(){
+						 positionSubMenu(li, islevel1);	
+						$(this).find( '>ul').toggleClass( 'visible' );
+					});
+					$(document).mouseup(function (e){
+							var container = li.find( '>ul');
+							if (!container.is(e.target) && container.has(e.target).length === 0) {
+									container.removeClass( 'visible' );
+							}
+					});
+					li.find( '> a[data-toogle="dropdown"]' ).on( 'click', function(e){
+						e.preventDefault();			
+					});
+					
+				}else{
+					li.mouseenter(function(el){
+						li.find( '>ul').addClass( 'visible' );
+						if(havechild){
+							positionSubMenu(li, islevel1);						
+						}
+					}).mouseleave(function(el){ 
+						li.find( '>ul').removeClass( 'visible' );				
+					});
+				}
 			});
 		}		
-		// Add class hover to li
-		function addHover(el){
-			$(el).addClass('hover');
-			
-		}
-		// Remove class hover to li
-		function removeHover(el){
-			$(el).removeClass('hover');
-		}
-		// Position Submenu
+		
 		function positionSubMenu(el, islevel1){
 			menucontent 		= $(el).find(".dropdown-menu");
 			menuitemlink 		= $(el).find(".item-link");
@@ -99,30 +103,31 @@
 					
 					var menucontent_LE = menuitemli_O - menucontent_W + _leftsub;
 											
-					if( menucontent_LE <= wrap_LE ) { // Menu content exceeding the outer box
+					if( menucontent_LE <= wrap_LE ) { 
 						menucontent.css({
 							'left': menuitemli_W - _leftsub + 'px'
-						}); // Limit megamenu inside the outer box
+						}); 
 					} else {
 						menucontent.css({
 							'left':  - _leftsub - menucontent_W + 'px'
-						}); // Limit megamenu inside the outer box
+						}); 
 					}
 				}
 			}
 		}
 	};
+	
 	jQuery(function($){
-		$rtl = $('body').hasClass('rtl');
+		var rtl = $('body').hasClass('rtl');
 		$('.header-mid > .container').megamenu({ 
 			wrap:'.nav-mega',
 			justify: 'left',
-			rtl: $rtl
+			rtl: rtl
 		});
 		$('.header-bottom > .container').megamenu({ 
 			wrap:'.nav-mega',
 			justify: 'left',
-			rtl: $rtl
+			rtl: rtl
 		});
 	});
 })(jQuery);

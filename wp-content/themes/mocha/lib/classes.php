@@ -1,50 +1,5 @@
 <?php
 
-
-if ( !class_exists('Mocha_Config')):
-class Mocha_Config {
-	public static $instance = null;
-	protected $vars = array();
-	public function __construct(){
-
-	}
-	
-	public function __get($field){
-		if ( array_key_exists($field, $_COOKIE) ){
-			return $_COOKIE[$field];
-		} else if ( array_key_exists($field, $this->vars) ){
-			return $this->vars[$field];
-		}
-		return null;
-	}
-	
-	public function gets(){
-		$cookie_vars = array();
-		foreach($this->vars as $field => $val){
-			if (array_key_exists($field, $_COOKIE)){
-				$cookie_vars[$field] = $_COOKIE[$field];
-			}
-		}
-		return array_merge($this->vars, $cookie_vars);
-	}
-	
-	public function __set($field, $val){
-		$this->vars[$field] = $val;
-	}
-	
-	public static function setVariables($vars){
-		if ( is_null(self::$instance) ){
-			self::$instance = new Mocha_Config();
-			foreach ( (array)$vars as $field => $val ){
-				self::$instance->$field = $val;
-			}
-		}
-		return self::$instance;
-	}
-}
-
-endif;
-
 if ( !class_exists('Mocha_Widget') ):
 
 abstract class Mocha_Widget extends WP_Widget{
@@ -101,21 +56,22 @@ abstract class Mocha_Widget extends WP_Widget{
 		}
 		
 		$files = array();
-	
-		foreach ( $results as $result ) {
-			if ( '.' == $result[0] )
-				continue;
-			if ( is_dir( $path . '/' . $result ) ) {
-				if ( ! $depth || 'CVS' == $result )
+		if( $results ) {
+			foreach ( $results as $result ) {
+				if ( '.' == $result[0] )
 					continue;
-				$found = self::scandir( $path . '/' . $result, $extensions, $depth - 1 , $relative_path . $result );
-				$files = array_merge_recursive( $files, $found );
-			} elseif ( ! $extensions || preg_match( '~\.(' . $_extensions . ')$~', $result ) ) {
-				$files[ $relative_path . $result ] = $path . '/' . $result;
+				if ( is_dir( $path . '/' . $result ) ) {
+					if ( ! $depth || 'CVS' == $result )
+						continue;
+					$found = self::scandir( $path . '/' . $result, $extensions, $depth - 1 , $relative_path . $result );
+					$files = array_merge_recursive( $files, $found );
+				} elseif ( ! $extensions || preg_match( '~\.(' . $_extensions . ')$~', $result ) ) {
+					$files[ $relative_path . $result ] = $path . '/' . $result;
+				}
 			}
+		
+			return $files;
 		}
-	
-		return $files;
 	}
 	
 	public function mocha_trim_words( $text, $num_words = 30, $more = null ) {
@@ -476,7 +432,7 @@ abstract class Mocha_Widget extends WP_Widget{
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id('widget_template') ); ?>"><?php esc_html_e("Template", 'mocha') ?></label>
 			<br/>
-			<?php echo $this->widget_template_select('widget_template', array(), $instance['widget_template']); ?>
+			<?php echo sprintf( '%s', $this->widget_template_select( 'widget_template', array(), $instance['widget_template'] ) ); ?>
 		</p>
 		<?php
 		$form_template = $this->getTemplatePath($instance['widget_template'], '_form');
@@ -495,7 +451,7 @@ abstract class Mocha_Widget extends WP_Widget{
 		if ( isset($instance['widget_title_after']) && !empty($instance['widget_title_after'])){
 			$before_title = $instance['widget_title_after'];
 		}
-		if ( !empty( $title ) ) { echo $before_title . $title . $after_title; }
+		if ( !empty( $title ) ) { echo sprintf ( $before_title . '%s' . $after_title, $title ); }
 		
 		is_null($instance) or extract($instance);
 		

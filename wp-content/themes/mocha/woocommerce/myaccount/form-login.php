@@ -16,15 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php do_action( 'woocommerce_before_customer_login_form' ); ?>
 <?php
-	global $mocha_detect;
-	$mobile_check   = mocha_options()->getCpanelValue( 'mobile_enable' );
-	if( !empty( $mocha_detect ) && ( $mocha_detect->isMobile() ) && $mobile_check )  : ?>
+	if( mocha_mobile_check() ) : ?>
 
 <div class="col2-set row" id="customer_login">
 
 	<div class="col-lg-6 col-md-6 col-sm-12">
 		<div class="image-login">
-			<img class="img_logo" alt="404" src="<?php echo get_template_directory_uri(); ?>/assets/img/icon-myaccount.png">
+			<?php $mocha_img_mobile = ( zr_options( 'mobile_logo_account' ) ) ? zr_options( 'mobile_logo_account' ) : get_template_directory_uri() .'/assets/img/icon-myaccount.png'; ?>
+			<img class="img_logo" alt="404" src="<?php echo esc_url( $mocha_img_mobile ) ?>">
 		</div>
 		
 		<h2><?php esc_html_e( 'Login', 'mocha' ); ?></h2>
@@ -35,11 +34,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p class="form-row form-row-wide">
 				<label for="username"><?php esc_html_e( 'Username or email address', 'mocha' ); ?><span class="required">*</span></label>
-				<input type="text" class="input-text" name="username" id="username" value="admin" />
+				<input type="text" class="input-text" name="username" id="username" value="" />
 			</p>
 			<p class="form-row form-row-wide">
 				<label for="password"><?php esc_html_e( 'Password', 'mocha' ); ?><span class="required">*</span></label>
-				<input class="input-text" type="password" name="password" id="password" value="templates"/>
+				<input class="input-text" type="password" name="password" id="password" value=""/>
 			</p>
 
 			<?php do_action( 'woocommerce_login_form' ); ?>
@@ -74,14 +73,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p class="form-row form-row-wide">
 					<label for="reg_username"><?php esc_html_e( 'Username', 'mocha' ); ?> <span class="required">*</span></label>
-					<input type="text" class="input-text" name="username" id="reg_username" value="<?php if ( ! empty( $_POST['username'] ) ){ echo esc_attr( $_POST['username'] ) ;} else { echo esc_html_e( 'admin', 'mocha' ); } ?>" />
+					<input type="text" class="input-text" name="username" id="reg_username" value="<?php if ( ! empty( $_POST['username'] ) ){ echo esc_attr( $_POST['username'] ) ;} ?>" />
 				</p>
 
 			<?php endif; ?>
 
 			<p class="form-row form-row-wide">
 				<label for="reg_email"><?php esc_html_e( 'Email address', 'mocha' ); ?> <span class="required">*</span></label>
-				<input type="email" class="input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) { echo esc_attr( $_POST['email'] ); } else{ echo esc_html_e( 'ytc@smartaddon.com', 'mocha' ); }?>" />
+				<input type="email" class="input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) { echo esc_attr( $_POST['email'] ); }?>" />
 			</p>
 
 			<?php if ( 'no' === get_option( 'woocommerce_registration_generate_password' ) ) : ?>
@@ -130,11 +129,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p class="form-row form-row-wide">
 				<label for="username"><?php esc_html_e( 'Username or email address', 'mocha' ); ?> <span class="required">*</span></label>
-				<input type="text" class="input-text" name="username" id="username" value="admin" />
+				<input type="text" class="input-text" name="username" id="username" value="" />
 			</p>
 			<p class="form-row form-row-wide">
 				<label for="password"><?php esc_html_e( 'Password', 'mocha' ); ?> <span class="required">*</span></label>
-				<input class="input-text" type="password" name="password" id="password" value="templates" />
+				<input class="input-text" type="password" name="password" id="password" value="" />
 			</p>
 
 			<?php do_action( 'woocommerce_login_form' ); ?>
@@ -171,14 +170,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p class="form-row form-row-wide">
 					<label for="reg_username"><?php esc_html_e( 'Username', 'mocha' ); ?> <span class="required">*</span></label>
-					<input type="text" class="input-text" name="username" id="reg_username" value="<?php if ( ! empty( $_POST['username'] ) ){ echo esc_attr( $_POST['username'] ); } else { echo esc_html_e( 'admin', 'mocha' ); }?>" />
+					<input type="text" class="input-text" name="username" id="reg_username" value="<?php if ( ! empty( $_POST['username'] ) ){ echo esc_attr( $_POST['username'] ); }?>" />
 				</p>
 
 			<?php endif; ?>
 
 			<p class="form-row form-row-wide">
 				<label for="reg_email"><?php esc_html_e( 'Email address', 'mocha' ); ?> <span class="required">*</span></label>
-				<input type="email" class="input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) { echo esc_attr( $_POST['email'] ); } else{ echo esc_html_e( 'ytc@smartaddon.com', 'mocha' ); }?>" />
+				<input type="email" class="input-text" name="email" id="reg_email" value="<?php if ( ! empty( $_POST['email'] ) ) { echo esc_attr( $_POST['email'] ); } ?>" />
 			</p>
 
 			<?php if ( 'no' === get_option( 'woocommerce_registration_generate_password' ) ) : ?>
@@ -189,10 +188,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</p>
 
 			<?php endif; ?>
-
-			<!-- Spam Trap -->
-			<div style="<?php echo ( ( is_rtl() ) ? 'right' : 'left' ); ?>: -999em; position: absolute;"><label for="trap"><?php esc_html_e( 'Anti-spam', 'mocha' ); ?></label><input type="text" name="email_2" id="trap" tabindex="-1" /></div>
-
+			
 			<?php do_action( 'woocommerce_register_form' ); ?>
 			<?php do_action( 'register_form' ); ?>
 

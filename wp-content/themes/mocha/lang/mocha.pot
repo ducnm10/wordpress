@@ -420,7 +420,7 @@ msgstr ""
 msgid "Default Template"
 msgstr ""
 
-#: lib/classes.php:307 lib/classes.php:394 widgets/sw_top/searchcate.php:28
+#: lib/classes.php:307 lib/classes.php:394 widgets/zr_top/searchcate.php:28
 msgid "All Categories"
 msgstr ""
 
@@ -1858,7 +1858,7 @@ msgstr ""
 msgid "Sign in Or Register"
 msgstr ""
 
-#: lib/utils.php:1031 widgets/sw_top/searchcate.php:38
+#: lib/utils.php:1031 widgets/zr_top/searchcate.php:38
 msgid "Enter your keyword..."
 msgstr ""
 
@@ -2020,39 +2020,39 @@ msgstr ""
 msgid "Posts ID"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:13
+#: lib/widgets/zr_posts/tmpl/default_form.php:13
 msgid "Category Name"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:19
+#: lib/widgets/zr_posts/tmpl/default_form.php:19
 msgid "Orderby"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:40
+#: lib/widgets/zr_posts/tmpl/default_form.php:40
 msgid "Order"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:47
+#: lib/widgets/zr_posts/tmpl/default_form.php:47
 msgid "Descending"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:51
+#: lib/widgets/zr_posts/tmpl/default_form.php:51
 msgid "Ascending"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:57
+#: lib/widgets/zr_posts/tmpl/default_form.php:57
 msgid "Number of Posts"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:66
+#: lib/widgets/zr_posts/tmpl/default_form.php:66
 msgid "Include Posts ID"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:75
+#: lib/widgets/zr_posts/tmpl/default_form.php:75
 msgid "Exclude Posts ID"
 msgstr ""
 
-#: lib/widgets/sw_posts/tmpl/default_form.php:84
+#: lib/widgets/zr_posts/tmpl/default_form.php:84
 msgid "Excerpt length (in words): "
 msgstr ""
 
@@ -2190,7 +2190,7 @@ msgid "Related News"
 msgstr ""
 
 #: mlayouts/footer-mstyle1.php:22 searchform.php:4 searchform.php:5
-#: templates/searchform.php:3 widgets/sw_top/searchcate.php:39
+#: templates/searchform.php:3 widgets/zr_top/searchcate.php:39
 msgid "Search"
 msgstr ""
 
@@ -2335,23 +2335,23 @@ msgid ""
 "different keywords."
 msgstr ""
 
-#: widgets/sw_posts/2colum.php:39
+#: widgets/zr_posts/2colum.php:39
 msgid " comments"
 msgstr ""
 
-#: widgets/sw_posts/popurlar.php:33
+#: widgets/zr_posts/popurlar.php:33
 msgid "By"
 msgstr ""
 
-#: widgets/sw_posts/thisweak.php:23
+#: widgets/zr_posts/thisweak.php:23
 msgid "This Week"
 msgstr ""
 
-#: widgets/sw_posts/women.php:19
+#: widgets/zr_posts/women.php:19
 msgid "View All"
 msgstr ""
 
-#: widgets/sw_top/login.php:11 woocommerce/myaccount/form-login.php:30
+#: widgets/zr_top/login.php:11 woocommerce/myaccount/form-login.php:30
 #: woocommerce/myaccount/form-login.php:53
 #: woocommerce/myaccount/form-login.php:125
 #: woocommerce/myaccount/form-login.php:148
@@ -2359,11 +2359,11 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: widgets/sw_top/login.php:23
+#: widgets/zr_top/login.php:23
 msgid "Logout"
 msgstr ""
 
-#: widgets/sw_top/searchcate.php:53
+#: widgets/zr_top/searchcate.php:53
 msgid "Popular Keywords"
 msgstr ""
 

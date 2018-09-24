@@ -9,13 +9,33 @@ function mocha_setup() {
 	// Register wp_nav_menu() menus (http://codex.wordpress.org/Function_Reference/register_nav_menus)
 	register_nav_menus(array(
 		'primary_menu' => esc_html__('Primary Menu', 'mocha'),
-		'vertical_menu' => esc_html__( 'Vertical Menu', 'mocha' )		
+		'primary_menu1' => esc_html__('Primary Menu1', 'mocha'),
+		'vertical_menu' => esc_html__( 'Vertical Menu', 'mocha' ),
+		'vertical_menu1' => esc_html__( 'Vertical Menu 1', 'mocha' ),
+		'mobile_menu1' => esc_html__( 'Mobile Menu 1', 'mocha' ),
+		'mobile_menu2' => esc_html__( 'Mobile Menu 2', 'mocha' ),
+		'mobile_menu3' => esc_html__( 'Mobile Menu 3', 'mocha' ),
+		'mobile_menu4' => esc_html__( 'Mobile Menu 4', 'mocha' ),
 	));
 	
 	add_theme_support( 'automatic-feed-links' );
-
-	add_image_size( 'mocha_blog-responsive', 560, 400, true );
-
+	add_theme_support( 'zr_theme' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	if( zr_options( 'product_zoom' ) ) :
+		add_theme_support( 'wc-product-gallery-zoom' );
+	endif;
+	
+	add_image_size( 'mocha_blog-responsive1', 370, 240, true );
+	add_image_size( 'mocha_blog-responsive2', 568, 300, true );
+	add_image_size( 'mocha_shop-image', 600, 800, true );
+	add_image_size( 'mocha_shop-image2', 600, 700, true );
+	add_image_size( 'mocha_detail_thumb', 870, 450, true );
+	add_image_size( 'mocha_thumbnail_mobile', 140, 180, true );
+	add_image_size( 'mocha_blog_mobile', 460, 240, true );
+	add_image_size( 'mocha_blog_home10', 280, 250, true );
+	add_image_size( 'mocha_related_mobile', 115, 60, true );
+	add_image_size( 'mocha_cat_thumb_mobile', 210, 270, true );
+	
 	add_theme_support( "title-tag" );
 	
 	add_theme_support('bootstrap-gallery');     // Enable Bootstrap's thumbnails component on [gallery]

@@ -26,19 +26,22 @@ class mocha_ResmenuSB{
 			});
 		})(jQuery);';
 		$html .= '</script>';
-		echo ( $html );
+		echo sprintf( '%s', $html );
 	}
 	function mocha_MenuRes_AdFilter( $args ){
 		$args['container'] = false;
-		if ( $args['theme_location'] == 'primary_menu' ) {	
-			if( isset( $args['mocha_resmenu'] ) && $args['mocha_resmenu'] == true ) {
-				return $args;
-			}		
-			$ResNavMenu = $this->ResNavMenu( $args );
-			$args['container'] = '';
-			$args['container_class'].= '';	
-			$args['menu_class'].= ($args['menu_class'] == '' ? '' : ' ') . 'mocha-menures';			
-			$args['items_wrap']	= '<ul id="%1$s" class="%2$s">%3$s</ul>'.$ResNavMenu;
+		$menu = get_registered_nav_menus() ;
+		foreach( $menu as $mocha_theme_locate => $menu_description ){
+			if( $mocha_theme_locate == $args['theme_location'] ){
+				if( isset( $args['mocha_resmenu'] ) && $args['mocha_resmenu'] == true ) {
+					return $args;
+				}		
+				$ResNavMenu = $this->ResNavMenu( $args );
+				$args['container'] = '';
+				$args['container_class'].= '';	
+				$args['menu_class'].= ($args['menu_class'] == '' ? '' : ' ') . 'mocha-menures';			
+				$args['items_wrap']	= '<ul id="%1$s" class="%2$s">%3$s</ul>'.$ResNavMenu;
+			}
 		}
 		return $args;
 	}
@@ -53,25 +56,27 @@ class mocha_ResmenuSB{
 			return $args;
 		}
 		$args['container'] = false;
-		$mocha_theme_locate = mocha_options()->getCpanelValue( 'menu_location' );
-		if (  $args['theme_location'] == 'primary_menu' ) {	
-			$args['container'] = 'div';
-			$args['container_class'].= 'resmenu-container resmenu-container-sidebar ';
-			$args['items_wrap']	= '<button id="bt_menusb" class="navbar-toggle" type="button">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<div id="ResMenuSB" class="menu-responsive-wrapper">
-				<div class="menu-responsive-inner">
-					<h3>'. esc_html__( 'Menu', 'mocha' ) .'</h3>
-					<ul id="%1$s" class="%2$s">%3$s</ul>
-					<div class="menu-close"></div>
-				</div>
-			</div>';	
-			$args['menu_class'] = 'mocha_resmenu';
-			$args['walker'] = new Mocha_ResMenu_Walker();
+		$menu = get_registered_nav_menus() ;
+		foreach( $menu as $mocha_theme_locate => $menu_description ){
+			if( $mocha_theme_locate == $args['theme_location'] ){
+				$args['container'] = 'div';
+				$args['container_class'].= 'resmenu-container resmenu-container-sidebar ';
+				$args['items_wrap']	= '<button id="bt_menusb" class="navbar-toggle" type="button">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<div id="ResMenuSB" class="menu-responsive-wrapper">
+					<div class="menu-responsive-inner">
+						<h3>'. esc_html__( 'Menu', 'mocha' ) .'</h3>
+						<ul id="%1$s" class="%2$s">%3$s</ul>
+						<div class="menu-close"></div>
+					</div>
+				</div>';	
+				$args['menu_class'] = 'mocha_resmenu';
+				$args['walker'] = new Mocha_ResMenu_Walker();
+			}
 		}
 		return $args;
 	}

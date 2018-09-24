@@ -19,9 +19,9 @@
 	<div class="row">	
 
 		<?php if ( is_active_sidebar('left-blog') && mocha_sidebar_template() == 'left' ):
-			$mocha_left_span_class = 'col-lg-'.mocha_options()->getCpanelValue('sidebar_left_expand');
-			$mocha_left_span_class .= ' col-md-'.mocha_options()->getCpanelValue('sidebar_left_expand_md');
-			$mocha_left_span_class .= ' col-sm-'.mocha_options()->getCpanelValue('sidebar_left_expand_sm');
+			$mocha_left_span_class = 'col-lg-'.zr_options('sidebar_left_expand');
+			$mocha_left_span_class .= ' col-md-'.zr_options('sidebar_left_expand_md');
+			$mocha_left_span_class .= ' col-sm-'.zr_options('sidebar_left_expand_sm');
 		?>
 		<aside id="left" class="sidebar <?php echo esc_attr($mocha_left_span_class); ?>">
 			<?php dynamic_sidebar('left-blog'); ?>
@@ -30,7 +30,7 @@
 			
 		<div class="single main <?php mocha_content_blog(); ?>" >
 			<?php while (have_posts()) : the_post(); ?>
-			<?php $related_post_column = mocha_options()->getCpanelValue('sidebar_blog'); ?>
+			<?php $related_post_column = zr_options('sidebar_blog'); ?>
 			<div <?php post_class(); ?>>
 				<?php $pfm = get_post_format();?>
 				<div class="entry-wrap">
@@ -50,7 +50,7 @@
 							<div class="entry-comment">
 								<a href="<?php comments_link(); ?>">
 									<i class="fa fa-comments-o"></i>
-									<?php echo $post->comment_count . ( ( $post->comment_count > 1 ) ? esc_html__(' Comments ', 'mocha') : esc_html__(' Comment ', 'mocha') ); ?>
+									<?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?>
 								</a>
 							</div>
 							<?php if( ! has_post_thumbnail() ){ ?>
@@ -146,14 +146,7 @@
 										<div class="entry-meta">
 											<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 											<div class="entry-comment">
-												<?php 
-													$qty_comment = $post->comment_count;
-													if($qty_comment > 1 ){
-														echo $qty_comment. ' '. esc_html__(' Comments ', 'mocha');
-													} else {
-														echo $qty_comment. ' '. esc_html__(' Comment ', 'mocha');
-													}
-												?>
+												<?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?>
 											</div>
 										</div>
 										<div class="readmore"><a href="<?php the_permalink(); ?>"><?php echo esc_html__('Read More','mocha');?></a></div>
@@ -175,9 +168,9 @@
 		</div>
 	
 		<?php if ( is_active_sidebar('right-blog') && mocha_sidebar_template() == 'right' ):
-			$mocha_right_span_class = 'col-lg-'.mocha_options()->getCpanelValue('sidebar_right_expand');
-			$mocha_right_span_class .= ' col-md-'.mocha_options()->getCpanelValue('sidebar_right_expand_md');
-			$mocha_right_span_class .= ' col-sm-'.mocha_options()->getCpanelValue('sidebar_right_expand_sm');
+			$mocha_right_span_class = 'col-lg-'.zr_options('sidebar_right_expand');
+			$mocha_right_span_class .= ' col-md-'.zr_options('sidebar_right_expand_md');
+			$mocha_right_span_class .= ' col-sm-'.zr_options('sidebar_right_expand_sm');
 		?>
 		<aside id="right" class="sidebar <?php echo esc_attr( $mocha_right_span_class ); ?>">
 			<?php dynamic_sidebar('right-blog'); ?>

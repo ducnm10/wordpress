@@ -5,99 +5,23 @@
  * Also if running on windows you may have url problems, which can be fixed by defining the framework url first
  *
  */
-if(!class_exists('Mocha_Options')){
-	require_once( get_template_directory().'/lib/options/options.php' );
-}
-
-function add_field_rights($field, $options){	
-	if ( key_exists( $field['id'], array( 'show-cpanel' => '1', 'widget-advanced' => '1' )) || key_exists( $field['type'], array( 'upload' => '1' )) ) {
-		return;
-	}
-	
-	// build id for customize_right
-	// get value from $options->options[ id ]
-	$customize = array(
-		'id' => $field['id'].'_customize_allow',
-		'type' => 'checkbox',
-		'title' => 'x',
-		'sub_desc' => '',
-			'desc' => '',
-		'sub_option' => true
-		);
-	$options->_field_input($customize);
-		
-	$cpanel = array(
-		'id' => $field['id'].'_cpanel_allow',
-		'type' => 'checkbox',
-		'title' => 'x',
-		'sub_desc' => '',
-			'desc' => '',
-		'std' => false,
-		'sub_option' => true
-		);
-	$options->_field_input($cpanel);
-		
-}
-if ( is_admin()){
-	add_filter('mocha-opts-rights', 'add_field_rights', 10, 2);
-}
-
-function mocha_options(){
-	global $mocha_options;
-	return $mocha_options;
-}
-
-$add_query_vars = array();
-function mocha_query_vars( $qvars ){
-	global $options, $add_query_vars;
-	
-	foreach ($options as $option) {
-		if (isset($option['fields'])) {
-			
-			foreach ($option['fields'] as $field) {
-				$add_query_vars[] = $field['id'];
-			}
+ 
+if( !function_exists( 'zr_options' ) ) :
+function zr_options( $opt_name, $default = null ){
+	$options = get_option( SW_THEME );
+	if ( !is_admin() &&  isset( $options['show_cpanel'] ) && $options['show_cpanel'] ){
+		$cookie_opt_name = SW_THEME.'_' . $opt_name;
+		if ( array_key_exists( $cookie_opt_name, $_COOKIE ) ){
+			return $_COOKIE[$cookie_opt_name];
 		}
 	}
-	
-	if ( is_array($add_query_vars) ){
-		foreach ( $add_query_vars as $field ){
-			$qvars[] = $field;
+	if( is_array( $options ) ){
+		if ( array_key_exists( $opt_name, $options ) ){
+			return $options[$opt_name];
 		}
 	}
-	
-	return $qvars;
+	return $default;
 }
+endif;
 
-function mocha_parse_request( &$wp ){
-	global $add_query_vars, $options_args;
-	
-	if ( is_array($add_query_vars) ){
-		foreach ( $add_query_vars as $field ){
-			if ( array_key_exists($field, $wp->query_vars) ){
-				$current_value = mocha_options()->get($field);
-				$request_value = $wp->query_vars[$field];
-				$field_name = $options_args['opt_name'] . '_' . $field;
-				if ($request_value != $current_value){
-					setcookie(
-						$field_name,
-						$request_value,
-						time() + 86400,
-						'/',
-						COOKIE_DOMAIN,
-						0
-					);
-					if (!isset($_COOKIE[$field_name]) || $request_value != $_COOKIE[$field_name]){
-						$_COOKIE[$field_name] = $request_value;
-					}
-				}
-			}
-		}
-	}
-}
-
-if (!is_admin()){
-	add_filter('query_vars', 'mocha_query_vars');
-	add_action('parse_request', 'mocha_parse_request');
-}
 ?>

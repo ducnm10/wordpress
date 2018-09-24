@@ -10,7 +10,26 @@ jQuery(document).ready(function($) {
 	money.base            = wc_currency_converter_params.base;
 	money.settings.from   = wc_currency_converter_params.currency;
 
+	money = set_default_rate_on_missing_currency( money, wc_currency_converter_params.currency );
+	money = set_default_rate_on_missing_currency( money, wc_currency_converter_params.current_currency );
+
+	if ( money.settings.from == 'RMB' ) {
+		money.settings.from = 'CNY';
+	}
+
+	function set_default_rate_on_missing_currency( money, currency ) {
+	    if ( ! money.rates[ currency ] ) {
+	        money.rates[ currency ] = parseFloat( wc_currency_converter_params.currency_rate_default );
+	    }
+	    return money;
+	}
+
 	function switch_currency( to_currency ) {
+
+		if ( wc_currency_converter_params.symbol_positions[ to_currency ] ) {
+			currency_position = wc_currency_converter_params.symbol_positions[ to_currency ];
+		}
+		money = set_default_rate_on_missing_currency( money, to_currency );
 
 		// Span.amount
 		jQuery('span.amount').each(function(){
@@ -25,7 +44,7 @@ jQuery(document).ready(function($) {
 			// Original price
 			var original_price = jQuery(this).attr("data-price");
 
-			if (typeof original_price == 'undefined' || original_price == false) {
+			if ( typeof original_price == 'undefined' || original_price == false ) {
 
 				// Get original price
 				var original_price = jQuery(this).html();
@@ -34,16 +53,20 @@ jQuery(document).ready(function($) {
 				jQuery( '<del></del>' + original_price ).find('del').remove();
 
 				// Remove formatting
+				original_price = original_price.replace( wc_currency_converter_params.currency_format_symbol, '' );
 				original_price = original_price.replace( wc_currency_converter_params.thousand_sep, '' );
 				original_price = original_price.replace( wc_currency_converter_params.decimal_sep, '.' );
 				original_price = original_price.replace(/[^0-9\.]/g, '');
 				original_price = parseFloat( original_price );
 
+				// Log Conversions
+				// console.log( original_price );
+
 				// Store original price
 				jQuery(this).attr("data-price", original_price);
 			}
 
-			price = money( original_price ).to( to_currency );
+			price = money( original_price ).from( money.settings.from ).to( to_currency );
 			price = price.toFixed( currency_decimals );
 			price = accounting.formatNumber( price, currency_decimals, wc_currency_converter_params.thousand_sep, wc_currency_converter_params.decimal_sep );
 
@@ -59,7 +82,7 @@ jQuery(document).ready(function($) {
 
 				} else if ( currency_position == 'right' ) {
 
-					jQuery(this).html( price + " " + currency_codes[ to_currency ] );
+					jQuery(this).html( price + "" + currency_codes[ to_currency ] );
 
 				} else if ( currency_position == 'left_space' ) {
 
@@ -105,6 +128,7 @@ jQuery(document).ready(function($) {
 			if (!price) return;
 
 			// Remove formatting
+			price = price.replace( wc_currency_converter_params.currency_format_symbol, '' );
 			price = price.replace( wc_currency_converter_params.thousand_sep, '' );
 			price = price.replace( wc_currency_converter_params.decimal_sep, '.' );
 			price = price.replace(/[^0-9\.]/g, '');
@@ -124,20 +148,10 @@ jQuery(document).ready(function($) {
 
 		price_filter_update( to_currency );
 
-		jQuery('body').trigger('currency_converter_switch');
-
-	}
-
-	if ( current_currency ) {
-
-		switch_currency( current_currency );
-
+		jQuery('body').trigger( 'currency_converter_switch', [to_currency] );
+		jQuery('ul.currency_switcher li a').removeClass('active');
 		jQuery('ul.currency_switcher li a[data-currencycode="' + current_currency + '"]').addClass('active');
-
-	} else {
-
-		jQuery('ul.currency_switcher li a.default').addClass('active');
-
+		jQuery('select.currency_switcher').val( current_currency );
 	}
 
 	function price_filter_update( to_currency ) {
@@ -147,6 +161,7 @@ jQuery(document).ready(function($) {
 				values    = theslider.slider("values");
 
 				original_price = "" + values[1];
+				original_price = original_price.replace( wc_currency_converter_params.currency_format_symbol, '' );
 				original_price = original_price.replace( wc_currency_converter_params.thousand_sep, '' );
 				original_price = original_price.replace( wc_currency_converter_params.decimal_sep, '.' );
 				original_price = original_price.replace(/[^0-9\.]/g, '');
@@ -155,6 +170,7 @@ jQuery(document).ready(function($) {
 				price_max = money(original_price).to(to_currency);
 
 				original_price = "" + values[0];
+				original_price = original_price.replace( wc_currency_converter_params.currency_format_symbol, '' );
 				original_price = original_price.replace( wc_currency_converter_params.thousand_sep, '' );
 				original_price = original_price.replace( wc_currency_converter_params.decimal_sep, '.' );
 				original_price = original_price.replace(/[^0-9\.]/g, '');
@@ -172,62 +188,77 @@ jQuery(document).ready(function($) {
 		jQuery('body').on( "price_slider_create price_slider_slide price_slider_change", function() {
 			price_filter_update( current_currency );
 		} );
-
 		price_filter_update( current_currency );
 	});
 
-	jQuery('ul.currency_switcher li a:not(".reset")').click(function() {
-
-		to_currency = jQuery(this).attr('data-currencycode');
-
-		switch_currency( to_currency );
-
-		jQuery('ul.currency_switcher li a').removeClass('active');
-
-		jQuery(this).addClass('active');
-
-		jQuery.cookie('woocommerce_current_currency', to_currency, { expires: 7, path: '/' });
-
-		current_currency = to_currency;
-
-		return false;
-	});
-
-	jQuery('ul.currency_switcher li a.reset').click(function() {
-
-		jQuery('span.amount, #shipping_method option').each(function(){
-
-			var original_code = jQuery(this).attr("data-original");
-
-			if (typeof original_code !== 'undefined' && original_code !== false) {
-
-				jQuery(this).html( original_code );
-
-			}
-
-		});
-
-		jQuery('ul.currency_switcher li a').removeClass('active');
-
-		if ( jQuery(this).is('.default') )
-			jQuery(this).addClass('active');
-
-		jQuery.cookie('woocommerce_current_currency', '', { expires: 7, path: '/' });
-
-		current_currency = '';
-
-		jQuery('body').trigger('currency_converter_reset');
-
-		if ( jQuery( '.price_slider' ).size() > 0 )
-			jQuery('body').trigger('price_slider_slide', [jQuery(".price_slider").slider("values", 0), jQuery(".price_slider").slider("values", 1)]);
-
-		return false;
-	});
-
 	// Ajax events
-	jQuery('body').bind('show_variation updated_checkout updated_shipping_method added_to_cart cart_page_refreshed cart_widget_refreshed updated_addons', function() {
+	jQuery('body').bind('wc_fragments_refreshed wc_fragments_loaded show_variation updated_checkout updated_shipping_method added_to_cart cart_page_refreshed cart_widget_refreshed updated_addons', function() {
 		if ( current_currency ) {
 			switch_currency( current_currency );
 		}
 	});
+
+	jQuery( document.body ).on( 'wc_booking_form_changed', function() {
+		if ( current_currency ) {
+			switch_currency( current_currency );
+		}
+	});
+
+	// On load
+	if ( current_currency ) {
+		switch_currency( current_currency );
+	} else {
+		jQuery('ul.currency_switcher li a[data-currencycode="' + wc_currency_converter_params.currency + '"]').addClass('active');
+		jQuery('select.currency_switcher').val( wc_currency_converter_params.currency );
+	}
+
+	jQuery( document.body )
+		.on( 'click', 'a.wc-currency-converter-reset', function() {
+			jQuery('span.amount, #shipping_method option').each(function(){
+				var original_code = jQuery(this).attr("data-original");
+
+				if (typeof original_code !== 'undefined' && original_code !== false) {
+					jQuery(this).html( original_code );
+				}
+			});
+
+			jQuery('ul.currency_switcher li a').removeClass('active');
+			jQuery('ul.currency_switcher li a[data-currencycode="' + wc_currency_converter_params.currency + '"]').addClass('active');
+			jQuery('select.currency_switcher').val( wc_currency_converter_params.currency );
+
+			jQuery.cookie( 'woocommerce_current_currency', '', { expires: 7, path: '/' } );
+
+			current_currency = '';
+
+			jQuery('body').trigger('currency_converter_reset');
+
+			if ( jQuery( '.price_slider' ).size() > 0 ) {
+				jQuery('body').trigger('price_slider_slide', [jQuery(".price_slider").slider("values", 0), jQuery(".price_slider").slider("values", 1)]);
+			}
+
+			return false;
+		})
+		.on( 'click', 'ul.currency_switcher li a:not(".reset")', function() {
+			current_currency = jQuery(this).attr('data-currencycode');
+			switch_currency( current_currency );
+			jQuery.cookie('woocommerce_current_currency', current_currency, { expires: 7, path: '/' });
+			return false;
+		})
+		.on( 'change', 'select.currency_switcher', function() {
+			current_currency = jQuery(this).val();
+			switch_currency( current_currency );
+			jQuery.cookie('woocommerce_current_currency', current_currency, { expires: 7, path: '/' });
+			return false;
+		});
+	
+	/*
+	** Currency Selectbox
+	*/
+	$('.currency_switcher li a').on('click', function(){
+		$current = $(this).attr('data-currencycode');
+		$('.currency_w > li > a').html($current);
+	});
+	
+	var currency_show = $( '.currency_switcher > li > a.active' ).html();
+	$('.currency_w > li > a').html(currency_show);	
 });

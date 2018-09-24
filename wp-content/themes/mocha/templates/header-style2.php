@@ -3,9 +3,9 @@
 	** Content Header
 	*/
 	$mocha_page_header = get_post_meta( get_the_ID(), 'page_header_style', true );
-	$mocha_colorset = mocha_options()->getCpanelValue('scheme');
-	$mocha_logo = mocha_options()->getCpanelValue('sitelogo');
-	$mocha_page_header  = ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : mocha_options()->getCpanelValue('header_style');
+	$mocha_colorset = zr_options('scheme');
+	$mocha_logo = zr_options('sitelogo');
+	$mocha_page_header  = ( get_post_meta( get_the_ID(), 'page_header_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_header_style', true ) : zr_options('header_style');
 ?>
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header ); ?> clearfix">
 	<div class="header-top clearfix">	
@@ -20,7 +20,7 @@
 					<div class="navbar-menu clearfix">
 						<?php
 							$mocha_menu_class = 'nav nav-pills';
-							if ( 'mega' == mocha_options()->getCpanelValue( 'menu_type' ) ){
+							if ( 'mega' == zr_options( 'menu_type' ) ){
 								$mocha_menu_class .= ' nav-mega';
 							} else $mocha_menu_class .= ' nav-css';
 						?>
@@ -48,12 +48,12 @@
 				<a href="<?php echo get_permalink( get_option('yith_wcwl_wishlist_page_id') ); ?>" title="<?php esc_attr_e('Wishlist','mocha'); ?>"><i class="fa fa-heart-o" aria-hidden="true"></i></a>
 			</div>
 		<?php } ?>
-		<?php if( !mocha_options()->getCpanelValue( 'disable_search' ) ) : ?>
+		<?php if( !zr_options( 'disable_search' ) ) : ?>
 			<div class="search-cate">
 				<div class="icon-search">
 					<i class="fa fa-search"></i>
 				</div>
-				<?php if( is_active_sidebar( 'search' ) && class_exists( 'sw_woo_search_widget' ) ): ?>
+				<?php if( is_active_sidebar( 'search' ) && class_exists( 'zr_woo_search_widget' ) ): ?>
 					<?php dynamic_sidebar( 'search' ); ?>
 				<?php else : ?>
 					<div class="widget mocha_top non-margin">

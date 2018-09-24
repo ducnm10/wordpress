@@ -9,41 +9,30 @@ if( !defined('MOCHA_URL') ){
 	define( 'MOCHA_URL', trailingslashit( get_template_directory_uri() ) . 'lib' );
 }
 
-if( !defined('MOCHA_OPTIONS_URL') ){
-	define( 'MOCHA_OPTIONS_URL', trailingslashit( get_template_directory_uri() ) . 'lib/options/' );
-}
-
-defined('MOCHA_THEME') or die;
-
 if (!isset($content_width)) { $content_width = 940; }
 
 define("MOCHA_PRODUCT_TYPE","product");
 define("MOCHA_PRODUCT_DETAIL_TYPE","product_detail");
 
+if ( !defined('SW_THEME') ){
+	define( 'SW_THEME', 'mocha_theme' );
+}
+
 require_once( get_template_directory().'/lib/options.php' );
+
+if( class_exists( 'SW_Options' ) ) :
 function mocha_Options_Setup(){
-	global $mocha_options, $options, $options_args;
+	global $zr_options, $options, $options_args;
 
 	$options = array();
 	$options[] = array(
 			'title' => esc_html__('General', 'mocha'),
-			'desc' => wp_kses( __('<p class="description">The theme allows to build your own styles right out of the backend without any coding knowledge. Start your own color scheme by selecting one of 1 predefined schemes. Upload new logo and favicon or get their URL.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			'desc' => wp_kses( __('<p class="description">The theme allows to build your own styles right out of the backend without any coding knowledge. Upload new logo and favicon or get their URL.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_019_cogwheel.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_019_cogwheel.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
-			'fields' => array(
-					array(
-						'id' => 'scheme',
-						'type' => 'radio_img',
-						'title' => esc_html__('Color Scheme', 'mocha'),
-						'sub_desc' => esc_html__( 'Select one of 1 predefined schemes', 'mocha' ),
-						'desc' => '',
-						'options' => array(
-										'default' => array('title' => 'Default', 'img' => get_template_directory_uri().'/assets/img/default.png'),
-										), //Must provide key => value(array:title|img) pairs for radio options
-						'std' => 'default'
-					),
+			'fields' => array(	
 					
 					array(
 						'id' => 'sitelogo',
@@ -54,7 +43,7 @@ function mocha_Options_Setup(){
 					),
 					
 					array(
-						'id' => 'favico',
+						'id' => 'favicon',
 						'type' => 'upload',
 						'title' => esc_html__('Favicon', 'mocha'),
 						'sub_desc' => esc_html__( 'Use the Upload button to upload the custom favicon', 'mocha' ),
@@ -77,31 +66,96 @@ function mocha_Options_Setup(){
 					),
 					
 					array(
-						'id' => 'disable_search',
-						'title' => esc_html__( 'Disable Search', 'mocha' ),
-						'type' => 'checkbox',
-						'sub_desc' => esc_html__( 'Check this to disable search on header', 'mocha' ),
-						'desc' => '',
-						'std' => '0'
+					   'id' => 'page_404',
+					   'type' => 'pages_select',
+					   'title' => esc_html__('404 Page Content', 'mocha'),
+					   'sub_desc' => esc_html__('Select page 404 content', 'mocha'),
+					   'std' => ''
 					),
-					
-					array(
-						'id' => 'disable_cart',
-						'title' => esc_html__( 'Disable Cart', 'mocha' ),
-						'type' => 'checkbox',
-						'sub_desc' => esc_html__( 'Check this to disable cart on header', 'mocha' ),
-						'desc' => '',
-						'std' => '0'
-					),
-				)
+			)		
 		);
-
+	
 	$options[] = array(
-			'title' => esc_html__('Layout', 'mocha'),
-			'desc' => wp_kses( __('<p class="description">ZoroTheme Framework comes with a layout setting that allows you to build any number of stunning layouts and apply theme to your entries.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			'title' => esc_html__('Schemes', 'mocha'),
+			'desc' => wp_kses( __('<p class="description">Custom color scheme for theme. Unlimited color that you can choose.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_319_sort.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_163_iphone.png',
+			//Lets leave this as a mocha section, no options just some intro text set above.
+			'fields' => array(		
+				array(
+					'id' => 'scheme',
+					'type' => 'radio_img',
+					'title' => esc_html__('Color Scheme', 'mocha'),
+					'sub_desc' => esc_html__( 'Select one of 12 predefined schemes', 'mocha' ),
+					'desc' => '',
+					'options' => array(
+									'default' => array('title' => 'Default', 'img' => get_template_directory_uri().'/assets/img/default.png'),
+									'blue' => array('title' => 'Blue', 'img' => get_template_directory_uri().'/assets/img/blue.png'),
+									'lightblue' => array('title' => 'Light Blue', 'img' => get_template_directory_uri().'/assets/img/lightblue.png'),
+									'red' => array('title' => 'Red', 'img' => get_template_directory_uri().'/assets/img/red.png'),
+									'green' => array('title' => 'Green', 'img' => get_template_directory_uri().'/assets/img/green.png'),
+									'darkblue' => array('title' => 'Darkblue', 'img' => get_template_directory_uri().'/assets/img/darkblue.png'),
+									'orange' => array('title' => 'Orange', 'img' => get_template_directory_uri().'/assets/img/orange.png'),
+									'brown' => array('title' => 'Brown', 'img' => get_template_directory_uri().'/assets/img/brown.png'),
+									'pink' => array('title' => 'Pink', 'img' => get_template_directory_uri().'/assets/img/pink.png'),
+									'cyan' => array('title' => 'Cyan', 'img' => get_template_directory_uri().'/assets/img/cyan.png'),
+									'orange2' => array('title' => 'Orange 2', 'img' => get_template_directory_uri().'/assets/img/orange2.png'),
+									'orange3' => array('title' => 'Orange 3', 'img' => get_template_directory_uri().'/assets/img/orange3.png'),
+									), //Must provide key => value(array:title|img) pairs for radio options
+					'std' => 'default'
+				),
+				
+				array(
+					'id' => 'custom_color',
+					'title' => esc_html__( 'Enable Custom Color', 'mocha' ),
+					'type' => 'checkbox',
+					'sub_desc' => esc_html__( 'Check this field to enable custom color and when you update your theme, custom color will not lose.', 'mocha' ),
+					'desc' => '',
+					'std' => '0'
+				),
+					
+				array(
+					'id' => 'developer_mode',
+					'title' => esc_html__( 'Developer Mode', 'mocha' ),
+					'type' => 'checkbox',
+					'sub_desc' => esc_html__( 'Turn on/off compile less to css and custom color', 'mocha' ),
+					'desc' => '',
+					'std' => '0'
+				),
+				
+				array(
+					'id' => 'scheme_color',
+					'type' => 'color',
+					'title' => esc_html__('Color', 'mocha'),
+					'sub_desc' => esc_html__('Select main custom color.', 'mocha'),
+					'std' => ''
+				),
+				
+				array(
+					'id' => 'scheme_body',
+					'type' => 'color',
+					'title' => esc_html__('Body Color', 'mocha'),
+					'sub_desc' => esc_html__('Select main body custom color.', 'mocha'),
+					'std' => ''
+				),
+				
+				array(
+					'id' => 'scheme_border',
+					'type' => 'color',
+					'title' => esc_html__('Border Color', 'mocha'),
+					'sub_desc' => esc_html__('Select main border custom color.', 'mocha'),					
+					'std' => ''
+				)			
+			)
+	);
+	
+	$options[] = array(
+			'title' => esc_html__('Layout', 'mocha'),
+			'desc' => wp_kses( __('<p class="description">WpThemeGo Framework comes with a layout setting that allows you to build any number of stunning layouts and apply theme to your entries.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
+			//You dont have to though, leave it mocha for default.
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_319_sort.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
 					array(
@@ -248,10 +302,10 @@ function mocha_Options_Setup(){
 		);
 	$options[] = array(
 			'title' => esc_html__('Mobile Layout', 'mocha'),
-			'desc' => wp_kses( __('<p class="description">ZoroTheme Framework comes with a mobile setting home page layout.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			'desc' => wp_kses( __('<p class="description">WpThemeGo Framework comes with a mobile setting home page layout.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_163_iphone.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_163_iphone.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(				
 				array(
@@ -260,8 +314,34 @@ function mocha_Options_Setup(){
 					'title' => esc_html__('Enable Mobile Layout', 'mocha'),
 					'sub_desc' => '',
 					'desc' => '',
-					'std' => '1'// 1 = on | 0 = off
+							'std' => '1'// 1 = on | 0 = off
+						),
+
+				array(
+					'id' => 'mobile_logo',
+					'type' => 'upload',
+					'title' => esc_html__('Logo Mobile Image', 'mocha'),
+					'sub_desc' => esc_html__( 'Use the Upload button to upload the new mobile logo', 'mocha' ),
+					'std' => get_template_directory_uri().'/assets/img/logo-default.png'
 				),
+				
+				array(
+					'id' => 'mobile_logo_account',
+					'type' => 'upload',
+					'title' => esc_html__('Logo Mobile My Account Page', 'mocha'),
+					'sub_desc' => esc_html__( 'Use the Upload button to upload the new mobile logo in my account page', 'mocha' ),
+					'std' => get_template_directory_uri().'/assets/img/icon-myaccount.png'
+				),
+
+				array(
+					'id' => 'sticky_mobile',
+					'type' => 'checkbox',
+					'title' => esc_html__('Sticky Mobile', 'mocha'),
+					'sub_desc' => '',
+					'desc' => '',
+							'std' => '0'// 1 = on | 0 = off
+						),
+
 				array(
 					'id' => 'mobile_content',
 					'type' => 'pages_select',
@@ -269,61 +349,137 @@ function mocha_Options_Setup(){
 					'sub_desc' => esc_html__('Select content index for this mobile layout', 'mocha'),
 					'std' => ''
 				),
+
 				array(
 					'id' => 'mobile_header_style',
 					'type' => 'select',
 					'title' => esc_html__('Header Mobile Style', 'mocha'),
 					'sub_desc' => esc_html__('Select header mobile style', 'mocha'),
 					'options' => array(
-							'mstyle1'  => esc_html__( 'Style 1', 'mocha' ),
-							'mstyle2'  => esc_html__( 'Style 2', 'mocha' ),
-							'mstyle3'  => esc_html__( 'Style 3', 'mocha' ),
+						'mstyle1'  => esc_html__( 'Style 1', 'mocha' ),
+						'mstyle2'  => esc_html__( 'Style 2', 'mocha' ),
+						'mstyle3'  => esc_html__( 'Style 3', 'mocha' ),
+						'mstyle4'  => esc_html__( 'Style 4', 'mocha' ),
+						'mstyle5'  => esc_html__( 'Style 5', 'mocha' ),
 					),
 					'std' => 'style1'
 				),
+
 				array(
 					'id' => 'mobile_footer_style',
 					'type' => 'select',
 					'title' => esc_html__('Footer Mobile Style', 'mocha'),
 					'sub_desc' => esc_html__('Select footer mobile style', 'mocha'),
 					'options' => array(
-							'mstyle1'  => esc_html__( 'Style 1', 'mocha' ),
-							'mstyle2'  => esc_html__( 'Style 2', 'mocha' ),
+						'mstyle1'  => esc_html__( 'Style 1', 'mocha' ),
+						'mstyle2'  => esc_html__( 'Style 2', 'mocha' ),
+						'mstyle3'  => esc_html__( 'Style 3', 'mocha' ),
 					),
 					'std' => 'style1'
-				)				
+				),
+
+				array(
+					'id' => 'mobile_addcart',
+					'type' => 'checkbox',
+					'title' => esc_html__('Enable Add To Cart Button', 'mocha'),
+					'sub_desc' => esc_html__( 'Enable Add To Cart Button on product listing', 'mocha' ),
+					'desc' => '',
+						'std' => '0'// 1 = on | 0 = off
+				),
+				
+				array(
+					'id' => 'mobile_header_inside',
+					'type' => 'checkbox',
+					'title' => esc_html__('Enable Header Other Pages', 'mocha'),
+					'sub_desc' => esc_html__( 'Enable header in other pages which are different with homepage', 'mocha' ),
+					'desc' => '',
+						'std' => '0'// 1 = on | 0 = off
+				),
+				
+				array(
+					'id' => 'mobile_jquery',
+					'type' => 'checkbox',
+					'title' => esc_html__('Include Jquery Mochalution', 'mocha'),
+					'sub_desc' => esc_html__( 'Enable jquery mochalution slider on mobile layout.', 'mocha' ),
+					'desc' => '',
+						'std' => '0'// 1 = on | 0 = off
+				),
 			)
 	);
 			
 	$options[] = array(
 		'title' => esc_html__('Header & Footer', 'mocha'),
-			'desc' => wp_kses( __('<p class="description">ZoroTheme Framework comes with a header and footer setting that allows you to build style header.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			'desc' => wp_kses( __('<p class="description">WpThemeGo Framework comes with a header and footer setting that allows you to build style header.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_336_read_it_later.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_336_read_it_later.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
 				 array(
-							'id' => 'header_style',
-							'type' => 'select',
-							'title' => esc_html__('Header Style', 'mocha'),
-							'sub_desc' => esc_html__('Select Header style', 'mocha'),
-							'options' => array(
-									'style1'  => esc_html__( 'Style 1', 'mocha' ),
-									'style2'  => esc_html__( 'Style 2', 'mocha' ),
-									'style3'  => esc_html__( 'Style 3', 'mocha' ),
-									'style4'  => esc_html__( 'Style 4', 'mocha' ),
-									'style5'  => esc_html__( 'Style 5', 'mocha' ),
-									),
-							'std' => 'style1'
-						),
+					'id' => 'header_style',
+					'type' => 'select',
+					'title' => esc_html__('Header Style', 'mocha'),
+					'sub_desc' => esc_html__('Select Header style', 'mocha'),
+					'options' => array(
+							'style1'  => esc_html__( 'Style 1', 'mocha' ),
+							'style2'  => esc_html__( 'Style 2', 'mocha' ),
+							'style3'  => esc_html__( 'Style 3', 'mocha' ),
+							'style4'  => esc_html__( 'Style 4', 'mocha' ),
+							'style5'  => esc_html__( 'Style 5', 'mocha' ),
+							'style6'  => esc_html__( 'Style 6', 'mocha' ),
+							'style7'  => esc_html__( 'Style 7', 'mocha' ),
+							'style8'  => esc_html__( 'Style 8', 'mocha' ),
+							'style9'  => esc_html__( 'Style 9', 'mocha' ),
+							'style10'  => esc_html__( 'Style 10', 'mocha' ),
+							'style11'  => esc_html__( 'Style 11', 'mocha' ),
+							'style12'  => esc_html__( 'Style 12', 'mocha' ),
+							),
+					'std' => 'style1'
+				),
+				
+				array(
+					'id' => 'header_mid',
+					'title' => esc_html__( 'Enable Background Header Mid', 'mocha' ),
+					'type' => 'checkbox',
+					'sub_desc' => esc_html__( ' enable background hedaer mid on header', 'mocha' ),
+					'desc' => '',
+					'std' => '0'
+				),
+				
+				array(
+						'id' => 'bg_header_mid',
+						'title' => esc_html__( 'Background header mid', 'mocha' ),
+						'type' => 'upload',
+						'sub_desc' => esc_html__( 'Choose header mid background image', 'mocha' ),
+						'desc' => '',
+						'std' => get_template_directory_uri().'/assets/img/popup/bg-main.jpg'
+					),
+					
+				array(
+					'id' => 'disable_search',
+					'title' => esc_html__( 'Disable Search', 'mocha' ),
+					'type' => 'checkbox',
+					'sub_desc' => esc_html__( 'Check this to disable search on header', 'mocha' ),
+					'desc' => '',
+					'std' => '0'
+				),
+				
+				array(
+					'id' => 'disable_cart',
+					'title' => esc_html__( 'Disable Cart', 'mocha' ),
+					'type' => 'checkbox',
+					'sub_desc' => esc_html__( 'Check this to disable cart on header', 'mocha' ),
+					'desc' => '',
+					'std' => '0'
+				),				
+				
 				array(
 				   'id' => 'footer_style',
 				   'type' => 'pages_select',
 				   'title' => esc_html__('Footer Style', 'mocha'),
 				   'sub_desc' => esc_html__('Select Footer style', 'mocha'),
 				   'std' => ''
-				   ),
+				),
 				
 				array(
 					'id' => 'footer_copyright',
@@ -339,23 +495,28 @@ function mocha_Options_Setup(){
 			'desc' => wp_kses( __('<p class="description">If you got a big site with a lot of sub menus we recommend using a mega menu. Just select the dropbox to display a menu as mega menu or dropdown menu.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_157_show_lines.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_157_show_lines.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
 				array(
 						'id' => 'menu_type',
 						'type' => 'select',
 						'title' => esc_html__('Menu Type', 'mocha'),
-						'options' => array( 'dropdown' => 'Dropdown Menu', 'mega' => 'Mega Menu' ),
+						'options' => array( 
+							'dropdown' => esc_html__( 'Dropdown Menu', 'mocha' ), 
+							'mega' => esc_html__( 'Mega Menu', 'mocha' ) 
+						),
 						'std' => 'mega'
-					),
+					),	
+				
 				array(
 						'id' => 'menu_location',
 						'type' => 'menu_location_multi_select',
 						'title' => esc_html__('Theme Location', 'mocha'),
 						'sub_desc' => esc_html__( 'Select theme location to active mega menu and menu responsive.', 'mocha' ),
 						'std' => 'primary_menu'
-					),			
+					),		
+					
 				array(
 						'id' => 'sticky_menu',
 						'type' => 'checkbox',
@@ -363,7 +524,59 @@ function mocha_Options_Setup(){
 						'sub_desc' => '',
 						'desc' => '',
 						'std' => '0'// 1 = on | 0 = off
-					),	
+					),
+				
+				array(
+						'id' => 'more_menu',
+						'type' => 'checkbox',
+						'title' => esc_html__('Active More Menu', 'mocha'),
+						'sub_desc' => esc_html__('Active more menu if your primary menu is too long', 'mocha'),
+						'desc' => '',
+						'std' => '0'// 1 = on | 0 = off
+					),
+					
+				array(
+						'id' => 'menu_event',
+						'type' => 'select',
+						'title' => esc_html__('Menu Event', 'mocha'),
+						'options' => array( 
+							'' 		=> esc_html__( 'Hover Event', 'mocha' ), 
+							'click' => esc_html__( 'Click Event', 'mocha' ) 
+						),
+						'std' => ''
+					),
+				
+				array(
+					'id' => 'menu_number_item',
+					'type' => 'text',
+					'title' => esc_html__( 'Number Item Vertical', 'mocha' ),
+					'sub_desc' => esc_html__( 'Number item vertical to show', 'mocha' ),
+					'std' => 8
+				),	
+				
+				array(
+					'id' => 'menu_title_text',
+					'type' => 'text',
+					'title' => esc_html__('Vertical Title Text', 'mocha'),
+					'sub_desc' => esc_html__( 'Change title text on vertical menu', 'mocha' ),
+					'std' => ''
+				),
+				
+				array(
+					'id' => 'menu_more_text',
+					'type' => 'text',
+					'title' => esc_html__('Vertical More Text', 'mocha'),
+					'sub_desc' => esc_html__( 'Change more text on vertical menu', 'mocha' ),
+					'std' => ''
+				),
+					
+				array(
+					'id' => 'menu_less_text',
+					'type' => 'text',
+					'title' => esc_html__('Vertical Less Text', 'mocha'),
+					'sub_desc' => esc_html__( 'Change less text on vertical menu', 'mocha' ),
+					'std' => ''
+				)	
 			)
 		);
 	$options[] = array(
@@ -371,7 +584,7 @@ function mocha_Options_Setup(){
 		'desc' => wp_kses( __('<p class="description">Select layout in blog listing page.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 		//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 		//You dont have to though, leave it mocha for default.
-		'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_071_book.png',
+		'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_071_book.png',
 		//Lets leave this as a mocha section, no options just some intro text set above.
 		'fields' => array(
 				array(
@@ -379,8 +592,8 @@ function mocha_Options_Setup(){
 						'type' => 'select',
 						'title' => esc_html__('Sidebar Blog Layout', 'mocha'),
 						'options' => array(
-								'full' => esc_html__( 'Full Layout', 'mocha' ),		
-								'left'	=>  esc_html__( 'Left Sidebar', 'mocha' ),
+								'full' 	=> esc_html__( 'Full Layout', 'mocha' ),		
+								'left'	=> esc_html__( 'Left Sidebar', 'mocha' ),
 								'right' => esc_html__( 'Right Sidebar', 'mocha' ),
 						),
 						'std' => 'left',
@@ -392,7 +605,7 @@ function mocha_Options_Setup(){
 						'title' => esc_html__('Layout blog', 'mocha'),
 						'options' => array(
 								'list'	=>  esc_html__( 'List Layout', 'mocha' ),
-								'grid' =>  esc_html__( 'Grid Layout', 'mocha' )								
+								'grid' 	=>  esc_html__( 'Grid Layout', 'mocha' )								
 						),
 						'std' => 'list',
 						'sub_desc' => esc_html__( 'Select style layout blog', 'mocha' ),
@@ -402,9 +615,9 @@ function mocha_Options_Setup(){
 						'type' => 'select',
 						'title' => esc_html__('Blog column', 'mocha'),
 						'options' => array(								
-								'2' => '2 columns',
-								'3' => '3 columns',
-								'4' => '4 columns'								
+								'2' =>  esc_html__( '2 Columns', 'mocha' ),
+								'3' =>  esc_html__( '3 Columns', 'mocha' ),
+								'4' =>  esc_html__( '4 Columns', 'mocha' )								
 							),
 						'std' => '2',
 						'sub_desc' => esc_html__( 'Select style number column blog', 'mocha' ),
@@ -416,57 +629,148 @@ function mocha_Options_Setup(){
 		'desc' => wp_kses( __('<p class="description">Select layout in product listing page.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 		//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 		//You dont have to though, leave it mocha for default.
-		'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_202_shopping_cart.png',
+		'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_202_shopping_cart.png',
 		//Lets leave this as a mocha section, no options just some intro text set above.
 		'fields' => array(
+			array(
+				'id' => 'info_typo1',
+				'type' => 'info',
+				'title' => esc_html( 'Product Categories Config', 'mocha' ),
+				'desc' => '',
+				'class' => 'mocha-opt-info'
+				),
+			
+			array(
+				'id' => 'product_colcat_large',
+				'type' => 'select',
+				'title' => esc_html__('Product Category Listing column Desktop', 'mocha'),
+				'options' => array(
+					'2' => '2',
+					'3' => '3',
+					'4' => '4',
+					'5' => '5',
+					'6' => '6',							
+					),
+				'std' => '4',
+				'sub_desc' => esc_html__( 'Select number of column on Desktop Screen', 'mocha' ),
+				),
+
+			array(
+				'id' => 'product_colcat_medium',
+				'type' => 'select',
+				'title' => esc_html__('Product Listing Category column Medium Desktop', 'mocha'),
+				'options' => array(
+					'2' => '2',
+					'3' => '3',
+					'4' => '4',	
+					'5' => '5',
+					'6' => '6',
+					),
+				'std' => '3',
+				'sub_desc' => esc_html__( 'Select number of column on Medium Desktop Screen', 'mocha' ),
+				),
+
+			array(
+				'id' => 'product_colcat_sm',
+				'type' => 'select',
+				'title' => esc_html__('Product Listing Category column Tablet', 'mocha'),
+				'options' => array(
+					'2' => '2',
+					'3' => '3',
+					'4' => '4',	
+					'5' => '5',
+					'6' => '6'
+					),
+				'std' => '2',
+				'sub_desc' => esc_html__( 'Select number of column on Tablet Screen', 'mocha' ),
+				),
+			
+			array(
+				'id' => 'info_typo1',
+				'type' => 'info',
+				'title' => esc_html( 'Product General Config', 'mocha' ),
+				'desc' => '',
+				'class' => 'mocha-opt-info'
+				),
+				
+			array(
+				'id' => 'product_banner',
+				'title' => esc_html__( 'Select Banner', 'mocha' ),
+				'type' => 'select',
+				'sub_desc' => '',
+				'options' => array(
+					'' 			=> esc_html__( 'Use Banner', 'mocha' ),
+					'listing' 	=> esc_html__( 'Use Category Product Image', 'mocha' ),
+					),
+				'std' => '',
+				),
+
+			array(
+				'id' => 'product_listing_banner',
+				'type' => 'upload',
+				'title' => esc_html__('Listing Banner Product', 'mocha'),
+				'sub_desc' => esc_html__( 'Use the Upload button to upload banner product listing', 'mocha' ),
+				'std' => get_template_directory_uri().'/assets/img/logo-default.png'
+				),
+
 			array(
 				'id' => 'product_col_large',
 				'type' => 'select',
 				'title' => esc_html__('Product Listing column Desktop', 'mocha'),
 				'options' => array(
-						'2' => '2',
-						'3' => '3',
-						'4' => '4',							
+					'2' => '2',
+					'3' => '3',
+					'4' => '4',
+					'5' => '5',
+					'6' => '6',							
 					),
 				'std' => '3',
 				'sub_desc' => esc_html__( 'Select number of column on Desktop Screen', 'mocha' ),
-			),
+				),
+
 			array(
 				'id' => 'product_col_medium',
 				'type' => 'select',
 				'title' => esc_html__('Product Listing column Medium Desktop', 'mocha'),
 				'options' => array(
-						'2' => '2',
-						'3' => '3',
-						'4' => '4',							
+					'2' => '2',
+					'3' => '3',
+					'4' => '4',	
+					'5' => '5',
+					'6' => '6',
 					),
 				'std' => '2',
 				'sub_desc' => esc_html__( 'Select number of column on Medium Desktop Screen', 'mocha' ),
-			),
+				),
+
 			array(
 				'id' => 'product_col_sm',
 				'type' => 'select',
 				'title' => esc_html__('Product Listing column Tablet', 'mocha'),
 				'options' => array(
-						'2' => '2',
-						'3' => '3',
-						'4' => '4',							
+					'2' => '2',
+					'3' => '3',
+					'4' => '4',	
+					'5' => '5',
+					'6' => '6'
 					),
 				'std' => '2',
 				'sub_desc' => esc_html__( 'Select number of column on Tablet Screen', 'mocha' ),
-			),
-			array(
-					'id' => 'sidebar_product',
-					'type' => 'select',
-					'title' => esc_html__('Sidebar Product Layout', 'mocha'),
-					'options' => array(
-							'left'	=> esc_html__( 'Left Sidebar', 'mocha' ),
-							'full' => esc_html__( 'Full Layout', 'mocha' ),		
-							'right' => esc_html__( 'Right Sidebar', 'mocha' )
-					),
-					'std' => 'left',
-					'sub_desc' => esc_html__( 'Select style sidebar product', 'mocha' ),
 				),
+
+			array(
+				'id' => 'sidebar_product',
+				'type' => 'select',
+				'title' => esc_html__('Sidebar Product Layout', 'mocha'),
+				'options' => array(
+					'left'	=> esc_html__( 'Left Sidebar', 'mocha' ),
+					'full' 	=> esc_html__( 'Full Layout', 'mocha' ),		
+					'right' => esc_html__( 'Right Sidebar', 'mocha' )
+					),
+				'std' => 'left',
+				'sub_desc' => esc_html__( 'Select style sidebar product', 'mocha' ),
+				),
+
 			array(
 				'id' => 'product_quickview',
 				'title' => esc_html__( 'Quickview', 'mocha' ),
@@ -474,7 +778,17 @@ function mocha_Options_Setup(){
 				'sub_desc' => '',
 				'desc' => esc_html__( 'Turn On/Off Product Quickview', 'mocha' ),
 				'std' => '1'
-			),
+				),
+			
+			array(
+				'id' => 'product_listing_countdown',
+				'title' => esc_html__( 'Enable Countdown', 'mocha' ),
+				'type' => 'checkbox',
+				'sub_desc' => '',
+				'desc' => esc_html__( 'Turn On/Off Product Countdown on product listing', 'mocha' ),
+				'std' => '1'
+				),
+			
 			
 			array(
 				'id' => 'product_number',
@@ -482,7 +796,125 @@ function mocha_Options_Setup(){
 				'title' => esc_html__('Product Listing Number', 'mocha'),
 				'sub_desc' => esc_html__( 'Show number of product in listing product page.', 'mocha' ),
 				'std' => 12
-			),			
+				),
+			
+			array(
+				'id' => 'newproduct_time',
+				'title' => esc_html__( 'New Product', 'mocha' ),
+				'type' => 'number',
+				'sub_desc' => '',
+				'desc' => esc_html__( 'Set day for the new product label from the date publish product.', 'mocha' ),
+				'std' => '1'
+				),
+			
+			array(
+				'id' => 'info_typo1',
+				'type' => 'info',
+				'title' => esc_html( 'Product Single Config', 'mocha' ),
+				'desc' => '',
+				'class' => 'mocha-opt-info'
+				),
+			
+			array(
+				'id' => 'sidebar_product_detail',
+				'type' => 'select',
+				'title' => esc_html__('Sidebar Product Single Layout', 'mocha'),
+				'options' => array(
+					'left'	=> esc_html__( 'Left Sidebar', 'mocha' ),
+					'full' 	=> esc_html__( 'Full Layout', 'mocha' ),		
+					'right' => esc_html__( 'Right Sidebar', 'mocha' )
+					),
+				'std' => 'left',
+				'sub_desc' => esc_html__( 'Select style sidebar product single', 'mocha' ),
+				),
+			
+			array(
+				'id' => 'product_single_style',
+				'type' => 'select',
+				'title' => esc_html__('Product Detail Style', 'mocha'),
+				'options' => array(
+					'default'	=> esc_html__( 'Default', 'mocha' ),
+					'style1' 	=> esc_html__( 'Full Width', 'mocha' ),	
+					'style2' 	=> esc_html__( 'Full Width With Accordion', 'mocha' ),	
+					'style3' 	=> esc_html__( 'Full Width With Accordion 1', 'mocha' ),	
+				),
+				'std' => 'default',
+				'sub_desc' => esc_html__( 'Select style for product single', 'mocha' ),
+				),
+			
+			array(
+				'id' => 'product_single_thumbnail',
+				'type' => 'select',
+				'title' => esc_html__('Product Thumbnail Position', 'mocha'),
+				'options' => array(
+					'bottom'	=> esc_html__( 'Bottom', 'mocha' ),
+					'left' 		=> esc_html__( 'Left', 'mocha' ),	
+					'right' 	=> esc_html__( 'Right', 'mocha' ),	
+					'top' 		=> esc_html__( 'Top', 'mocha' ),					
+				),
+				'std' => 'bottom',
+				'sub_desc' => esc_html__( 'Select style for product single thumbnail', 'mocha' ),
+				),		
+			
+			
+			array(
+				'id' => 'product_zoom',
+				'title' => esc_html__( 'Product Zoom', 'mocha' ),
+				'type' => 'checkbox',
+				'sub_desc' => '',
+				'desc' => esc_html__( 'Turn On/Off image zoom when hover on single product', 'mocha' ),
+				'std' => '1'
+				),
+			
+			array(
+				'id' => 'product_brand',
+				'title' => esc_html__( 'Enable Product Brand Image', 'mocha' ),
+				'type' => 'checkbox',
+				'sub_desc' => '',
+				'desc' => esc_html__( 'Turn On/Off product brand image show on single product.', 'mocha' ),
+				'std' => '1'
+				),
+
+			array(
+				'id' => 'product_single_countdown',
+				'title' => esc_html__( 'Enable Countdown Single', 'mocha' ),
+				'type' => 'checkbox',
+				'sub_desc' => '',
+				'desc' => esc_html__( 'Turn On/Off Product Countdown on product single', 'mocha' ),
+				'std' => '1'
+				),
+			
+			array(
+				'id' => 'info_typo1',
+				'type' => 'info',
+				'title' => esc_html( 'Config For Product Categories Widget', 'mocha' ),
+				'desc' => '',
+				'class' => 'mocha-opt-info'
+				),
+
+			array(
+				'id' => 'product_number_item',
+				'type' => 'text',
+				'title' => esc_html__( 'Category Number Item Show', 'mocha' ),
+				'sub_desc' => esc_html__( 'Choose to number of item category that you want to show, leave 0 to show all category', 'mocha' ),
+				'std' => 8
+				),	
+
+			array(
+				'id' => 'product_more_text',
+				'type' => 'text',
+				'title' => esc_html__( 'Category More Text', 'mocha' ),
+				'sub_desc' => esc_html__( 'Change more text on category product', 'mocha' ),
+				'std' => ''
+				),
+
+			array(
+				'id' => 'product_less_text',
+				'type' => 'text',
+				'title' => esc_html__( 'Category Less Text', 'mocha' ),
+				'sub_desc' => esc_html__( 'Change less text on category product', 'mocha' ),
+				'std' => ''
+			)	
 		)
 );		
 	$options[] = array(
@@ -490,10 +922,10 @@ function mocha_Options_Setup(){
 			'desc' => wp_kses( __('<p class="description">Change the font style of your blog, custom with Google Font.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_151_edit.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_151_edit.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
-					array(
+				array(
 					'id' => 'info_typo1',
 					'type' => 'info',
 					'title' => esc_html( 'Global Typography', 'mocha' ),
@@ -593,7 +1025,7 @@ function mocha_Options_Setup(){
 		'desc' => wp_kses( __('<p class="description">This feature allow to you link to your social.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 		//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 		//You dont have to though, leave it blank for default.
-		'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_222_share.png',
+		'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_222_share.png',
 		//Lets leave this as a blank section, no options just some intro text set above.
 		'fields' => array(
 				array(
@@ -628,6 +1060,14 @@ function mocha_Options_Setup(){
 						'desc' => '',
 						'std' => '',
 					),
+					array(
+						'id' => 'social-share-instagram',
+						'title' => esc_html__( 'Instagram', 'mocha' ),
+						'type' => 'text',
+						'sub_desc' => '',
+						'desc' => '',
+						'std' => '',
+					),
 				array(
 						'id' => 'social-share-go',
 						'title' => esc_html__( 'Google+', 'mocha' ),
@@ -649,55 +1089,45 @@ function mocha_Options_Setup(){
 	);
 	
 	$options[] = array(
-			'title' => esc_html__('Maintaincece Mode', 'mocha'),
-			'desc' => wp_kses( __('<p class="description">Enable and config for Maintaincece mode.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
+			'title' => esc_html__('Popup Config', 'mocha'),
+			'desc' => wp_kses( __('<p class="description">Enable popup and more config for Popup.</p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_083_random.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_318_more-items.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
 					array(
-						'id' => 'maintain_enable',
-						'title' => esc_html__( 'Enable Maintaincece Mode', 'mocha' ),
+						'id' => 'popup_active',
 						'type' => 'checkbox',
-						'sub_desc' => esc_html__( 'Turn on/off Maintaince mode on this website', 'mocha' ),
+						'title' => esc_html__( 'Active Popup Subscribe', 'mocha' ),
+						'sub_desc' => esc_html__( 'Check to active popup subscribe', 'mocha' ),
 						'desc' => '',
-						'std' => '0'
-					),
+						'std' => '0'// 1 = on | 0 = off
+					),	
 					
 					array(
-						'id' => 'maintaince_background',
-						'title' => esc_html__( 'Maintaince Background', 'mocha' ),
+						'id' => 'popup_background',
+						'title' => esc_html__( 'Popup Background', 'mocha' ),
 						'type' => 'upload',
-						'sub_desc' => esc_html__( 'Choose maintance background image', 'mocha' ),
+						'sub_desc' => esc_html__( 'Choose popup background image', 'mocha' ),
 						'desc' => '',
-						'std' => get_template_directory_uri().'/assets/img/maintaince/bg-main.jpg'
+						'std' => get_template_directory_uri().'/assets/img/popup/bg-main.jpg'
 					),
 					
 					array(
-						'id' => 'maintaince_content',
-						'title' => esc_html__( 'Maintaince Content', 'mocha' ),
+						'id' => 'popup_content',
+						'title' => esc_html__( 'Popup Content', 'mocha' ),
 						'type' => 'editor',
-						'sub_desc' => esc_html__( 'Change text of maintaince mode', 'mocha' ),
+						'sub_desc' => esc_html__( 'Change text of popup mode', 'mocha' ),
 						'desc' => '',
 						'std' => ''
-					),
+					),	
 					
 					array(
-						'id' => 'maintaince_date',
-						'title' => esc_html__( 'Maintaince Date', 'mocha' ),
-						'type' => 'date',
-						'sub_desc' => esc_html__( 'Put date to this field to show countdown date on maintaince mode.', 'mocha' ),
-						'desc' => '',
-						'placeholder' => 'mm/dd/yy',
-						'std' => ''
-					),
-					
-					array(
-						'id' => 'maintaince_form',
-						'title' => esc_html__( 'Maintaince Form', 'mocha' ),
+						'id' => 'popup_form',
+						'title' => esc_html__( 'Popup Form', 'mocha' ),
 						'type' => 'text',
-						'sub_desc' => esc_html__( 'Put shortcode form to this field and it will be shown on maintaince mode frontend.', 'mocha' ),
+						'sub_desc' => esc_html__( 'Put shortcode form to this field and it will be shown on popup mode frontend.', 'mocha' ),
 						'desc' => '',
 						'std' => ''
 					),
@@ -710,7 +1140,7 @@ function mocha_Options_Setup(){
 			'desc' => wp_kses( __('<p class="description">Custom advanced with Cpanel, Widget advanced, Developer mode </p>', 'mocha'), array( 'p' => array( 'class' => array() ) ) ),
 			//all the glyphicons are included in the options folder, so you can hook into them, or link to your own custom ones.
 			//You dont have to though, leave it mocha for default.
-			'icon' => MOCHA_URL.'/options/img/glyphicons/glyphicons_083_random.png',
+			'icon' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_083_random.png',
 			//Lets leave this as a mocha section, no options just some intro text set above.
 			'fields' => array(
 					array(
@@ -729,16 +1159,7 @@ function mocha_Options_Setup(){
 						'sub_desc' => esc_html__( 'Turn on/off Widget Advanced', 'mocha' ),
 						'desc' => '',
 						'std' => '1'
-					),
-					
-					array(
-						'id' => 'developer_mode',
-						'title' => esc_html__( 'Developer Mode', 'mocha' ),
-						'type' => 'checkbox',
-						'sub_desc' => esc_html__( 'Turn on/off preset', 'mocha' ),
-						'desc' => '',
-						'std' => '0'
-					),
+					),					
 					
 					array(
 						'id' => 'social_share',
@@ -775,21 +1196,6 @@ function mocha_Options_Setup(){
 						'std' => 'ltr'
 					),
 					
-					array(
-						'id' => 'popup_active',
-						'type' => 'checkbox',
-						'title' => esc_html__('Active Popup Subscribe', 'mocha'),
-						'sub_desc' => esc_html__( 'Check to active popup subscribe', 'mocha' ),
-						'desc' => '',
-						'std' => '0'// 1 = on | 0 = off
-					),	
-					
-					array(
-						'id' => 'popup_shortcode',
-						'type' => 'textarea',
-						'sub_desc' => esc_html__( 'Insert the popup shortcode here', 'mocha' ),
-						'title' => esc_html__( 'Popup Shortcode', 'mocha' )
-					),
 					
 					array(
 						'id' => 'advanced_css',
@@ -812,32 +1218,27 @@ function mocha_Options_Setup(){
 
 	//Setup custom links in the footer for share icons
 	$options_args['share_icons']['facebook'] = array(
-			'link' => 'http://www.facebook.com/ZoroTheme.page',
+			'link' => 'http://www.facebook.com/wpthemego',
 			'title' => 'Facebook',
-			'img' => MOCHA_URL.'/options/img/glyphicons/glyphicons_320_facebook.png'
+			'img' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_320_facebook.png'
 	);
 	$options_args['share_icons']['twitter'] = array(
-			'link' => 'https://twitter.com/ZoroTheme',
+			'link' => 'https://twitter.com/wpthemego/',
 			'title' => 'Folow me on Twitter',
-			'img' => MOCHA_URL.'/options/img/glyphicons/glyphicons_322_twitter.png'
-	);
-	$options_args['share_icons']['linked_in'] = array(
-			'link' => 'http://www.linkedin.com/in/ZoroTheme',
-			'title' => 'Find me on LinkedIn',
-			'img' => MOCHA_URL.'/options/img/glyphicons/glyphicons_337_linked_in.png'
+			'img' => MOCHA_URL.'/admin/img/glyphicons/glyphicons_322_twitter.png'
 	);
 
 
 	//Choose a custom option name for your theme options, the default is the theme name in lowercase with spaces replaced by underscores
-	$options_args['opt_name'] = MOCHA_THEME;
-
-	$options_args['google_api_key'] = 'AIzaSyB7KDV6nbqBuZpBYeJbPo__zGMWUebMfFU';//must be defined for use with google webfonts field type
+	$options_args['opt_name'] = SW_THEME;
+	$webfonts = ( zr_options( 'google_webfonts_api' ) ) ? zr_options( 'google_webfonts_api' ) : 'AIzaSyAL_XMT9t2KuBe2MIcofGl6YF1IFzfB4L4';
+	$options_args['google_api_key'] = $webfonts; //must be defined for use with google webfonts field type
 
 	//Custom menu title for options page - default is "Options"
 	$options_args['menu_title'] = esc_html__('Theme Options', 'mocha');
 
 	//Custom Page Title for options page - default is "Options"
-	$options_args['page_title'] = esc_html__('Mocha Options ', 'mocha') . wp_get_theme()->get('Name');
+	$options_args['page_title'] = esc_html__('Mocha Options ', 'mocha');
 
 	//Custom page slug for options page (wp-admin/themes.php?page=***) - default is "mocha_theme_options"
 	$options_args['page_slug'] = 'mocha_theme_options';
@@ -847,11 +1248,16 @@ function mocha_Options_Setup(){
 
 	//custom page location - default 100 - must be unique or will override other items
 	$options_args['page_position'] = 27;
-	$mocha_options = new Mocha_Options($options, $options_args);
+	$zr_options = new SW_Options( $options, $options_args );
 }
-add_action( 'admin_init', 'mocha_Options_Setup', 0 );
-mocha_Options_Setup();
+add_action( 'init', 'mocha_Options_Setup', 0 );
+// mocha_Options_Setup();
+endif; 
 
+
+/*
+** Define widget
+*/
 function mocha_widget_setup_args(){
 	$mocha_widget_areas = array(
 		
@@ -870,7 +1276,102 @@ function mocha_widget_setup_args(){
 				'after_widget' => '</div></div>',
 				'before_title' => '<div class="block-title-widget"><h2><span>',
 				'after_title' => '</span></h2></div>'
-		),	
+		),
+		
+		array(
+				'name' => esc_html__('Top Header', 'mocha'),
+				'id'   => 'top',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		
+		array(
+				'name' => esc_html__('Top Header3', 'mocha'),
+				'id'   => 'top1',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		
+		array(
+				'name' => esc_html__('Top Header8', 'mocha'),
+				'id'   => 'top2',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		
+		array(
+				'name' => esc_html__('Top Header9', 'mocha'),
+				'id'   => 'top9',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		
+		array(
+				'name' => esc_html__('Top Header10', 'mocha'),
+				'id'   => 'top10',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+
+		array(
+				'name' => esc_html__('Banner Header12', 'mocha'),
+				'id'   => 'top11',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		
+		array(
+				'name' => esc_html__('Contact Header', 'mocha'),
+				'id'   => 'contact-us',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		array(
+				'name' => esc_html__('Mid Header', 'mocha'),
+				'id'   => 'mid-header',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		array(
+				'name' => esc_html__('Mid Header2', 'mocha'),
+				'id'   => 'mid-header2',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		array(
+				'name' => esc_html__('Mid Header12', 'mocha'),
+				'id'   => 'mid-header3',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		array(
+				'name' => esc_html__('Bottom Header', 'mocha'),
+				'id'   => 'bottom-header',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
 		array(
 				'name' => esc_html__('Header Right', 'mocha'),
 				'id'   => 'header-right',
@@ -878,23 +1379,48 @@ function mocha_widget_setup_args(){
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
-		),		
+		),
 		array(
-				'name' => esc_html__('Top Header3', 'mocha'),
-				'id'   => 'top2',
+				'name' => esc_html__('Header Right Home4', 'mocha'),
+				'id'   => 'header-right4',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
 		array(
-				'name' => esc_html__('Top Header4', 'mocha'),
-				'id'   => 'top',
+				'name' => esc_html__('Header Right Home6', 'mocha'),
+				'id'   => 'header-right6',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
+		array(
+				'name' => esc_html__('Header Right Home9', 'mocha'),
+				'id'   => 'header-right9',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		array(
+				'name' => esc_html__('Header Right Home12', 'mocha'),
+				'id'   => 'header-right12',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		array(
+				'name' => esc_html__('Header Left', 'mocha'),
+				'id'   => 'header-left',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+		
 		array(
 				'name' => esc_html__('Sidebar Left Product', 'mocha'),
 				'id'   => 'left-product',
@@ -912,22 +1438,7 @@ function mocha_widget_setup_args(){
 				'before_title' => '<div class="block-title-widget"><h2><span>',
 				'after_title' => '</span></h2></div>'
 		),
-		array(
-				'name' => esc_html__('Sidebar Top Categories', 'mocha'),
-				'id'   => 'banner-cat',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget' => '</div></div>',
-				'before_title' => '<div class="block-title-widget"><h2><span>',
-				'after_title' => '</span></h2></div>'
-		),
-		array(
-				'name' => esc_html__('Sidebar Top Full', 'mocha'),
-				'id'   => 'banner-cat-full',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget' => '</div></div>',
-				'before_title' => '<div class="block-title-widget"><h2><span>',
-				'after_title' => '</span></h2></div>'
-		),
+		
 		array(
 				'name' => esc_html__('Banner Mobile', 'mocha'),
 				'id'   => 'banner-mobile',
@@ -936,6 +1447,7 @@ function mocha_widget_setup_args(){
 				'before_title' => '<div class="block-title-widget"><h2><span>',
 				'after_title' => '</span></h2></div>'
 		),
+		
 		array(
 				'name' => esc_html__('Sidebar Left Detail Product', 'mocha'),
 				'id'   => 'left-product-detail',
@@ -953,6 +1465,7 @@ function mocha_widget_setup_args(){
 				'before_title' => '<div class="block-title-widget"><h2><span>',
 				'after_title' => '</span></h2></div>'
 		),
+		
 		array(
 				'name' => esc_html__('Sidebar Bottom Detail Product', 'mocha'),
 				'id'   => 'bottom-detail-product',
@@ -961,6 +1474,7 @@ function mocha_widget_setup_args(){
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
+		
 		array(
 				'name' => esc_html__('Bottom Detail Product Mobile', 'mocha'),
 				'id'   => 'bottom-detail-product-mobile',
@@ -969,6 +1483,7 @@ function mocha_widget_setup_args(){
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
+		
 		array(
 				'name' => esc_html__('Filter Mobile', 'mocha'),
 				'id'   => 'filter-mobile',
@@ -979,22 +1494,13 @@ function mocha_widget_setup_args(){
 		),
 	
 		array(
-				'name' => esc_html__('Footer Copyright Left', 'mocha'),
-				'id'   => 'footer-copyright1',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-
-		array(
-				'name' => esc_html__('Footer Copyright Right', 'mocha'),
-				'id'   => 'footer-copyright2',
+				'name' => esc_html__('Footer Copyright', 'mocha'),
+				'id'   => 'footer-copyright',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
 	);
-	return $mocha_widget_areas;
+	return apply_filters( 'mocha_widget_register', $mocha_widget_areas );
 }

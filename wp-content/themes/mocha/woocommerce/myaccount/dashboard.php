@@ -21,9 +21,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
-global $mocha_detect;
-	$mobile_check   = mocha_options()->getCpanelValue( 'mobile_enable' );
-	if( !empty( $mocha_detect ) && ( $mocha_detect->isMobile() ) && $mobile_check &&  is_single() ) : ?>
+if( mocha_mobile_check() ) : ?>
 	<p class="avatar-user">
 		<?php
 			 echo get_avatar( $current_user->ID, 155 );
