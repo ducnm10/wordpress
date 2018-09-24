@@ -25,6 +25,16 @@ jQuery(document).ready(function($) {
   }); // delete transients
 
 
+  // delete uploads
+  $('.tools_page_wp-reset').on('click', '#delete-uploads', 'click', function(e) {
+    e.preventDefault();
+
+    run_tool(this, 'delete_uploads');
+
+    return false;
+  }); // delete uploads
+
+
   // delete themes
   $('.tools_page_wp-reset').on('click', '#delete-themes', 'click', function(e) {
     e.preventDefault();
@@ -200,6 +210,12 @@ jQuery(document).ready(function($) {
     notice_name = $(this).data('notice');
     if (!notice_name) {
       return true;
+    }
+
+    if (notice_name == 'geoip_tab') {
+      $('#wp-reset-tabs').tabs('option', 'active', 0).tabs('disable', 3);
+      $('#wp-reset-tabs li:eq(3)').remove();
+      $('#wp-reset-tabs').tabs('refresh');
     }
 
     $.get(ajaxurl, { notice_name: notice_name,

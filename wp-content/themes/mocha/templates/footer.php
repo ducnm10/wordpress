@@ -2,7 +2,6 @@
 $mocha_page_footer   	 = ( get_post_meta( get_the_ID(), 'page_footer_style', true ) != '' ) ? get_post_meta( get_the_ID(), 'page_footer_style', true ) : zr_options( 'footer_style' );
 $mocha_copyright_text 	 = zr_options( 'footer_copyright' ); 
 ?>
-
 <footer id="footer" class="footer default theme-clearfix">
 	<div class="footer-top-wrapper">
 		<!-- Content footer -->

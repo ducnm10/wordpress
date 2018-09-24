@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce compare, compare products, product compare, product comparison, compare table
 Requires at least: 3.5.1
 Tested up to: 4.9
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,10 @@ yith-woocommerce-compare-<WORDPRESS LOCALE >.mo
 3. The settings of plugin
 
 == Changelog ==
+
+= 2.3.3 = Released on Sep 20, 2018
+
+* Fix: Compatibility issue with WPML and RTL languages.
 
 = 2.3.2 = Released on Sep 10, 2018
 
@@ -292,12 +296,6 @@ Full documentation is available [here](http://yithemes.com/docs-plugins/yith-woo
 
 == Upgrade notice ==
 
-= 2.3.2 = Released on Sep 10, 2018
+= 2.3.3 = Released on Sep 20, 2018
 
-* New: Support to WooCommerce 3.4.5.
-* New: Support to WordPress 4.9.8.
-* Update: Plugin Core.
-* Update: All external scripts to latest available version.
-* Update: Compare table template (compare.php) to version 2.3.2.
-* Update: Compare table style.
-* Fix: Check product status before add it to compare list.
+* Fix: Compatibility issue with WPML and RTL languages.

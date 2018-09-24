@@ -1,10 +1,10 @@
-=== WP Reset - Fastest WordPress Reset Plugin ===
+=== WP Reset - Best WordPress Reset Plugin ===
 Tags: wordpress reset, reset wordpress, reset database, reset wordpress database, reset, restart wordpress, clean wordpress, default wp, default wordpress, reset wp, wp reset, developer, wp-cli
-Contributors: WebFactory, wpreset, googlemapswidget
+Contributors: WebFactory, wpreset, googlemapswidget, securityninja, underconstructionpage
 Requires at least: 4.0
 Requires PHP: 5.2
 Tested up to: 4.9
-Stable tag: 1.30
+Stable tag: 1.35
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,6 +16,8 @@ WordPress Reset resets any WordPress site to the default values without modifyin
 For support please use the <a href="https://wordpress.org/support/plugin/wp-reset">forums</a>, and if you need more information visit <a href="https://wpreset.com/?utm_source=wordpressorg&utm_medium=content&utm_campaign=wp-reset&utm_term=wpreset.com">wpreset.com</a> and be sure to check out the <a href="https://wpreset.com/roadmap/?utm_source=wordpressorg&utm_medium=content&utm_campaign=wp-reset&utm_term=roadmap">roadmap</a> for the list of upcoming features.
 
 Access WP Reset admin page via the "Tools" menu.
+
+> WP Reset is proudly sponsored by <a target="_blank" href="https://ipgeolocation.io/">IP Geolocation</a>, a **premium GeoIP service for developers**. See how you can use their <a href="https://wpreset.com/geoip-transform-boring-data-better-user-experience/">GeoIP service</a> to make boring IP addresses more interesting for users. They offer <a href="https://ipgeolocation.io/signup">50,000 API requests a month FREE for developers</a>, and keep WP Reset updated & maintained.
 
 
 **Please read carefully before proceeding to understand what WP Reset does**
@@ -53,6 +55,8 @@ WP Reset has yet to be completely tested with multisite! Please be careful when 
 
 Delete transients - deletes all transient related database entries. Including expired and non-expired transients, and orphaned timeout entries.
 
+Delete uploads - delete all files and folder in the /uploads/ folder.
+
 Delete plugins - deletes all plugins except WP Reset which remains active.
 
 Delete themes - deletes all themes.
@@ -80,9 +84,16 @@ Or if needed, upload manually;
 
 1. WP Reset admin page
 2. Reset action has to be double-confirmed
-
+3. Additional tools for resetting and deleting various WordPress objects
 
 == Changelog ==
+
+= v1.35 =
+* 2018/09/18
+* WP Reset is proudly sponsored by <a href="https://ipgeolocation.io/">IP Geolocation</a>
+* 60k users hit on 2018/09/16 with 323,300 downloads; 35 days for +10k
+* added all tools to WP-CLI
+* new tool: delete all files in uploads folder
 
 = v1.30 =
 * 2018/08/27
