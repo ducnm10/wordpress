@@ -14,13 +14,13 @@ if (!isset($content_width)) { $content_width = 940; }
 define("MOCHA_PRODUCT_TYPE","product");
 define("MOCHA_PRODUCT_DETAIL_TYPE","product_detail");
 
-if ( !defined('SW_THEME') ){
-	define( 'SW_THEME', 'mocha_theme' );
+if ( !defined('ZR_THEME') ){
+	define( 'ZR_THEME', 'mocha_theme' );
 }
 
 require_once( get_template_directory().'/lib/options.php' );
 
-if( class_exists( 'SW_Options' ) ) :
+if( class_exists( 'ZR_Options' ) ) :
 function mocha_Options_Setup(){
 	global $zr_options, $options, $options_args;
 
@@ -1230,7 +1230,7 @@ function mocha_Options_Setup(){
 
 
 	//Choose a custom option name for your theme options, the default is the theme name in lowercase with spaces replaced by underscores
-	$options_args['opt_name'] = SW_THEME;
+	$options_args['opt_name'] = ZR_THEME;
 	$webfonts = ( zr_options( 'google_webfonts_api' ) ) ? zr_options( 'google_webfonts_api' ) : 'AIzaSyAL_XMT9t2KuBe2MIcofGl6YF1IFzfB4L4';
 	$options_args['google_api_key'] = $webfonts; //must be defined for use with google webfonts field type
 
@@ -1248,7 +1248,7 @@ function mocha_Options_Setup(){
 
 	//custom page location - default 100 - must be unique or will override other items
 	$options_args['page_position'] = 27;
-	$zr_options = new SW_Options( $options, $options_args );
+	$zr_options = new ZR_Options( $options, $options_args );
 }
 add_action( 'init', 'mocha_Options_Setup', 0 );
 // mocha_Options_Setup();

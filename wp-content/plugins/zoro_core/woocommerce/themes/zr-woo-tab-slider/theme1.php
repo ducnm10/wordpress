@@ -144,7 +144,7 @@
 					else :
 						echo '<div class="alert alert-warning alert-dismissible" role="alert">
 						<a class="close" data-dismiss="alert">&times;</a>
-						<p>'. esc_html__( 'There is not product on this tab', 'sw_woocommerce' ) .'</p>
+						<p>'. esc_html__( 'There is not product on this tab', 'zr_woocommerce' ) .'</p>
 						</div>';
 					endif;				
 				?>
