@@ -104,13 +104,9 @@ if( !class_exists( 'YITH_Woocompare_Frontend' ) ) {
          */
         public function __construct() {
 
-            // set coookiename
-            if ( is_multisite() ) $this->cookie_name .= '_' . get_current_blog_id();
 
+            add_action( 'init', array( $this, 'init_variables' ), 1 );
             add_action( 'init', array( $this, 'populate_products_list' ), 10 );
-
-            // populate default fields for the comparison table
-            $this->default_fields = YITH_Woocompare_Helper::standard_fields();
 
             // Add link or button in the products list or
             if ( get_option('yith_woocompare_compare_button_in_product_page') == 'yes' )  add_action( 'woocommerce_single_product_summary', array( $this, 'add_compare_link' ), 35 );
@@ -140,6 +136,28 @@ if( !class_exists( 'YITH_Woocompare_Frontend' ) ) {
             add_action( 'wp_ajax_nopriv_' . $this->action_reload, array( $this, 'reload_widget_list_ajax' ) );
 
             return $this;
+        }
+
+        /**
+         * Init class variables
+         *
+         * @since 2.3.4
+         * @author Francesco Licandro
+         */
+        public function init_variables(){
+            global $sitepress;
+
+            $lang = isset( $_REQUEST['lang'] ) ? $_REQUEST['lang'] : false;
+
+            if( defined( 'ICL_LANGUAGE_CODE' ) && $lang && isset( $sitepress ) ) {
+                $sitepress->switch_lang( $lang, true );
+            }
+
+            // set coookiename
+            if ( is_multisite() ) $this->cookie_name .= '_' . get_current_blog_id();
+
+            // populate default fields for the comparison table
+            $this->default_fields = YITH_Woocompare_Helper::standard_fields();
         }
 
         /**

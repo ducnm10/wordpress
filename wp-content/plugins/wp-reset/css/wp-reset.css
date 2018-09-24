@@ -8,6 +8,16 @@
   vertical-align: middle;
 }
 
+.tools_page_wp-reset h1 span {
+  font-size: 13px;
+  vertical-align: super;
+  font-style: italic;
+}
+
+.tools_page_wp-reset .textcenter {
+  text-align: center;
+}
+
 .tools_page_wp-reset.wp-core-ui .button, .tools_page_wp-reset.wp-core-ui .button-primary, .tools_page_wp-reset.wp-core-ui .button-secondary {
   border-radius: 0;
 }

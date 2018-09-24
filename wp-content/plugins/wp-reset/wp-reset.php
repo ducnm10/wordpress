@@ -3,7 +3,7 @@
   Plugin Name: WP Reset
   Plugin URI: https://wpreset.com/
   Description: Reset the site to default installation values without modifying any files. Deletes all customizations and content.
-  Version: 1.30
+  Version: 1.35
   Author: WebFactory Ltd
   Author URI: https://www.webfactoryltd.com/
   Text Domain: wp-reset
@@ -42,6 +42,7 @@ class WP_Reset {
   public $plugin_url = '';
   public $plugin_dir = '';
   protected $options = array();
+  private $delete_count = 0;
 
 
   /**
@@ -342,7 +343,48 @@ class WP_Reset {
 		$count = $wpdb->query("DELETE FROM $wpdb->options	WHERE option_name LIKE '\_transient\_%'	OR option_name LIKE '\_site\_transient\_%'");
     
     return $count;
-	} // do_delete_transients
+  } // do_delete_transients
+  
+
+  /**
+   * Deletes all files in uploads folder.
+   * 
+   * @return int
+	 */
+	function do_delete_uploads() {
+    $upload_dir = wp_get_upload_dir();
+
+    $this->delete_folder($upload_dir['basedir'], $upload_dir['basedir']);
+    
+    return $this->delete_count;
+	} // do_delete_uploads
+
+
+  /**
+   * Recursively deletes a folder
+   * 
+   * @return bool
+	 */
+  private function delete_folder($folder, $base_folder) {
+    $files = array_diff(scandir($folder), array('.', '..'));
+
+    foreach ($files as $file) {
+      if (is_dir($folder . DIRECTORY_SEPARATOR . $file)) {
+        $this->delete_folder($folder . DIRECTORY_SEPARATOR . $file, $base_folder);
+      } else {
+        $tmp = @unlink($folder . DIRECTORY_SEPARATOR . $file);
+        $this->delete_count = $this->delete_count + (int) $tmp;
+      }
+		} // foreach
+
+    if ($folder != $base_folder) {
+      $tmp = @rmdir($folder);
+      $this->delete_count = $this->delete_count + (int) $tmp;
+      return $tmp;
+    } else {
+      return true;
+    }
+  } // delete_folder
 
 
   /**
@@ -425,6 +467,9 @@ class WP_Reset {
       wp_send_json_success($cnt);
     } elseif ($tool == 'delete_plugins') {
       $cnt = $this->do_delete_plugins(true);
+      wp_send_json_success($cnt);
+    } elseif ($tool == 'delete_uploads') {
+      $cnt = $this->do_delete_uploads();
       wp_send_json_success($cnt);
     } else {
       wp_send_json_error(__('Unknown tool.', 'wp-reset'));
@@ -634,7 +679,7 @@ class WP_Reset {
       return $text;
     }
 
-    $text = '<i><a href="' . $this->generate_web_link('admin_footer') . '" title="' . __('Visit WP Reset page for more info', 'wp-reset') . '" target="_blank">WP Reset</a> v' . $this->version . ' by <a href="https://www.webfactoryltd.com/" title="' . __('Visit our site to get more great plugins', 'wp-reset'). '" target="_blank">WebFactory Ltd</a>.</i> '. $text;
+    $text = '<i><a href="' . $this->generate_web_link('admin_footer') . '" title="' . __('Visit WP Reset page for more info', 'wp-reset') . '" target="_blank">WP Reset</a> v' . $this->version . ' by <a href="https://www.webfactoryltd.com/" title="' . __('Visit our site to get more great plugins', 'wp-reset'). '" target="_blank">WebFactory Ltd</a>. Proudly sponsored by <a target="_blank" href="https://ipgeolocation.io/">IP Geolocation</a> - premium GeoIP service for developers.</i>';
 
     return $text;
   } // admin_footer_text
@@ -670,6 +715,7 @@ class WP_Reset {
   function plugin_page() {
     $notice_shown = false;
     $meta = $this->get_meta();
+    $notices = $this->get_dismissed_notices();
 
     // double check for admin priv
     if (!current_user_can('administrator')) {
@@ -678,7 +724,7 @@ class WP_Reset {
 
     settings_errors();
     echo '<div class="wrap">';
-    echo '<h1><img id="logo-icon" src="' . $this->plugin_url . 'img/wp-reset-logo.png" title="' . __('WP Reset', 'wp-reset') . '" alt="' . __('WP Reset', 'wp-reset') . '"></h1>';
+    echo '<h1><img id="logo-icon" src="' . $this->plugin_url . 'img/wp-reset-logo.png" title="' . __('WP Reset', 'wp-reset') . '" alt="' . __('WP Reset', 'wp-reset') . '"> <span>proudly sponsored by <a href="https://ipgeolocation.io/" target="_blank">IP Geolocation</a></span></h1>';
     echo '<form id="wp_reset_form" action="' . admin_url('tools.php?page=wp-reset') . '" method="post" autocomplete="off">';
 
     if (false === $notice_shown && is_multisite()) {
@@ -698,7 +744,8 @@ class WP_Reset {
       $notice_shown = true;
     }
     
-    if (false === $notice_shown && $meta['reset_count'] >= 2 && false == $this->get_dismissed_notices('tidy')) {
+    // disabled for now
+    if (false && false === $notice_shown && $meta['reset_count'] >= 2 && false == $this->get_dismissed_notices('tidy')) {
       echo '<div class="card notice-wrapper">';
       echo '<h2>' . __('Are you a plugin author? Get your plugin reviewed on Tidy Repo', 'wp-reset') . '</h2>';
       echo '<p>' . __('Since 2013 Tidy Repo has been reviewing the best and most reliable WordPress plugins. <b>Submitting a plugin is free</b>, so you have nothing to lose and a lot of exposure to gain when it gets reviewed.', 'wp-reset') . '</p>';
@@ -714,6 +761,9 @@ class WP_Reset {
     echo '<li><a href="#tab-reset">' . __('Reset', 'wp-reset') . '</a></li>';
     echo '<li><a href="#tab-tools">' . __('Tools', 'wp-reset') . '</a></li>';
     echo '<li><a href="#tab-support">' . __('Support', 'wp-reset') . '</a></li>';
+    if (empty($notices['geoip_tab'])) {
+      echo '<li><a href="#tab-geoip">' . __('IP Geolocation', 'wp-reset') . '</a></li>';
+    }
     echo '</ul>';
 
     echo '<div style="display: none;" id="tab-reset">';
@@ -727,6 +777,12 @@ class WP_Reset {
     echo '<div style="display: none;" id="tab-support">';
     $this->tab_support();
     echo '</div>';
+    
+    if (empty($notices['geoip_tab'])) {
+      echo '<div style="display: none;" id="tab-geoip">';
+      $this->tab_geoip();
+      echo '</div>';
+    }
 
     echo '</div>'; // tabs
 
@@ -810,6 +866,18 @@ class WP_Reset {
     echo '<p><a data-btn-confirm="Delete all transients" data-text-wait="Deleting transients. Please wait." data-text-confirm="All database entries related to transients will be deleted. There is NO UNDO. WP Reset will not make any backups." data-text-done="%n transient database entries have been deleted." class="button" href="#" id="delete-transients">Delete all transients</a></p>';
     echo '</div>';
 
+    $upload_dir = wp_upload_dir(date('Y/m'), true);
+
+    echo '<div class="card">';
+    echo '<h2>' . __('Uploads Folder', 'wp-reset') . '</h2>';
+    echo '<p>' . __('All files in <code>' . $upload_dir['basedir'] . '</code> folder will be deleted. Including folders and subfolder, and files in subfolders.  Files associated with <a href="' . admin_url('upload.php') . '">media</a> entries will be deleted too. <b>There is NO UNDO. WP Reset will not make any backups.</b>', 'wp-reset') . '</p>';
+    if (false != $upload_dir['error']) {
+      echo '<p><span style="color:#dd3036;"><b>Tool is not available.</b></span> Folder is not writeable by WordPress. Please check file and folder access rights.</p>';
+    } else {
+      echo '<p><a data-btn-confirm="Delete everything in uploads folder" data-text-wait="Deleting uploads. Please wait." data-text-confirm="All files and folders in uploads will be deleted. There is NO UNDO. WP Reset will not make any backups." data-text-done="%n files &amp; folders have been deleted." class="button" href="#" id="delete-uploads">Delete all files &amp; folders in uploads folder</a></p>';
+    }
+    echo '</div>';
+
     echo '<div class="card">';
     echo '<h2>' . __('Themes', 'wp-reset') . '</h2>';
     echo '<p>' . __('All themes will be deleted. Including the currently active theme - ' . $theme->get('Name') . '. <b>There is NO UNDO. WP Reset will not make any backups.</b>', 'wp-reset') . '</p>';
@@ -841,6 +909,33 @@ class WP_Reset {
     echo '<p>' . __('If there\'s a need to contact us privately send emails to <a href="mailto:wpreset@webfactoryltd.com">wpreset@webfactoryltd.com</a>. Please know that although we\'ll gladly have a look at issues you are having with any site, we can\'t promise we\'ll fix them. Thank you for understanding.', 'wp-reset') . '</p>';
     echo '</div>';
   } // tab_support
+  
+  
+  /**
+   * Echoes content for sponsor tab
+   * 
+   * @return null
+   */
+  private function tab_geoip() {
+    echo '<div class="card">';
+    echo '<h2>' . __('WP Reset is proudly sponsored by IP Geolocation', 'wp-reset') . '</h2>';
+    echo '<p>' . __('Keeping a plugin maintained, supported and free is neither easy nor cheap that\'s why we\'re thrilled that a <a href="https://ipgeolocation.io/" target="_blank">premium GeoIP service</a> decided to sponsor WP Reset. No notifications, no popups, no shady links. They keep the plugin free and clean.', 'wp-reset') . '</p>';
+    echo '</div>';
+
+    echo '<div class="card">';
+    echo '<h2>' . __('Why would I need a GeoIP service?', 'wp-reset') . '</h2>';
+    echo '<p>' . __('IP addresses are boring and don\'t mean much to people. However, they can easily be transformed into a huge source of data by using a GeoIP service. From filtering and segmenting users to providing a better UX - geographical data can enhance any web app! See an <a href="https://wpreset.com/geoip-transform-boring-data-better-user-experience/" target="_blank">example</a> we recently wrote about.', 'wp-reset') . '</p>';
+    echo '<p><a href="https://ipgeolocation.io/ip-location" target="_blank" class="button">See what data is available for your IP address</a></p>';
+    echo '</div>';
+    
+    echo '<div class="card">';
+    echo '<h2>' . __('Get a free account', 'wp-reset') . '</h2>';
+    echo '<p>' . __('IP Geolocation knows how difficult it is to start any new project. That\'s why they offer <a href="https://ipgeolocation.io/signup" target="_blank">50,000 API requests per month for free</a>. No credit card required, no tricks - just register for an account and you can use the service. It\'s a great way to add value to any web project.' , 'wp-reset') . '</p>';
+    echo '<p><a href="https://ipgeolocation.io/signup" target="_blank" class="button">Get a FREE account with 50,000 API requests a month</a></p>';
+    echo '</div>';
+    
+    echo '<p>Permanently <a href="#" class="wpr-dismiss-notice" data-notice="geoip_tab">remove this tab</a>.</p>';
+  } // tab_geoip
   
 
   /**

@@ -96,13 +96,13 @@ if ( !class_exists( 'YIT_Plugin_SubPanel' ) ) {
                 $logo = $admin_logo;
             }
 
-            if ( !isset( $admin_page_hooks[ 'yit_plugin_panel' ] ) ) {
+            if ( !isset( $admin_page_hooks[ 'yith_plugin_panel' ] ) ) {
                 $position = apply_filters( 'yit_plugins_menu_item_position', '62.32' );
-                add_menu_page( 'yit_plugin_panel', 'YITH Plugins', 'nosuchcapability', 'yit_plugin_panel', null, $logo, $position );
+                add_menu_page( 'yith_plugin_panel', 'YITH Plugins', 'nosuchcapability', 'yith_plugin_panel', null, $logo, $position );
             }
 
-            add_submenu_page( 'yit_plugin_panel', $this->settings[ 'label' ], $this->settings[ 'label' ], 'manage_options', $this->settings[ 'page' ], array( $this, 'yit_panel' ) );
-            remove_submenu_page( 'yit_plugin_panel', 'yit_plugin_panel' );
+            add_submenu_page( 'yith_plugin_panel', $this->settings[ 'label' ], $this->settings[ 'label' ], 'manage_options', $this->settings[ 'page' ], array( $this, 'yit_panel' ) );
+            remove_submenu_page( 'yith_plugin_panel', 'yith_plugin_panel' );
 
         }
 
