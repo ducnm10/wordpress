@@ -549,9 +549,6 @@ function mocha_product_addcart_mid(){
 	if( class_exists( 'YITH_WCWL' ) && !mocha_mobile_check() ){
 		$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );
 	}
-	if( class_exists( 'YITH_WOOCOMPARE' ) && !mocha_mobile_check() ){		
-		$html .= '<a href="javascript:void(0)" class="compare button" data-product_id="'. $product_id .'" rel="nofollow">'. esc_html__( 'Compare', 'mocha' ) .'</a>';	
-	}
 	echo sprintf( '%s', $html );
 }
 
