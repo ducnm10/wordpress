@@ -397,7 +397,7 @@
   .products-wrapper .products-loop.list .item .item-wrap .item-detail .products-thumb {
     width: 100%;
   }
-  .item .item-wrap:hover .item-detail .item-img a.fancybox {
+  .item .item-wrap:hover .item-detail .item-img a.zr-quickview {
     display: none;
     opacity: 0;
   }
