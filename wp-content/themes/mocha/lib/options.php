@@ -8,9 +8,9 @@
  
 if( !function_exists( 'zr_options' ) ) :
 function zr_options( $opt_name, $default = null ){
-	$options = get_option( SW_THEME );
+	$options = get_option( ZR_THEME );
 	if ( !is_admin() &&  isset( $options['show_cpanel'] ) && $options['show_cpanel'] ){
-		$cookie_opt_name = SW_THEME.'_' . $opt_name;
+		$cookie_opt_name = ZR_THEME.'_' . $opt_name;
 		if ( array_key_exists( $cookie_opt_name, $_COOKIE ) ){
 			return $_COOKIE[$cookie_opt_name];
 		}

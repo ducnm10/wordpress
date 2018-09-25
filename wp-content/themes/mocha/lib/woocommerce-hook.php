@@ -92,12 +92,8 @@ function mocha_cart_filter(){
 	else :
 		add_filter($filter, 'mocha_add_to_cart_fragment', 100);
 	endif;
-	
-	if( mocha_mobile_check() ) :
-		add_filter($filter, 'mocha_add_to_cart_fragment_mobile', 100);
-	endif;
 }
-	
+
 function mocha_add_to_cart_fragment_style3( $fragments ) {
 	ob_start();
 	get_template_part( 'woocommerce/minicart-ajax-style3' );
@@ -122,13 +118,6 @@ function mocha_add_to_cart_fragment( $fragments ) {
 	ob_start();
 	get_template_part( 'woocommerce/minicart-ajax' );
 	$fragments['.mocha-minicart'] = ob_get_clean();
-	return $fragments;		
-}
-
-function mocha_add_to_cart_fragment_mobile( $fragments ) {
-	ob_start();
-	get_template_part( 'woocommerce/minicart-ajax-mobile' );
-	$fragments['.mocha-minicart-mobile'] = ob_get_clean();
 	return $fragments;		
 }
 	
@@ -594,14 +583,15 @@ function mocha_product_category_class( $classes, $category = null ){
 	** Single Product
    ========================================================================================== */
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
-add_action( 'woocommerce_single_product_summary', 'mocha_get_brand', 15 );
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
-add_action( 'woocommerce_single_product_summary', 'mocha_single_title', 5 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+
+add_action( 'woocommerce_single_product_summary', 'mocha_single_title', 5 );
+add_action( 'woocommerce_single_product_summary', 'mocha_get_brand', 15 );
 add_action( 'woocommerce_single_product_summary', 'mocha_woocommerce_single_price', 10 );
 add_action( 'woocommerce_single_product_summary', 'mocha_woocommerce_sharing', 50 );
 add_action( 'woocommerce_before_single_product_summary', 'zr_label_sales', 10 );
@@ -701,9 +691,6 @@ function mocha_single_addcart(){
 		if( class_exists( 'YITH_WCWL' ) ) :
 			$html .= do_shortcode( "[yith_wcwl_add_to_wishlist]" );
 		endif;
-		if( class_exists( 'YITH_WOOCOMPARE' ) ) : 
-			$html .= '<a href="javascript:void(0)" class="compare button" data-product_id="'. $product_id .'" rel="nofollow">'. esc_html__( 'Compare', 'mocha' ) .'</a>';
-		endif;
 		$html .= '</div>';
 	}
 	echo sprintf( '%s', $html );
@@ -725,6 +712,8 @@ function mocha_tab_tag($tabs){
 	}
 	return $tabs;
 }
+
+
 function mocha_single_product_tab_tag(){
 	global $product;
 	echo sprintf( '%s', $product->get_tags( ', ', '<span class="tagged_as">' . _n( 'Tag:', 'Tags:', $tag_count, 'mocha' ) . ' ', '</span>' ) );
@@ -760,10 +749,6 @@ function mocha_cart_collaterals_end(){
 function mocha_cpwl_init(){
 	if( class_exists( 'YITH_WCWL' ) ){
 		update_option( 'yith_wcwl_button_position', 'shortcode' );
-	}
-	if( class_exists( 'YITH_WOOCOMPARE' ) ){
-		update_option( 'yith_woocompare_compare_button_in_product_page', 'no' );
-		update_option( 'yith_woocompare_compare_button_in_products_list', 'no' );
 	}
 }
 add_action('admin_init','mocha_cpwl_init');

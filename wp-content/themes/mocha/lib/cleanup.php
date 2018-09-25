@@ -5,7 +5,7 @@
 function mocha_body_class($classes) {
 	$page_metabox_hometemp  = get_post_meta( get_the_ID(), 'page_home_template', true );
 	$menu_event		  		= zr_options( 'menu_event' );
-	$disable_search 		=  zr_options( 'disable_search' );
+	$disable_search 		= zr_options( 'disable_search' );
 	$zr_demo   		  		= get_option( 'zr_mdemo' );
 	$single_video			= get_post_meta( get_the_ID(), 'featured_video_product', true );
 	$mocha_box_layout 		= zr_options( 'layout' );

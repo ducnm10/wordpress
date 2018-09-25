@@ -106,7 +106,6 @@ function zr_activation_options_render_page() {
 
 function zr_validate_purchase_code( $input ){
 	$new_input = '';
-	var_dump( $input );
 	if( zr_verify_purchase_code_result( $input ) ) {
 		$new_input = $input; 
 	}else{
