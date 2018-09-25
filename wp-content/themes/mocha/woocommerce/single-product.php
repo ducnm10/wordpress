@@ -14,20 +14,6 @@
 
 <?php get_template_part('header'); ?>
 
-<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
-	<div class="mocha_breadcrumbs">
-		<div class="container">
-			<?php
-				if (!is_front_page() ) {
-					if (function_exists('mocha_breadcrumb')){
-						mocha_breadcrumb('<div class="breadcrumbs custom-font theme-clearfix">', '</div>');
-					} 
-				} 
-			?>
-		</div>
-	</div>
-<?php endif; ?>
-
 <?php 
 	$mocha_single_style = zr_options( 'product_single_style' );
 	if( empty( $mocha_single_style ) || $mocha_single_style == 'default' ){ 

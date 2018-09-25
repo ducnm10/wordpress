@@ -91,17 +91,6 @@ function mocha_Options_Setup(){
 					'desc' => '',
 					'options' => array(
 									'default' => array('title' => 'Default', 'img' => get_template_directory_uri().'/assets/img/default.png'),
-									'blue' => array('title' => 'Blue', 'img' => get_template_directory_uri().'/assets/img/blue.png'),
-									'lightblue' => array('title' => 'Light Blue', 'img' => get_template_directory_uri().'/assets/img/lightblue.png'),
-									'red' => array('title' => 'Red', 'img' => get_template_directory_uri().'/assets/img/red.png'),
-									'green' => array('title' => 'Green', 'img' => get_template_directory_uri().'/assets/img/green.png'),
-									'darkblue' => array('title' => 'Darkblue', 'img' => get_template_directory_uri().'/assets/img/darkblue.png'),
-									'orange' => array('title' => 'Orange', 'img' => get_template_directory_uri().'/assets/img/orange.png'),
-									'brown' => array('title' => 'Brown', 'img' => get_template_directory_uri().'/assets/img/brown.png'),
-									'pink' => array('title' => 'Pink', 'img' => get_template_directory_uri().'/assets/img/pink.png'),
-									'cyan' => array('title' => 'Cyan', 'img' => get_template_directory_uri().'/assets/img/cyan.png'),
-									'orange2' => array('title' => 'Orange 2', 'img' => get_template_directory_uri().'/assets/img/orange2.png'),
-									'orange3' => array('title' => 'Orange 3', 'img' => get_template_directory_uri().'/assets/img/orange3.png'),
 									), //Must provide key => value(array:title|img) pairs for radio options
 					'std' => 'default'
 				),
@@ -1286,135 +1275,19 @@ function mocha_widget_setup_args(){
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
-		
+
 		array(
-				'name' => esc_html__('Top Header3', 'mocha'),
-				'id'   => 'top1',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Top Header8', 'mocha'),
+				'name' => esc_html__('Top Header2', 'mocha'),
 				'id'   => 'top2',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
 		),
-		
-		array(
-				'name' => esc_html__('Top Header9', 'mocha'),
-				'id'   => 'top9',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Top Header10', 'mocha'),
-				'id'   => 'top10',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-
-		array(
-				'name' => esc_html__('Banner Header12', 'mocha'),
-				'id'   => 'top11',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Contact Header', 'mocha'),
-				'id'   => 'contact-us',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Mid Header', 'mocha'),
-				'id'   => 'mid-header',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Mid Header2', 'mocha'),
-				'id'   => 'mid-header2',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Mid Header12', 'mocha'),
-				'id'   => 'mid-header3',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Bottom Header', 'mocha'),
-				'id'   => 'bottom-header',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
+					
 		array(
 				'name' => esc_html__('Header Right', 'mocha'),
 				'id'   => 'header-right',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Right Home4', 'mocha'),
-				'id'   => 'header-right4',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Right Home6', 'mocha'),
-				'id'   => 'header-right6',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Right Home9', 'mocha'),
-				'id'   => 'header-right9',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Right Home12', 'mocha'),
-				'id'   => 'header-right12',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		array(
-				'name' => esc_html__('Header Left', 'mocha'),
-				'id'   => 'header-left',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
@@ -1494,8 +1367,17 @@ function mocha_widget_setup_args(){
 		),
 	
 		array(
-				'name' => esc_html__('Footer Copyright', 'mocha'),
-				'id'   => 'footer-copyright',
+				'name' => esc_html__('Footer Copyright1', 'mocha'),
+				'id'   => 'footer-copyright1',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget'  => '</div></div>',
+				'before_title'  => '<h3>',
+				'after_title'   => '</h3>'
+		),
+
+		array(
+				'name' => esc_html__('Footer Copyright2', 'mocha'),
+				'id'   => 'footer-copyright2',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',

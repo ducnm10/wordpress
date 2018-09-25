@@ -1,3 +1,8 @@
+.single.single-post{
+	.mocha_breadcrumbs{
+		padding-top: 150px;
+	}
+}
 .single.main {
 	.post, .team, .attachment {
 		.entry-wrap {
@@ -317,7 +322,7 @@
 	margin-top: 60px; margin-bottom: 20px;
 	.title{
 		text-transform: uppercase; text-align: center;
-		margin-bottom: 25px;
+		margin-bottom: 30px;
 		font-size:18px;
 		color: @body-color;
 		font-weight: bold;
@@ -512,6 +517,12 @@
 			}
 		}
 		.btn-default{
+			color: #fff; background: @body-color; padding: 10px 20px; border-radius: 0; text-transform: uppercase; border: none; .transition(all 0.3s);
+			&:hover{
+				background: darken(@color, 10%); .transition(all 0.3s);
+			}
+		}
+		.submit{
 			color: #fff; background: @body-color; padding: 10px 20px; border-radius: 0; text-transform: uppercase; border: none; .transition(all 0.3s);
 			&:hover{
 				background: darken(@color, 10%); .transition(all 0.3s);

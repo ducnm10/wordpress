@@ -33,7 +33,7 @@ if( !function_exists('mocha_comment') ){
 
 <?php if (have_comments()) : ?>
 	<div id="comments">
-		<h3><?php esc_html_e( 'Comments', 'mocha' ) ?> <small>(<?php echo get_post()->comment_count;?>)</small></h3>
+		<h3 class="title"><?php esc_html_e( 'Comments', 'mocha' ) ?> <small>(<?php echo get_post()->comment_count;?>)</small></h3>
 		<?php if (post_password_required()) : ?>
 			<div class="alert alert-warning alert-dismissible" role="alert">
 				<a class="close" data-dismiss="alert">&times;</a>

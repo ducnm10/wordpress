@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<div class="header-mid clearfix">
-		<div class="container">
+		<div class="container row">
 			<!-- Logo -->
 			<div class="mocha-logo pull-left">
 				<?php mocha_logo(); ?>
