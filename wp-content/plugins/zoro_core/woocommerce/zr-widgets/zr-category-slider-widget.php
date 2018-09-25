@@ -94,9 +94,9 @@ if ( !class_exists('zr_woo_cat_slider_widget') ) {
 				 ),	
 				array(
 					'type' => 'attach_images',
-					'heading' => __( 'Select Image', 'sw_woocommerce' ),
+					'heading' => __( 'Select Image', 'zr_woocommerce' ),
 					'param_name' => 'image',
-					'description' => __( 'Select Image', 'sw_woocommerce' ),
+					'description' => __( 'Select Image', 'zr_woocommerce' ),
 					'dependency' => array(
 						'element' => 'layout',
 						'value' => array( 'layout2'),
@@ -106,10 +106,10 @@ if ( !class_exists('zr_woo_cat_slider_widget') ) {
 					"type" => "textfield",
 					"holder" => "div",
 					"class" => "",
-					"heading" => __( "Banner Links", 'sw_woocommerce' ),
+					"heading" => __( "Banner Links", 'zr_woocommerce' ),
 					"param_name" => "banner_links",
 					"value" => '',
-					"description" => __( "Each banner link seperate by commas.", 'sw_woocommerce' ),
+					"description" => __( "Each banner link seperate by commas.", 'zr_woocommerce' ),
 					"dependency" => array( 
 					'element' => 'layout',
 					'value' => array( 'layout2' ),

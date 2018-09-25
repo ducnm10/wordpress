@@ -22,21 +22,43 @@ if ( ! defined( 'ZRPATH' ) ) {
 	define( 'ZRPATH', plugin_dir_path( __FILE__ ) );
 }
 
-// define plugin theme path
-if ( ! defined( 'ZRTHEME' ) ) {
-	define( 'ZRTHEME', plugin_dir_path( __FILE__ ). 'woocommerce/themes' );
-}
-
 /* define plugin URL */
 if ( ! defined( 'ZRURL' ) ) {
 	define( 'ZRURL', plugins_url(). '/zoro_core' );
 }
 
+/* define plugin URL */
+if ( ! defined( 'ZR_OPTIONS_URL' ) ) {
+	define( 'ZR_OPTIONS_URL', ZRURL . '/includes' );
+}
+
+/* define plugin URL */
+if ( ! defined( 'ZR_OPTIONS_DIR' ) ) {
+	define( 'ZR_OPTIONS_DIR', ZRPATH . 'includes' );
+}
+
+
+// define plugin theme path
+if ( ! defined( 'ZRTHEME' ) ) {
+	define( 'ZRTHEME', plugin_dir_path( __FILE__ ). 'woocommerce/themes' );
+}
+
 function zr_core_construct(){
+	if ( !defined( 'ICL_LANGUAGE_CODE' ) ){
+		if( !defined( 'ZR_THEME' ) ){
+			define( 'ZR_THEME', 'mocha_theme' );
+		}
+	}else{
+		if( !defined( 'ZR_THEME' ) ){
+			define( 'ZR_THEME', 'mocha_theme' . '_' .ICL_LANGUAGE_CODE );
+		}
+	}
+	
 	/*
 	** Require file
 	*/
 	require_once( ZRPATH . 'zr_plugins/zr-plugins.php' );	
+	require_once( ZRPATH . 'includes/functions.php' );	
 	
 	if( class_exists( 'WooCommerce' ) ) :
 		require_once ( ZRPATH . '/woocommerce/zr-woocommerce.php' );

@@ -1,2 +1,30 @@
 2018-09-24T16:10:44+00:00 CRITICAL Call to a member function put_contents() on a non-object
 
+2018-09-24T16:23:29+00:00 CRITICAL Uncaught Error: Call to undefined function sw_options() in D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\includes\maintaince\maintaince-function.php:68
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\includes\functions.php(4): require_once()
+#1 D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\zoro-core.php(61): require_once('D:\\xampp\\htdocs...')
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): zr_core_construct('')
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#5 D:\xampp\htdocs\mocha\wp-settings.php(327): do_action('plugins_loaded')
+#6 D:\xampp\htdocs\mocha\wp-config.php(90): require_once('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\mocha\wp-load.php(37): require_once('D:\\xampp\\htdocs...')
+#8 D:\xampp\htdocs\mocha\wp-cron.php(33): require_once('D:\\xampp\\htdocs...')
+#9 {main}
+  thrown
+
+2018-09-24T16:25:30+00:00 CRITICAL Uncaught Error: Call to undefined function sw_options() in D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\includes\maintaince\maintaince-function.php:68
+Stack trace:
+#0 D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\includes\functions.php(4): require_once()
+#1 D:\xampp\htdocs\mocha\wp-content\plugins\zoro_core\zoro-core.php(61): require_once('D:\\xampp\\htdocs...')
+#2 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(286): zr_core_construct('')
+#3 D:\xampp\htdocs\mocha\wp-includes\class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#4 D:\xampp\htdocs\mocha\wp-includes\plugin.php(453): WP_Hook->do_action(Array)
+#5 D:\xampp\htdocs\mocha\wp-settings.php(327): do_action('plugins_loaded')
+#6 D:\xampp\htdocs\mocha\wp-config.php(90): require_once('D:\\xampp\\htdocs...')
+#7 D:\xampp\htdocs\mocha\wp-load.php(37): require_once('D:\\xampp\\htdocs...')
+#8 D:\xampp\htdocs\mocha\wp-cron.php(33): require_once('D:\\xampp\\htdocs...')
+#9 {main}
+  thrown
+
