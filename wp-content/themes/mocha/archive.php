@@ -1,7 +1,7 @@
 <?php get_template_part('header'); ?>
 <?php 
 	$mocha_sidebar_template = zr_options('sidebar_blog') ;
-	$mocha_blog_styles = zr_options('blog_layout');
+	$mocha_blog_styles = ( zr_options('blog_layout') ) ? zr_options('blog_layout') : 'list';
 ?>
 
 <div class="mocha_breadcrumbs">

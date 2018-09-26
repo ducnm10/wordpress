@@ -55,7 +55,7 @@
 		<?php 
 			$mocha_psearch = explode(',', $mocha_psearch); 
 			foreach( $mocha_psearch as $key => $item ){
-				echo ( $key == 0 ) ? '' : ',';
+				echo sprintf( ( $key == 0 ) ? '' : '%s', ',' );
 				echo '<a href="'. esc_url( home_url('/') ) .'?s='. esc_attr( $item ) .'">' . $item . '</a>';
 			}
 		?>		

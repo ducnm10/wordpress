@@ -19,11 +19,8 @@ function mocha_setup() {
 	endif;
 	
 	add_image_size( 'mocha_blog-responsive', 560, 400, true );
-	
 	add_theme_support( "title-tag" );
-	
-	add_theme_support('bootstrap-gallery');     // Enable Bootstrap's thumbnails component on [gallery]
-	
+		
 	// Add post thumbnails (http://codex.wordpress.org/Post_Thumbnails)
 	add_theme_support('post-thumbnails');
 

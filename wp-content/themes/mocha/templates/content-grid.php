@@ -29,7 +29,7 @@ global $post;
 		<?php } elseif( !$format == ''){?>
 		<div class="wp-entry-thumb">	
 			<?php if( $format == 'video' || $format == 'audio' ){ ?>	
-			<?php echo sprintf( ( $format == 'video' ) ? '<div class="video-wrapper">%s</div>' : revo_get_entry_content_asset( $post->ID ), revo_get_entry_content_asset( $post->ID ) ); ?>																			
+			<?php echo sprintf( ( $format == 'video' ) ? '<div class="video-wrapper">%s</div>' : '%s', mocha_get_entry_content_asset( $post->ID ) ); ?>																			
 			<?php } ?>
 
 			<?php if( $format == 'gallery' ) { 

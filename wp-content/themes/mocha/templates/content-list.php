@@ -15,7 +15,7 @@ $mocha_bclass .= 'clearfix';
 				<div class="entry-meta">
 					<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 					<span class="entry-comment">
-						<a href="<?php comments_link(); ?>"><?php echo ( $post-> comment_count . ( ($post-> comment_count) > 1 ? esc_html__('  Comment(s)', 'mocha') : esc_html__('  Comment(s)', 'mocha') ) ); ?></a>
+						<a href="<?php comments_link(); ?>"><?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?></a></a>
 					</span>
 				</div>
 			</div>
@@ -43,7 +43,7 @@ $mocha_bclass .= 'clearfix';
 		<?php } else { ?>
 		<div class="entry-thumb">	
 			<?php if( $format == 'video' || $format == 'audio' ){ ?>	
-			<?php echo sprintf( ( $format == 'video' ) ? '<div class="video-wrapper">%s</div>' : revo_get_entry_content_asset( $post->ID ), revo_get_entry_content_asset( $post->ID ) ); ?>																			
+			<?php echo sprintf( ( $format == 'video' ) ? '<div class="video-wrapper">%s</div>' : '%s', mocha_get_entry_content_asset( $post->ID ) ); ?>																			
 			<?php } ?>
 			<?php if( $format == 'image' ){?>
 			<div class="entry-thumb-content">
@@ -94,7 +94,7 @@ $mocha_bclass .= 'clearfix';
 						<div class="entry-meta">
 							<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 							<span class="entry-comment">
-								<a href="<?php comments_link(); ?>"><?php echo ( $post-> comment_count . ( ($post-> comment_count) > 1 ? esc_html__('  Comment(s)', 'mocha') : esc_html__('  Comment(s)', 'mocha') ) ); ?></a>
+								<a href="<?php comments_link(); ?>"><?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?></a></a>
 							</span>
 						</div>
 						<div class="entry-summary">
