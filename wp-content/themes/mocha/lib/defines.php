@@ -87,7 +87,7 @@ function mocha_Options_Setup(){
 					'id' => 'scheme',
 					'type' => 'radio_img',
 					'title' => esc_html__('Color Scheme', 'mocha'),
-					'sub_desc' => esc_html__( 'Select one of 12 predefined schemes', 'mocha' ),
+					'sub_desc' => esc_html__( 'Select one of 1 predefined schemes', 'mocha' ),
 					'desc' => '',
 					'options' => array(
 									'default' => array('title' => 'Default', 'img' => get_template_directory_uri().'/assets/img/default.png'),
