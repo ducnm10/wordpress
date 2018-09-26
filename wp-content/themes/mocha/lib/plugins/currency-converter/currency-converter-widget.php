@@ -42,15 +42,15 @@ class WooCommerce_Widget_Currency_Converter extends WP_Widget {
 
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->widget_id_base );
 
-		echo sprintf( '%s', $before_widget );
+		echo sprintf( $before_widget );
 
 		if ( $title ) {
-			echo sprintf( $before_title . '%s' . $after_title,  '%s', $title );
+			echo ( $before_title . $title . $after_title );
 		}
 
 		do_action( 'woocommerce_currency_converter', $instance, true );
 
-		echo sprintf( '%s', $after_widget );
+		echo ( $after_widget );
 	}
 
 	/**
