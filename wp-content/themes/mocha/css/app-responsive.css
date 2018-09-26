@@ -62,6 +62,9 @@
   .zr-category-slider2 .resp-slider-container .slider .item .item-wrap .item-content .des-cat {
     margin-bottom: 25px;
   }
+  .zr-category-slider .resp-slider-container .slider .item .item-content h3 a {
+    font-size: 60px;
+  }
   .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left.has-banner {
     width: 60%;
     padding-top: 36px;
