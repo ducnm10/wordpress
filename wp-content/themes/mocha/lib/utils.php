@@ -541,7 +541,8 @@ function mocha_advanced(){
 		/*
 		** Menu Sticky 
 		*/
-		if( $sticky_menu ) :		
+		if( $sticky_menu ) :	
+			if( $mocha_header_style == 'style1' || $mocha_header_style == 'style2' ){		
 				$output .= 'var sticky_navigation_offset = $("#header .header-top").offset();';
 				$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
 				$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
@@ -558,6 +559,25 @@ function mocha_advanced(){
 				$output .= '$(window).scroll(function() {';
 				$output .= 'sticky_navigation();';
 				$output .= '}); }';
+			}
+			elseif( $mocha_header_style == 'style3' || $mocha_header_style == 'style4' ){
+				$output .= 'var sticky_navigation_offset = $("#header .header-mid ").offset();';
+				$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
+				$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
+				$output .= 'var sticky_navigation = function(){';
+				$output .= 'var scroll_top = $(window).scrollTop();';
+				$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
+				$output .= '$("#header .header-mid ").addClass("sticky-menu");';
+				$output .= '$("#header .header-mid ").css({ "top":0, "left":0, "right" : 0 });';
+				$output .= '} else {';
+				$output .= '$("#header .header-mid ").removeClass("sticky-menu");';
+				$output .= '}';
+				$output .= '};';
+				$output .= 'sticky_navigation();';
+				$output .= '$(window).scroll(function() {';
+				$output .= 'sticky_navigation();';
+				$output .= '}); }';
+			}
 			endif;
 			
 			/*

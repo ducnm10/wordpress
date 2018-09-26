@@ -539,7 +539,6 @@ select:-webkit-autofill {
   position: fixed;
   z-index: 999;
   background: #fff;
-  padding: 0 15px;
   box-shadow: 0 1px 1px #ccc;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
@@ -1044,6 +1043,21 @@ select:-webkit-autofill {
   font-size: 11px;
   letter-spacing: 2px;
 }
+.header.header-style2 .sticky-menu {
+  position: fixed;
+  z-index: 999;
+  background: #fff;
+  box-shadow: 0 1px 1px #ccc;
+  width: 100% !important;
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.header.header-style2 .sticky-menu .header-right .header-right-inner .header-login {
+  border: none;
+}
 .header-bar {
   position: absolute;
   top: 0;
@@ -1256,7 +1270,6 @@ select:-webkit-autofill {
   position: fixed;
   z-index: 999;
   background: #fff;
-  padding: 0 15px;
   -webkit-transition: all 0.2s;
   -moz-transition: all 0.2s;
   -o-transition: all 0.2s;

@@ -295,7 +295,6 @@
   .header.header-style1 .sticky-menu,
   .header.header-style4 .sticky-menu {
     position: relative;
-    padding: 0;
   }
   .header.header-style1 .mocha-logo,
   .header.header-style4 .mocha-logo {
@@ -361,9 +360,17 @@
   .header.header-style2 .header-right .header-right-inner .header-login .top-login > a {
     padding: 0 10px;
   }
+  .header.header-style2 .sticky-menu {
+    position: relative;
+  }
+  .header.header-style2 .header-right .header-right-inner .header-login {
+    padding: 26px 0;
+  }
+  .header.header-style2 .main-menu {
+    padding: 4px 0;
+  }
   .header.header-style3 .sticky-menu {
     position: relative;
-    padding: 0;
   }
   .header.header-style3 .mocha-logo {
     padding: 24px 0;
