@@ -15,7 +15,7 @@ $mocha_bclass .= 'clearfix';
 				<div class="entry-meta">
 					<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 					<span class="entry-comment">
-						<a href="<?php comments_link(); ?>"><?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?></a>
+						<a href="<?php comments_link(); ?>"><?php echo ( $post-> comment_count . ( ($post-> comment_count) > 1 ? esc_html__('  Comment(s)', 'mocha') : esc_html__('  Comment(s)', 'mocha') ) ); ?></a>
 					</span>
 				</div>
 			</div>
@@ -94,7 +94,7 @@ $mocha_bclass .= 'clearfix';
 						<div class="entry-meta">
 							<div class="entry-date"><?php mocha_get_time(); ?> - </div>
 							<span class="entry-comment">
-								<a href="<?php comments_link(); ?>"><?php echo _n( ' Comment', ' Comments', $post-> comment_count , 'mocha' ); ?></a>
+								<a href="<?php comments_link(); ?>"><?php echo ( $post-> comment_count . ( ($post-> comment_count) > 1 ? esc_html__('  Comment(s)', 'mocha') : esc_html__('  Comment(s)', 'mocha') ) ); ?></a>
 							</span>
 						</div>
 						<div class="entry-summary">
