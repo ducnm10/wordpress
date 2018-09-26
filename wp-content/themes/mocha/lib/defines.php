@@ -414,35 +414,9 @@ function mocha_Options_Setup(){
 							'style2'  => esc_html__( 'Style 2', 'mocha' ),
 							'style3'  => esc_html__( 'Style 3', 'mocha' ),
 							'style4'  => esc_html__( 'Style 4', 'mocha' ),
-							'style5'  => esc_html__( 'Style 5', 'mocha' ),
-							'style6'  => esc_html__( 'Style 6', 'mocha' ),
-							'style7'  => esc_html__( 'Style 7', 'mocha' ),
-							'style8'  => esc_html__( 'Style 8', 'mocha' ),
-							'style9'  => esc_html__( 'Style 9', 'mocha' ),
-							'style10'  => esc_html__( 'Style 10', 'mocha' ),
-							'style11'  => esc_html__( 'Style 11', 'mocha' ),
-							'style12'  => esc_html__( 'Style 12', 'mocha' ),
 							),
 					'std' => 'style1'
-				),
-				
-				array(
-					'id' => 'header_mid',
-					'title' => esc_html__( 'Enable Background Header Mid', 'mocha' ),
-					'type' => 'checkbox',
-					'sub_desc' => esc_html__( ' enable background hedaer mid on header', 'mocha' ),
-					'desc' => '',
-					'std' => '0'
-				),
-				
-				array(
-						'id' => 'bg_header_mid',
-						'title' => esc_html__( 'Background header mid', 'mocha' ),
-						'type' => 'upload',
-						'sub_desc' => esc_html__( 'Choose header mid background image', 'mocha' ),
-						'desc' => '',
-						'std' => get_template_directory_uri().'/assets/img/popup/bg-main.jpg'
-					),
+				),				
 					
 				array(
 					'id' => 'disable_search',

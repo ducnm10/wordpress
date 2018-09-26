@@ -542,16 +542,16 @@ function mocha_advanced(){
 		** Menu Sticky 
 		*/
 		if( $sticky_menu ) :		
-				$output .= 'var sticky_navigation_offset = $("#header .header-bottom").offset();';
+				$output .= 'var sticky_navigation_offset = $("#header .header-top").offset();';
 				$output .= 'if( typeof sticky_navigation_offset != "undefined" ) {';
 				$output .= 'var sticky_navigation_offset_top = sticky_navigation_offset.top;';
 				$output .= 'var sticky_navigation = function(){';
 				$output .= 'var scroll_top = $(window).scrollTop();';
 				$output .= 'if (scroll_top > sticky_navigation_offset_top) {';
-				$output .= '$("#header .header-mid").addClass("sticky-menu");';
-				$output .= '$("#header .header-mid").css({ "top":0, "left":0, "right" : 0 });';
+				$output .= '$("#header .header-top").addClass("sticky-menu");';
+				$output .= '$("#header .header-top").css({ "top":0, "left":0, "right" : 0 });';
 				$output .= '} else {';
-				$output .= '$("#header .header-mid").removeClass("sticky-menu");';
+				$output .= '$("#header .header-top").removeClass("sticky-menu");';
 				$output .= '}';
 				$output .= '};';
 				$output .= 'sticky_navigation();';
