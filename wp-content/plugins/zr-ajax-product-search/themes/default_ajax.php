@@ -5,7 +5,7 @@
  **/
 	$id_category = ( isset($_GET['product_cat']) && $_GET['product_cat'] ) ? $_GET['product_cat'] : '';
 	$filter_name = ( isset($_GET['query']) && $_GET['query'] ) ? $_GET['query'] : '';
-	$limit 			 = ( isset($_GET['limit']) && $_GET['limit'] ) ? $_GET['limit'] : 5;
+	$limit 		 = ( isset($_GET['limit']) && $_GET['limit'] ) ? $_GET['limit'] : 5;
 	$search_type = ( isset($_GET['search_type']) && $_GET['search_type'] ) ? $_GET['search_type'] : 0;
 	
 	$args  = array();
@@ -30,7 +30,8 @@
 		$check = true;
 		$args  = array(
 			'post_type' => 'product',
-			's'					=> $filter_name
+			's'		    => $filter_name,
+			'posts_per_page' => $limit 
 		);
 	}
 	

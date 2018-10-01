@@ -38,9 +38,7 @@
 					<!-- Sidebar right -->
 					<?php if( !zr_options( 'disable_search' ) ) : ?>
 						<div class="search-cate pull-left">
-							<div class="icon-search">
-								<i class="fa fa-search"></i>
-							</div>
+							<div class="icon-search"><i class="fa fa-search"></i></div>
 							<?php if( is_active_sidebar( 'search' ) && class_exists( 'zr_woo_search_widget' ) ): ?>
 								<?php dynamic_sidebar( 'search' ); ?>
 							<?php else : ?>

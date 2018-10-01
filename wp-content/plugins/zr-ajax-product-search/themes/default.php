@@ -16,7 +16,7 @@
 	<?php endif; ?>
 	
 	<form method="GET" action="<?php echo esc_url( home_url( '/'  ) ); ?>">
-		<div id="<?php echo esc_attr( $id_widget ); ?>" class="search input-group" 
+		<div id="<?php echo esc_attr( $id_widget ); ?>" class="search-wrapper" 
 			data-height_image="<?php echo esc_attr( $height_image ); ?>" 
 			data-width_image="<?php echo esc_attr( $width_image ); ?>" 
 			data-show_image="<?php echo esc_attr( $show_image ) ; ?>" 

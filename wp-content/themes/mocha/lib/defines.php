@@ -1248,6 +1248,15 @@ function mocha_widget_setup_args(){
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',
 				'after_title'   => '</h3>'
+		),		
+			
+		array(
+				'name' => esc_html__('Search', 'mocha'),
+				'id'   => 'search',
+				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
+				'after_widget' => '</div></div>',
+				'before_title' => '<div class="block-title-widget"><h2><span>',
+				'after_title' => '</span></h2></div>'
 		),
 
 		array(
@@ -1287,15 +1296,6 @@ function mocha_widget_setup_args(){
 		),
 		
 		array(
-				'name' => esc_html__('Banner Mobile', 'mocha'),
-				'id'   => 'banner-mobile',
-				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
-				'after_widget' => '</div></div>',
-				'before_title' => '<div class="block-title-widget"><h2><span>',
-				'after_title' => '</span></h2></div>'
-		),
-		
-		array(
 				'name' => esc_html__('Sidebar Left Detail Product', 'mocha'),
 				'id'   => 'left-product-detail',
 				'before_widget' => '<div class="widget %1$s %2$s"><div class="widget-inner">',
@@ -1316,24 +1316,6 @@ function mocha_widget_setup_args(){
 		array(
 				'name' => esc_html__('Sidebar Bottom Detail Product', 'mocha'),
 				'id'   => 'bottom-detail-product',
-				'before_widget' => '<div class="widget %1$s %2$s" data-scroll-reveal="enter bottom move 20px wait 0.2s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Bottom Detail Product Mobile', 'mocha'),
-				'id'   => 'bottom-detail-product-mobile',
-				'before_widget' => '<div class="widget %1$s %2$s" data-scroll-reveal="enter bottom move 20px wait 0.2s"><div class="widget-inner">',
-				'after_widget'  => '</div></div>',
-				'before_title'  => '<h3>',
-				'after_title'   => '</h3>'
-		),
-		
-		array(
-				'name' => esc_html__('Filter Mobile', 'mocha'),
-				'id'   => 'filter-mobile',
 				'before_widget' => '<div class="widget %1$s %2$s" data-scroll-reveal="enter bottom move 20px wait 0.2s"><div class="widget-inner">',
 				'after_widget'  => '</div></div>',
 				'before_title'  => '<h3>',

@@ -239,3 +239,99 @@
 		right:auto;
 	}
 }
+.zr-ajax-product-search{
+	.button-search-pro.loading{		
+		&:before{
+			background-image: url( ../assets/img/loadingp.gif );
+			background-color: transparent;
+			background-size: 20px 20px;
+		}
+	}
+	.input-group-btn{
+		position: static;
+	}
+	.input-group{
+		display: block;
+	}
+	.search-append{
+		position: absolute;		
+		top: 55px;		
+		right: 0;
+		left: 0;
+		padding: 0;
+		min-width: 300px;
+		text-align: left;
+		border: none;		
+		.rtl &{
+			text-align: right;
+			.autocomplete-suggestion > a img{
+				margin-right: 0;
+				margin-left: 10px;
+			}
+		}
+		.autocomplete-suggestions{
+			box-shadow: 0 0 0 1px #ddd;
+			background: #fff;
+			border-radius: 0;
+		}
+		.autocomplete-suggestion{
+			clear: both;
+			padding: 0 10px;
+			margin-bottom: 15px;
+			&:first-child{
+				padding-top: 15px;
+			}
+			&:last-child{
+				padding-bottom: 15px;
+			}
+			&.no-result{
+				padding: 10px;
+			}
+			> a{
+				padding: 0 10px;
+				display: block;
+				overflow: hidden;
+				img{
+					margin-right: 10px;
+					border: 1px solid #ccc;
+				}
+			}
+			.media-body{
+				> span{
+					display: block;
+					margin-bottom: 5px;
+					font-weight: 600;
+					strong{
+						color: @color;
+					}
+				}
+				.search-meta{
+					> div, > p{
+						display: inline-block;
+						vertical-align: top;
+					}
+					.sku{
+						margin-right: 20px;
+						> span{
+							font-weight: bold;
+						}
+					}
+				}
+				.price{		
+					color: @color;
+					font-weight: bold;
+					font-size: 14px;
+					span.price-label{
+						color: #666;
+					}
+					ins{						
+						text-decoration: none;
+					}
+					del{
+						color: #999;
+					}
+				}
+			}
+		}
+	}
+}

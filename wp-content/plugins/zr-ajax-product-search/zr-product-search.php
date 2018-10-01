@@ -26,7 +26,7 @@ function zr_ajax_search_construct(){
 		return;
 	}
 	
-	add_action( 'widgets_init', 'zr-ajax-product-search', 10 );
+	add_action( 'widgets_init', 'zr_ajax_product_search', 10 );
 	
 	/* Load text domain */
 	load_plugin_textdomain( 'zr-ajax-product-search', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' ); 
@@ -48,7 +48,7 @@ function zr_ajax_search_admin_notice(){
  * Register our widget.
  * 'zr-ajax-product-search' is the widget class used below.
  */
-function zr-ajax-product-search() {
+function zr_ajax_product_search() {
 	register_widget( 'zr_woo_search_widget' );
 }
 
@@ -69,7 +69,7 @@ class zr_woo_search_widget extends WP_Widget {
 		$control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'zr-ajax-product-search' );
 
 		/* Create the widget. */
-		parent::__construct( 'zr-ajax-product-search', __('SW Ajax WooCommerce Search', 'zr-ajax-product-search'), $widget_ops, $control_ops );
+		parent::__construct( 'zr-ajax-product-search', __('ZR Ajax Product Search', 'zr-ajax-product-search'), $widget_ops, $control_ops );
 		
 		add_action('wp_enqueue_scripts', array( $this, 'zr_search_script' ) );
 		add_action( 'pre_get_posts', array( $this, 'advanced_search_query') );
@@ -267,18 +267,18 @@ class zr_woo_search_widget extends WP_Widget {
 	function WS_Search_Shortcode( $atts, $content = null){
 			extract( shortcode_atts(
 				array(
-				'title' 			  => '',
+				'title' 		  => '',
 				'show_title'	  => 1,
 				'extra_class'	  => '',
 				'width_image'	  => '50',
-				'height_image'  => '50',
-				'limit'				  => 5,
+				'height_image'    => '50',
+				'limit'		      => 5,
 				'character'		  => 3,
-				'show_category'	=> 1,
-				'show_image'		=> 1,
-				'show_price'		=> 1,	
-				'search_type'		=> 0,	
-				'widget_template'	=> 'default'	
+				'show_category'	  => 1,
+				'show_image'	  => 1,
+				'show_price'	  => 1,	
+				'search_type'	  => 0,	
+				'widget_template' => 'default'	
 				), $atts )
 			);	
 		ob_start(); 	
