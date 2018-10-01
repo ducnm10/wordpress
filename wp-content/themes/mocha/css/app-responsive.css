@@ -10,6 +10,30 @@
   display: none !important;
   visibility: hidden !important;
 }
+@media (min-width: 1400px) and (max-width: 1824px) {
+  .header.header-style2 .header-top {
+    width: 85%;
+    float: left;
+  }
+  .header.header-style2 .header-bar {
+    width: 15%;
+    position: relative;
+    float: left;
+  }
+  .header.header-style2 .header-bar .search-cate,
+  .header.header-style2 .header-bar .header-wishlist,
+  .header.header-style2 .header-bar .right-header {
+    display: inline-block;
+    vertical-align: top;
+  }
+  .header.header-style2 .header-bar .search-cate,
+  .header.header-style2 .header-bar .header-wishlist {
+    margin-top: 20px;
+  }
+  .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left .box-title h3 {
+    font-size: 31px;
+  }
+}
 @media (min-width: 1200px) and (max-width: 1390px) {
   .header.header-style2 .header-top {
     width: 85%;
