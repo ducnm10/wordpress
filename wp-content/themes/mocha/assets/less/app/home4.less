@@ -14,11 +14,14 @@
 	h3{
 		font-size: 22px; text-transform: capitalize; float: left; position: relative; padding: 15px 0 0 155px;
 		.rtl &{
-			padding: 15px 155px 0 0;
+			padding: 15px 155px 0 0; float: right;
 		}
 		&:before{
 			content:""; width: 131px; height: 48px; background: url(../assets/img/icon-mail.png) center center no-repeat;
 			position: absolute;	top: 0; left: 0;
+			.rtl &{
+				left: auto; right: 0;
+			}
 		}
 		label{
 			color: @color;
@@ -26,6 +29,9 @@
 	}
 	.mc4wp-form{
 		float: right; margin-top: 5px;
+		.rtl &{
+			float: left;
+		}
 		p{
 			margin-bottom: 0;
 		}

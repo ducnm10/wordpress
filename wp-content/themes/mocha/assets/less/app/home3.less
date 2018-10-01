@@ -193,8 +193,14 @@
 }
 .free-deli{
 	padding: 40px 0 0 50px; position: relative; overflow: hidden; margin: 0 16%;
+	.rtl &{
+		padding: 40px 50px 0 0;
+	}
 	&:before{
 		content:"\f072"; font-family: fontawesome; font-size:50px; position: absolute; top:33px; left:0;
+		.rtl &{
+			left: auto; right: 0;
+		}
 	}
 	span{
 		color: @body-color; font-size: 30px; float: left; text-transform: capitalize;

@@ -9,7 +9,7 @@
 .zr-child-cat-listing{
 	.zr-childcat-container{
 		.flex-display( flex ); .flex-wrap( wrap );
-		margin: 0 -15px;
+		margin: 0 15px;
 		.zr-childcat-top{
 			width: 40%; margin-bottom: 30px; padding: 0 15px;
 			.zr-child-cat-top-inner{
@@ -26,12 +26,14 @@
 				}
 				.child-left{
 					padding: 34px 0 15px 30px;
+					.rtl &{
+						padding: 34px 30px 15px 0;
+					}
 					.box-title h3{
 						font-size: 35px; margin-bottom: 21px;
 					}
 					.childcat-content ul{
-						list-style: none;
-						margin: 0;
+						list-style: none; margin: 0;
 						.flex-display( flex );
 						.flex-wrap( wrap );
 						>li{
@@ -45,9 +47,15 @@
 									content: '-';
 									position: absolute;
 									left: 0;
+									.rtl &{
+										left: auto; right: 0;
+									}
 								}
 								&:hover{
 									padding-left: 25px;
+									.rtl &{
+										padding-left:0; padding-right: 25px;
+									}
 								}
 							}
 						}

@@ -145,13 +145,19 @@
 .zr-category-slider3{
 	.childcat-slider-content{
 		.banner-category{
-			width: 50%; float:left;
+			width: 50%; float: left;
+			.rtl &{
+				float: right;
+			}
 			a img{
 				margin-bottom: 0;
 			}
 		}
 		.resp-slider-container{
-			width: 50%; float:left;
+			width: 50%; float: left;
+			.rtl &{
+				float: right;
+			}
 			.items-wrapper{
 				background: url(../assets/img/bg_childcat.jpg); overflow: hidden; padding: 15px;
 				.item{
@@ -190,6 +196,9 @@
 		.childcat-slider-content {
 			.banner-category, .resp-slider-container{
 				float: right;
+				.rtl &{
+					float: left;
+				}
 			}
 		}
 	}

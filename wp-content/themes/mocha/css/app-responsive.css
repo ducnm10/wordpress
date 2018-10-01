@@ -15,10 +15,16 @@
     width: 85%;
     float: left;
   }
+  .rtl .header.header-style2 .header-top {
+    float: right;
+  }
   .header.header-style2 .header-bar {
     width: 15%;
     position: relative;
     float: left;
+  }
+  .rtl .header.header-style2 .header-bar {
+    float: right;
   }
   .header.header-style2 .header-bar .search-cate,
   .header.header-style2 .header-bar .header-wishlist,
@@ -39,10 +45,16 @@
     width: 85%;
     float: left;
   }
+  .rtl .header.header-style2 .header-top {
+    float: right;
+  }
   .header.header-style2 .header-bar {
     width: 15%;
     position: relative;
     float: left;
+  }
+  .rtl .header.header-style2 .header-bar {
+    float: right;
   }
   .header.header-style2 .header-bar .search-cate,
   .header.header-style2 .header-bar .header-wishlist,
@@ -91,11 +103,11 @@
   }
   .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left.has-banner {
     width: 60%;
-    padding-top: 36px;
+    padding-top: 30px;
   }
   .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left.has-banner .box-title h3 {
-    font-size: 28px;
-    margin-bottom: 15px;
+    font-size: 26px;
+    margin-bottom: 13px;
   }
   .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left.has-banner .childcat-content ul li {
     width: 100%;
@@ -141,6 +153,9 @@
     margin-right: 20px;
   }
   .header.header-style2 .header-right .header-right-inner .header-login {
+    border: none;
+  }
+  .rtl .header.header-style2 .header-right .header-right-inner .header-login {
     border: none;
   }
   .header-bar {
