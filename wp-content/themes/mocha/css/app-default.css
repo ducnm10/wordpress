@@ -2877,7 +2877,7 @@ select:-webkit-autofill {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin: 0 15px;
+  margin: 0 -15px;
 }
 .zr-child-cat-listing .zr-childcat-container .zr-childcat-top {
   width: 40%;
@@ -2905,10 +2905,10 @@ select:-webkit-autofill {
   width: 43%;
 }
 .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left {
-  padding: 34px 0 15px 30px;
+  padding: 35px 0 15px 30px;
 }
 .rtl .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left {
-  padding: 34px 30px 15px 0;
+  padding: 35px 30px 15px 0;
 }
 .zr-child-cat-listing .zr-childcat-container .zr-childcat-top .zr-child-cat-top-inner .child-left .box-title h3 {
   font-size: 35px;
