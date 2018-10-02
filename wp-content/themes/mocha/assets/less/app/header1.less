@@ -1,4 +1,7 @@
 .header{
+	.header-top .container{
+		position: relative;
+	}
 	&.header-style1{
 		box-shadow: 0 1px 1px #ccc;
 		.woocommerce-page &{
@@ -407,17 +410,62 @@
 	}
 }
 .search-cate{
-	position: relative; margin-top: 22px;
+	margin-top: 22px;
 	.icon-search{
 		width: 40px; height: 40px; line-height: 40px; text-align: center; cursor: pointer; font-size: 17px; .transition(all 0.3s);
 		&:hover{
 			color: @color; .transition(all 0.3s);
 		}
+		&.close{
+			opacity: 1;
+			&:hover, &:focus{
+				opacity: 1;
+			}
+			&:before{
+				content: 'x';
+				font-size: 16px;
+				color: #000;
+				position: absolute;
+				width: 15px;
+				height: 15px;
+				top: -15px;
+				right: 15px;
+				z-index: 999;
+			}
+		}
 	}	
 	.top-form.top-search{
-		width: 270px; position: absolute; right: 0; top: 36px; display: none; z-index: 9;
+		position: absolute;left: 15px; right: 15px; top: 0; display: none; z-index: 9;bottom: 0;
+		background: #fff;
 		.rtl &{
 			right: auto; left: 0;
+		}
+		.search-wrapper{
+			padding: 20px 0;
+			.flex-display(flex);
+			.content-search{
+				.flex-display(flex);
+				position: relative;
+				width: 100%;
+				.autosearch-input{
+					width: 100%;
+					.border-radius(0);
+					padding: 0 50px 0 15px;
+					height: 50px;
+					line-height: 48px;
+					margin: 0;
+				}
+				.button-search-pro{
+					position: absolute;
+					top: 0;
+					min-width: 50px;
+					text-align: center;
+					height: 50px;
+					background: none;
+					right: 0;
+					border: 0;
+				}
+			}
 		}
 		.topsearch-entry{
 			padding-left:0;
@@ -426,7 +474,7 @@
 			}
 			.icon-loading.loading{
 				right: 95px;
-			}
+			}			
 			.cat-wrapper{
 				display:none;
 			}
