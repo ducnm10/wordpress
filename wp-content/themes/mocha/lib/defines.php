@@ -51,13 +51,6 @@ function mocha_Options_Setup(){
 					),
 					
 					array(
-						'id' => 'tax_select',
-						'type' => 'multi_select_taxonomy',
-						'title' => esc_html__('Select Taxonomy', 'mocha'),
-						'sub_desc' => esc_html__( 'Select taxonomy to show custom term metabox', 'mocha' ),
-					),
-					
-					array(
 						'id' => 'title_length',
 						'type' => 'text',
 						'title' => esc_html__('Title Length Of Item Listing Page', 'mocha'),
@@ -119,23 +112,7 @@ function mocha_Options_Setup(){
 					'title' => esc_html__('Color', 'mocha'),
 					'sub_desc' => esc_html__('Select main custom color.', 'mocha'),
 					'std' => ''
-				),
-				
-				array(
-					'id' => 'scheme_body',
-					'type' => 'color',
-					'title' => esc_html__('Body Color', 'mocha'),
-					'sub_desc' => esc_html__('Select main body custom color.', 'mocha'),
-					'std' => ''
-				),
-				
-				array(
-					'id' => 'scheme_border',
-					'type' => 'color',
-					'title' => esc_html__('Border Color', 'mocha'),
-					'sub_desc' => esc_html__('Select main border custom color.', 'mocha'),					
-					'std' => ''
-				)			
+				)	
 			)
 	);
 	

@@ -80,14 +80,7 @@ if ( ! class_exists('ZR_Options') ){
 			
 			$this->cleanCookie();
 			
-			add_action('wp_footer', array(&$this, 'print_cpanel'));
 		} //function
-		
-		public function print_cpanel(){
-			if ( !is_admin() && $this->get('show_cpanel', 0) ){
-				$this->cpanel();
-			}
-		}
 		
 		public function cleanCookie() {
 			if(isset($_GET['settings-updated']) && $_GET['settings-updated'] == 'true' && get_transient('zr-opts-saved') == '1' && is_array($_COOKIE) ){
@@ -928,11 +921,7 @@ if ( ! class_exists('ZR_Options') ){
 				echo $this->sections[$id]['desc'];
 			}
 				
-			echo '</td>';
-				
-			if (isset($this->sections[$id]['fields']) && function_exists( 'add_field_rights' ) ) {
-				echo '<td class="cpanel_allow">'. esc_html__( 'Cpanel', 'zr_core' ).'</td>';
-			}
+			echo '</td>';		
 				
 			echo '</tr></table>';
 				

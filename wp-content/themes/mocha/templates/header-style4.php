@@ -10,13 +10,15 @@
 <header id="header" class="header header-<?php echo esc_attr( $mocha_page_header ); ?>">
 	<div class="header-top clearfix">
 		<div class="container">
-		<?php if ( is_active_sidebar( 'top' ) ) { ?>	
-			<?php dynamic_sidebar( 'top' ); ?>
-		<?php } ?>
+			<div class="header-top-wrapper clearfix">
+			<?php if ( is_active_sidebar( 'top' ) ) { ?>	
+				<?php dynamic_sidebar( 'top' ); ?>
+			<?php } ?>
+			</div>
 		</div>
 	</div>
 	<div class="header-mid clearfix">
-		<div class="container row">
+		<div class="container">
 			<!-- Logo -->
 			<div class="mocha-logo pull-left">
 				<?php mocha_logo(); ?>
